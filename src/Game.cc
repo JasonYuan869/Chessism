@@ -7,7 +7,6 @@
 #include "QueenPiece.h"
 #include "KingPiece.h"
 
-#include <stdio>
 #include <string>
 using namespace std;
 
@@ -30,7 +29,7 @@ void Game::setup() {
                 cin >> piece >> location[0] >> location[1];
                 x = location[0] - 'a';
                 y = location[1] - '1';
-                newPiece = Piece::makePiece(piece, x, y);
+                newPiece = makePiece(piece, x, y);
                 board.setPiece(newPiece, x, y);
                 notifyObservers();
                 break;
@@ -61,8 +60,49 @@ void Game::setup() {
         }
     }
 
+    if (cin.eof()) {
+        throw -1;
+    }
 }
 
 BoardState& Game::getBoard() {
     return board;
+}
+
+double Game::run() {
+    while (true) {
+        Player* currentPlayer = isWhiteTurn ? white : black;
+        string colour = isWhiteTurn ? "White" : "Black";
+
+        // Is the player in check?
+        if (board.getCheck(isWhiteTurn)) {
+            // Check if there is a checkmate for this player
+            if (board.getCheckmate(isWhiteTurn)) {
+                // Checkmate
+                return isWhiteTurn ? 1 : 0;
+            }
+
+            cout << colour << " is in check." << endl;
+        }
+
+        int moveResult = currentPlayer->makeMove(board);
+        switch (moveResult) {
+            case 0:
+                // Successful move
+                notifyObservers();
+                break;
+            case 1:
+                // Invalid move, try again
+                continue;
+            case 2:
+                // Stalemate, no valid moves
+                return 0.5;
+            case 3:
+                // Player resigned
+                return isWhiteTurn ? 1 : 0;
+        }
+
+        // Go to next player's turn
+        isWhiteTurn = !isWhiteTurn;
+    }
 }

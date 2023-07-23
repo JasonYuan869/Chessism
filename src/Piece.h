@@ -13,6 +13,7 @@ public:
     bool isWhite;
     bool isAlive;
     vector<Move> validMoves;
+    static double value;
 
     bool withinBounds(int x, int y); //returns true if the position is inside the board
     virtual ~Piece() = 0;
@@ -22,9 +23,6 @@ public:
     virtual bool isAttacking(int x, int y, BoardState &board) = 0;
 };
 
-namespace Piece {
-    // Constructs a piece of the given type at the given location, returns a malloc'd pointer
-    Piece *makePiece(char piece, int x, int y);
-}
+Piece *makePiece(char piece, int x, int y);
 
 #endif

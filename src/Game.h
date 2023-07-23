@@ -16,6 +16,11 @@ class Game : public Subject {
         ~Game();
         void setup();
         BoardState& getBoard();
+
+        // Runs the game and returns the end state
+        // blackScore += return
+        // whiteScore += (1-return)
+        double run();
 };
 
 #endif

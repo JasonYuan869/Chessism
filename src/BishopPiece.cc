@@ -2,6 +2,8 @@
 
 using namespace std;
 
+double BishopPiece::value = 3.0;
+
 BishopPiece::BishopPiece() {
 
 }

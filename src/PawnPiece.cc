@@ -1,5 +1,7 @@
 #include "PawnPiece.h"
 
+double PawnPiece::value = 1;
+
 PawnPiece::PawnPiece() {
 
 }

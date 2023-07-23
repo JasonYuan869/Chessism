@@ -13,7 +13,6 @@ public:
     bool isWhite;
     bool isAlive;
     vector<Move> validMoves;
-    static double value;
 
     bool withinBounds(int x, int y); //returns true if the position is inside the board
     virtual ~Piece() = 0;

@@ -1,5 +1,7 @@
 #include "RookPiece.h"
 
+double RookPiece::value = 5;
+
 RookPiece::RookPiece() {
 
 }

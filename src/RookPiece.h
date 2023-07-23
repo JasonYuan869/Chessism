@@ -6,11 +6,16 @@
 #include "BoardState.h"
 
 class RookPiece : public Piece {
-    public: 
-        RookPiece();
-        ~RookPiece();
-        vector<Move> getPieceMoves(BoardState& board) override;
-        bool isAttacking(int x, int y, BoardState& board) override;
+public:
+    static double value;
+
+    RookPiece();
+
+    ~RookPiece();
+
+    vector <Move> getPieceMoves(BoardState &board) override;
+
+    bool isAttacking(int x, int y, BoardState &board) override;
 };
 
 #endif

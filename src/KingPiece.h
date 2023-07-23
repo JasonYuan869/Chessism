@@ -8,11 +8,18 @@
 using namespace std;
 
 class KingPiece : public Piece {
-    public: 
-        KingPiece();
-        ~KingPiece();
-        vector<Move> getPieceMoves(BoardState& board) override;
-        bool isAttacking(int x, int y, BoardState& board) override;
+    bool checked;
+    bool canCastle;
+public:
+    static double value;
+
+    KingPiece();
+
+    ~KingPiece();
+
+    vector <Move> getPieceMoves(BoardState &board) override;
+
+    bool isAttacking(int x, int y, BoardState &board) override;
 };
 
 #endif

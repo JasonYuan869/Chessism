@@ -4,14 +4,15 @@
 #include <iostream>
 #include "BoardState.h"
 #include "Player.h"
+#include "Subject.h"
 
-class Game {
+class Game : public Subject {
     BoardState board;
     Player* white;
     Player* black;
     bool isWhiteTurn;
     public: 
-        Game();
+        Game(Player* whitePlayer, Player* blackPlayer);
         ~Game();
         void setup();
         BoardState& getBoard();

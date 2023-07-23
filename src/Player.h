@@ -5,7 +5,8 @@
 
 class Player {
     bool isWhite;
-    public: 
+    public:
+        virtual ~Player();
         virtual int makeMove(BoardState& board)=0;
 };
 

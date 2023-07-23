@@ -1,4 +1,10 @@
 #include "Piece.h"
+#include "PawnPiece.h"
+#include "RookPiece.h"
+#include "KnightPiece.h"
+#include "BishopPiece.h"
+#include "QueenPiece.h"
+#include "KingPiece.h"
 
 using namespace std;
 

@@ -1,6 +1,6 @@
 #include "Move.h"
 
-Move::Move() {
+Move::Move(pair<int, int> to, pair<int, int> from): to{to}, from{from} {
 
 }
 

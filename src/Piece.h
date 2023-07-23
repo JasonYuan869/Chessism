@@ -20,7 +20,7 @@ class Piece {
 
 namespace Piece {
     Piece* makePiece(char piece, int x, int y) {
-        switch piece {
+        switch (piece) {
             case 'P':
                 return new PawnPiece(x, y, true);
             case 'p':

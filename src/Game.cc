@@ -7,7 +7,7 @@
 #include "QueenPiece.h"
 #include "KingPiece.h"
 
-#include <stdio>
+#include <iostream>
 #include <string>
 using namespace std;
 

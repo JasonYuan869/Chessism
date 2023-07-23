@@ -6,8 +6,6 @@
 
 class HumanPlayer : public Player {
     public: 
-        HumanPlayer();
-        ~HumanPlayer();
         int makeMove(BoardState& board) override;
 };
 

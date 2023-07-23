@@ -6,11 +6,16 @@
 #include "BoardState.h"
 
 class BishopPiece : public Piece {
-    public: 
-        BishopPiece();
-        ~BishopPiece();
-        vector<Move> getPieceMoves(BoardState& board) override;
-        bool isAttacking(int x, int y, BoardState& board) override;
+public:
+    static double value;
+
+    BishopPiece();
+
+    ~BishopPiece();
+
+    vector <Move> getPieceMoves(BoardState &board) override;
+
+    bool isAttacking(int x, int y, BoardState &board) override;
 };
 
 #endif

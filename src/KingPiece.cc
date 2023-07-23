@@ -1,5 +1,7 @@
 #include "KingPiece.h"
 
+double KingPiece::value = 1000;
+
 KingPiece::KingPiece() {
 
 }

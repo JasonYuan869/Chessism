@@ -8,11 +8,16 @@
 using namespace std;
 
 class KnightPiece : public Piece {
-    public: 
-        KnightPiece();
-        ~KnightPiece();
-        vector<Move> getPieceMoves(BoardState& board);
-        bool isAttacking(int x, int y, BoardState& board);
+public:
+    static double value;
+
+    KnightPiece();
+
+    ~KnightPiece();
+
+    vector <Move> getPieceMoves(BoardState &board);
+
+    bool isAttacking(int x, int y, BoardState &board);
 };
 
 #endif

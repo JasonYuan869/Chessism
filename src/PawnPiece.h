@@ -8,11 +8,16 @@
 using namespace std;
 
 class PawnPiece : public Piece {
-    public: 
-        PawnPiece();
-        ~PawnPiece();
-        vector<Move> getPieceMoves(BoardState& board) override;
-        bool isAttacking(int x, int y, BoardState& board) override;
+public:
+    static double value;
+
+    PawnPiece();
+
+    ~PawnPiece();
+
+    vector <Move> getPieceMoves(BoardState &board) override;
+
+    bool isAttacking(int x, int y, BoardState &board) override;
 };
 
 #endif

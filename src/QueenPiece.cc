@@ -1,5 +1,7 @@
 #include "QueenPiece.h"
 
+double QueenPiece::value = 9;
+
 QueenPiece::QueenPiece() {
 
 }

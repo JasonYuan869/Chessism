@@ -1,5 +1,7 @@
 #include "KnightPiece.h"
 
+double KnightPiece::value = 2.7;
+
 KnightPiece::KnightPiece() {
 
 }

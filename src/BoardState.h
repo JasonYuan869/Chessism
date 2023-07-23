@@ -9,15 +9,17 @@
 using namespace std;
 
 class BoardState {
-    Piece* board[8][8];
+
+    bool canStart;
+    public: 
+    Piece* board[8][8]; 
+
     vector<Piece*> whitePieces;
     vector<Piece*> blackPieces;
     KingPiece* whiteKing;
     KingPiece* blackKing;
     Move lastMove;
     vector<Move> validMoves;
-    bool canStart;  // true if there are exactly one white and one black king
-    public:
         BoardState();
         ~BoardState();
         bool getCheckmate(bool white);

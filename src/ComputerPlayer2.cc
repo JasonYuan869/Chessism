@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -26,14 +27,14 @@ int ComputerPlayer2::makeMove(BoardState& board) {
         }
 
         for (Piece* p : pieces) {
-            vector<Move> moves = p.validMoves; // get valid moves from piece
+            vector<Move> moves = p->validMoves; // get valid moves from piece
             for (Move m : moves) {
                 pair<int, int> to = m.getTo();
                 if (board.board[to.first][to.second] == nullptr) {
                     pair<Move, int> thing{m, 0};
                     positions.push_back(thing);
                 } else {
-                    int score = board.board[to.first][to.second]->score;
+                    int score = abs(board.board[to.first][to.second]->value);
                     pair<Move, int> thing{m, score};
                     positions.push_back(thing);
                 }

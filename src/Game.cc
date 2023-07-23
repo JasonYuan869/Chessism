@@ -25,40 +25,67 @@ void Game::setup() {
     int x, y;
     Piece* newPiece;
     while (cin >> command) {
-        switch (command) {
-            case "+":
-                cin >> piece >> location[0] >> location[1];
-                x = location[0] - 'a';
-                y = location[1] - '1';
-                newPiece = makePiece(piece, x, y);
-                board.setPiece(newPiece, x, y);
-                notifyObservers();
-                break;
-            case "-":
-                cin >> piece >> location[0] >> location[1];
-                x = location[0] - 'a';
-                y = location[1] - '1';
-                board.removePiece(x, y);
-                notifyObservers();
-                break;
-            case "=":
-                cin >> command;
-                if (command == "white") {
-                    isWhiteTurn = true;
-                } else if (command == "black") {
-                    isWhiteTurn = false;
-                }
-                break;
-            case "done":
-                if (board.canStartGame()) {
-                    return;
-                } else {
-                    cout << "Invalid board setup" << endl;
-                }
-                break;
-            default:
-                continue;
+        if (command == "+") {
+            cin >> piece >> location[0] >> location[1];
+            x = location[0] - 'a';
+            y = location[1] - '1';
+            newPiece = makePiece(piece, x, y);
+            board.setPiece(newPiece, x, y);
+            notifyObservers();
+        } else if (command == "-") {
+            cin >> piece >> location[0] >> location[1];
+            x = location[0] - 'a';
+            y = location[1] - '1';
+            board.removePiece(x, y);
+            notifyObservers();
+        } else if (command == "=") {
+            cin >> command;
+            if (command == "white") {
+                isWhiteTurn = true;
+            } else if (command == "black") {
+                isWhiteTurn = false;
+            }
+        } else if (command == "done") {
+            if (board.canStartGame()) {
+                return;
+            } else {
+                cout << "Invalid board setup" << endl;
+            }
         }
+        // switch (command) {
+        //     case "+":
+        //         cin >> piece >> location[0] >> location[1];
+        //         x = location[0] - 'a';
+        //         y = location[1] - '1';
+        //         newPiece = makePiece(piece, x, y);
+        //         board.setPiece(newPiece, x, y);
+        //         notifyObservers();
+        //         break;
+        //     case "-":
+        //         cin >> piece >> location[0] >> location[1];
+        //         x = location[0] - 'a';
+        //         y = location[1] - '1';
+        //         board.removePiece(x, y);
+        //         notifyObservers();
+        //         break;
+        //     case "=":
+        //         cin >> command;
+        //         if (command == "white") {
+        //             isWhiteTurn = true;
+        //         } else if (command == "black") {
+        //             isWhiteTurn = false;
+        //         }
+        //         break;
+        //     case "done":
+        //         if (board.canStartGame()) {
+        //             return;
+        //         } else {
+        //             cout << "Invalid board setup" << endl;
+        //         }
+        //         break;
+        //     default:
+        //         continue;
+        // }
     }
 
     if (cin.eof()) {

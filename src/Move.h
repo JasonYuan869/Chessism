@@ -11,7 +11,7 @@ class Move {
     pair<int, int> from;
     char promotion;
     public: 
-        Move();
+        Move(int to_x,int to_y, int from_x,int from_y, char promotion = '-');
         ~Move();
 };
 

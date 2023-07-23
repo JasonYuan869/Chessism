@@ -9,6 +9,7 @@
 using namespace std;
 
 class BoardState {
+    public: 
     Piece* board[8][8]; 
     vector<Piece*> whitePieces;
     vector<Piece*> blackPieces; 
@@ -16,7 +17,6 @@ class BoardState {
     KingPiece* blackKing;
     Move lastMove;
     vector<Move> validMoves;
-    public: 
         BoardState();
         ~BoardState();
         bool getCheckmate(bool white);

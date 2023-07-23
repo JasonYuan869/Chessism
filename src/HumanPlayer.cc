@@ -8,6 +8,8 @@
 
 using namespace std;
 
+HumanPlayer::HumanPlayer(bool isWhite): Player{isWhite} {}
+
 int HumanPlayer::makeMove(BoardState& board) {
     string c, s;
     vector<string> command;

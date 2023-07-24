@@ -9,7 +9,6 @@ using namespace std;
 
 class KingPiece : public Piece {
     bool checked;
-    bool canCastle;
 public:
     static double value;
 

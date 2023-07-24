@@ -8,6 +8,9 @@
 using namespace std;
 
 class PawnPiece : public Piece {
+    void enPassant(BoardState &board,vector<Move>& moves);
+    void addToMoveList(int,int,vector<Move>&);
+
 public:
     static const double value = 1;
 
@@ -16,8 +19,9 @@ public:
     ~PawnPiece();
 
     vector <Move> getPieceMoves(BoardState &board) override;
-
     bool isAttacking(int x, int y, BoardState &board) override;
+    double getValue() override;
+
 };
 
 #endif

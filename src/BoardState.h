@@ -32,8 +32,9 @@ public:
     // Will update KingPiece.checked
     bool getCheck(bool white);
 
-    // Gets whether pieces are attacking the given location
-    bool getAttacked(int x, int y, bool white);
+    // Gets whether pieces are attacking the given location. If white == true we are seeing if there 
+    // are white pieces which attack this tile
+    bool getAttacked(int x, int y, bool white); 
 
     // Updates the validMoves vectors with the valid moves for the given color
     // Will call Piece::getPieceMoves(board) which returns a vector of moves

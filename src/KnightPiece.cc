@@ -1,8 +1,7 @@
 #include "KnightPiece.h"
 
-double KnightPiece::value = 2.7;
 
-KnightPiece::KnightPiece() {
+KnightPiece::KnightPiece(int x, int y,bool isWhite) : Piece{x,y,isWhite} {
 
 }
 

@@ -9,9 +9,9 @@ using namespace std;
 
 class PawnPiece : public Piece {
 public:
-    static double value;
+    static const double value = 1;
 
-    PawnPiece();
+    PawnPiece(int,int,bool);
 
     ~PawnPiece();
 

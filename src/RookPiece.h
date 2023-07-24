@@ -9,7 +9,7 @@ class RookPiece : public Piece {
 public:
     static double value;
 
-    RookPiece();
+    RookPiece(int,int,bool);
 
     ~RookPiece();
 

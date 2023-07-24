@@ -2,7 +2,7 @@
 
 double RookPiece::value = 5;
 
-RookPiece::RookPiece() {
+RookPiece::RookPiece(int x, int y,bool isWhite) : Piece{x,y,isWhite} {
 
 }
 

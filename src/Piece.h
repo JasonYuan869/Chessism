@@ -15,6 +15,7 @@ public:
     vector<Move> validMoves;
 
     bool withinBounds(int x, int y); //returns true if the position is inside the board
+    Piece(int,int,bool);
     virtual ~Piece() = 0;
 
     virtual std::vector<Move> getPieceMoves(BoardState &board) = 0;

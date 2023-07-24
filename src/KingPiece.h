@@ -13,7 +13,7 @@ class KingPiece : public Piece {
 public:
     static double value;
 
-    KingPiece();
+    KingPiece(int,int,bool);
 
     ~KingPiece();
 

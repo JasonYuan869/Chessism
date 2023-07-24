@@ -2,7 +2,9 @@
 
 double KingPiece::value = 1000;
 
-KingPiece::KingPiece() {
+
+
+KingPiece::KingPiece(int x, int y,bool isWhite) : Piece{x,y,isWhite}, checked{true},canCastle{true}{
 
 }
 

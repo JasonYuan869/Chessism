@@ -13,11 +13,11 @@ class BoardState {
 public:
     Piece *board[8][8];
 
-    vector<Piece *> whitePieces;
-    vector<Piece *> blackPieces;
+    vector<Piece*> whitePieces;
+    vector<Piece*> blackPieces;
     KingPiece *whiteKing;
     KingPiece *blackKing;
-    Move lastMove;
+    vector<Move> lastMoves;
 
 public:
     BoardState();
@@ -48,6 +48,9 @@ public:
 
     // Removes the piece at the given location
     void removePiece(int x, int y);
+
+    // Undoes the last move
+    void undo();
 
     // Returns whether there are exactly one white and one black king,
     // so the game can start

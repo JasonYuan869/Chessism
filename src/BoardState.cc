@@ -69,15 +69,116 @@ BoardState::~BoardState() {
 }
 
 bool BoardState::getCheckmate(bool white) {
+    KingPiece* king = white ? whiteKing : blackKing;
 
+    // Update the valid moves for each piece
+    updateValidMoves(white);
+
+    if (!king->checked) {
+        return false;
+    }
+
+    for (auto& piece : white ? whitePieces : blackPieces) {
+        if (!piece->isAlive) {
+            continue;
+        }
+
+        if (piece->validMoves.size() > 0) {
+            return false;
+        }
+    }
+    return true;
 }
 
-bool BoardState::getCheck(bool white, int x, int y) {
+bool BoardState::getCheck(bool white) {
+    KingPiece* king = white ? whiteKing : blackKing;
 
+    // Mutates the king's checked variable
+    king->checked = getAttacked(king->position_x, king->position_y, !white);
+    return king->checked;
+}
+
+bool BoardState::getAttacked(int x, int y, bool white) {
+    for (auto& piece : white ? blackPieces : whitePieces) {
+        if (piece->isAttacking(x, y, *this)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void BoardState::setPiece(Piece *piece, int x, int y) {
+    if (board[y][x] != nullptr) {
+        board[y][x]->isAlive = false;
+    }
+
+    board[y][x] = piece;
+    piece->position_x = x;
+    piece->position_y = y;
+
+    bool isWhite = piece->isWhite;
+    if (isWhite) {
+        whitePieces.push_back(piece);
+    } else {
+        blackPieces.push_back(piece);
+    }
+}
+
+void BoardState::removePiece(int x, int y) {
+    if (board[y][x] != nullptr) {
+        board[y][x]->isAlive = false;
+    }
+
+    board[y][x] = nullptr;
+}
+
+void BoardState::undo() {
+    Move lastMove = lastMoves.back();
+    lastMoves.pop_back();
+
+    if (lastMove.capturedOrMovedPiece != nullptr) {
+        if (lastMove.to2 == lastMove.from2) {
+            // This was a capture
+            setPiece(lastMove.capturedOrMovedPiece, lastMove.to2.first, lastMove.to2.second);
+            lastMove.capturedOrMovedPiece->isAlive = true;
+        } else {
+            // This was a castle, move the rook back
+            swap(board[lastMove.to2.first][lastMove.to2.second], board[lastMove.from2.first][lastMove.from2.second]);
+        }
+    }
+
+    // Move the piece back
+    swap(board[lastMove.to.first][lastMove.to.second], board[lastMove.from.first][lastMove.from.second]);
+
+    // If this was a promotion, remove the promoted piece
+    if (lastMove.promotion != '-') {
+        // TODO figure this out
+    }
 }
 
 void BoardState::updateValidMoves(bool white) {
 
+    for (auto& piece : white ? blackPieces : whitePieces) {
+        vector<Move> moves;
+
+        for (auto& move : piece->getPieceMoves(*this)) {
+            // Simulate the move
+            movePiece(move);
+
+            // Is our king checked?
+            if (getCheck(white)) {
+                // Undo the move
+                undo();
+                continue;
+            }
+
+            // Add the move to the vector of moves
+            moves.push_back(move);
+        }
+
+        // Update the validMoves vector
+        piece->validMoves = moves;
+    }
 }
 
 bool BoardState::movePiece(Move move) {

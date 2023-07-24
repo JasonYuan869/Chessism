@@ -12,6 +12,10 @@ bool Piece::withinBounds(int x, int y) {
     return (x >= 0 && x < 8 && y >= 0 && y < 8);
 }
 
+std::pair<int, int> Piece::getPosition() const {
+    return pair{position_x, position_y};
+}
+
 Piece::Piece(int x, int y,bool isWhite,bool canCastle = false): position_x{x},position_y{y},isWhite{isWhite},isAlive{true},canCastle{canCastle}{}
 
 Piece *makePiece(char piece, int x, int y) {

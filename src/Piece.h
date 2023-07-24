@@ -19,10 +19,12 @@ public:
     Piece(int x ,int y,bool isWhite,bool canCastle = false);
     virtual ~Piece() = 0;
 
-    virtual std::vector<Move> getPieceMoves(BoardState &board) = 0;
+    virtual std::vector<Move> getPieceMoves(BoardState &board) const = 0;
 
     virtual bool isAttacking(int x, int y, BoardState &board) = 0;
     virtual double getValue() = 0;
+
+    std::pair<int, int> getPosition() const;
 };
 
 Piece *makePiece(char piece, int x, int y);

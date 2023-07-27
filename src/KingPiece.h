@@ -4,11 +4,9 @@
 #include <vector>
 #include "Move.h"
 #include "BoardState.h"
-
-using namespace std;
+#include "Piece.h"
 
 class KingPiece : public Piece {
-    bool checked;
 public:
     static double value;
 
@@ -16,9 +14,11 @@ public:
 
     ~KingPiece();
 
-    vector <Move> getPieceMoves(BoardState &board) override;
+    std::vector<Move> getPieceMoves(BoardState &board) override;
 
     bool isAttacking(int x, int y, BoardState &board) override;
+
+    bool checked;
 };
 
 #endif

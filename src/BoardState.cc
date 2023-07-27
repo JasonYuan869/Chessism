@@ -5,9 +5,10 @@
 using namespace std;
 
 BoardState::BoardState() {
-    board = new Piece**[8];
     for (int i = 0; i < 8; i++) {
-        board[i] = new Piece*[8];
+        for (int j = 0; j < 8;j++) {
+            board[i][j] = nullptr;
+        }
     }
 
     // Initialize the board
@@ -44,8 +45,8 @@ BoardState::BoardState() {
     board[7][7] = makePiece('r', 7, 7);
 
     // Initialize the king pointers
-    whiteKing = board[0][4];
-    blackKing = board[7][4];
+    whiteKing = dynamic_cast<KingPiece *>(board[0][4]);
+    blackKing = dynamic_cast<KingPiece *>(board[7][4]);
 
     // Initialize the piece vectors
     for (int i = 0; i < 16; i++) {
@@ -58,14 +59,10 @@ BoardState::BoardState() {
 }
 
 BoardState::~BoardState() {
-    // Delete pieces then delete the board
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            delete board[i][j];
-        }
-        delete[] board[i];
+    // Delete pieces
+    for (auto& piece : whitePieces) {
+        delete piece;
     }
-    delete[] board;
 }
 
 bool BoardState::getCheckmate(bool white) {
@@ -83,7 +80,7 @@ bool BoardState::getCheckmate(bool white) {
             continue;
         }
 
-        if (piece->validMoves.size() > 0) {
+        if (!piece->validMoves.empty()) {
             return false;
         }
     }

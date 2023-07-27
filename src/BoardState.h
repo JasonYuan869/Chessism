@@ -11,12 +11,12 @@ using namespace std;
 class BoardState {
     bool canStart; // true if there are exactly one white and one black king
 public:
-    Piece *board[8][8];
+    vector<vector<Piece*>> board;
 
     vector<Piece*> whitePieces;
     vector<Piece*> blackPieces;
-    KingPiece *whiteKing;
-    KingPiece *blackKing;
+    KingPiece *whiteKing{};
+    KingPiece *blackKing{};
     vector<Move> lastMoves;
 
 public:

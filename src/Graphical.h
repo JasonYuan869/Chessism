@@ -3,13 +3,15 @@
 
 #include "Observer.h"
 #include "Game.h"
+#include <gtkmm.h>
 
-class Graphical : public Observer {
+class Graphical : public Observer, public Gtk::Window {
     Game* game; 
     public: 
-        Graphical();
-        ~Graphical();
-        void printBoard();
+        Graphical(Game* game);
+        ~Graphical() override;
+        void update();
+        void notify() override;
 };
 
 #endif

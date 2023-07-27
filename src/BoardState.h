@@ -6,18 +6,16 @@
 #include "KingPiece.h"
 #include "Piece.h"
 
-using namespace std;
-
 class BoardState {
     bool canStart; // true if there are exactly one white and one black king
 public:
-    vector<vector<Piece*>> board;
+    std::vector<std::vector<Piece*>> board;
 
-    vector<Piece*> whitePieces;
-    vector<Piece*> blackPieces;
+    std::vector<Piece*> whitePieces;
+    std::vector<Piece*> blackPieces;
     KingPiece *whiteKing{};
     KingPiece *blackKing{};
-    vector<Move> lastMoves;
+    std::vector<Move> lastMoves;
 
 public:
     BoardState();

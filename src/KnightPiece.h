@@ -5,8 +5,6 @@
 #include "Move.h"
 #include "BoardState.h"
 
-using namespace std;
-
 class KnightPiece : public Piece {
 public:
     static double value;
@@ -15,7 +13,7 @@ public:
 
     ~KnightPiece();
 
-    vector <Move> getPieceMoves(BoardState &board);
+    std::vector <Move> getPieceMoves(BoardState &board);
 
     bool isAttacking(int x, int y, BoardState &board);
 };

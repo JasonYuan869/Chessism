@@ -4,10 +4,10 @@
 #include <vector>
 #include "Observer.h"
 
-using namespace std;
+
 
 class Subject {
-	vector<Observer*> observers;
+	std::vector<Observer*> observers;
 	public: 
 		void attach(Observer* o) { observers.push_back(o); }
 		void detach(Observer* o) {  }

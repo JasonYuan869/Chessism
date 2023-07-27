@@ -13,7 +13,7 @@ public:
     bool isWhite;
     bool isAlive;
     bool canCastle;
-    vector<Move> validMoves;
+    std::vector<Move> validMoves;
 
     bool withinBounds(int x, int y); //returns true if the position is inside the board
     Piece(int x ,int y,bool isWhite,bool canCastle = false);

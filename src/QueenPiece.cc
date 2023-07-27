@@ -1,5 +1,6 @@
 #include "QueenPiece.h"
 
+double QueenPiece::value = 9;
 
 
 QueenPiece::QueenPiece(int x, int y,bool isWhite) : Piece{x,y,isWhite} {

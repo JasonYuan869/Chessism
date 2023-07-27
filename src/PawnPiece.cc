@@ -1,5 +1,6 @@
 #include "PawnPiece.h"
 
+double PawnPiece::value = 1;
 
 PawnPiece::PawnPiece(int x, int y,bool isWhite) : Piece{x,y,isWhite} {
 

@@ -12,7 +12,7 @@ class PawnPiece : public Piece {
     void addToMoveList(int,int,vector<Move>&);
 
 public:
-    static const double value = 1;
+    static double value;
 
     PawnPiece(int,int,bool);
 
@@ -21,6 +21,8 @@ public:
     vector <Move> getPieceMoves(BoardState &board) override;
     bool isAttacking(int x, int y, BoardState &board) override;
     double getValue() override;
+
+    Piece* promote()
 
 };
 

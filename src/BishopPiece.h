@@ -7,7 +7,7 @@
 
 class BishopPiece : public Piece {
 public:
-    static const double value = 3;
+    static double value;
 
     BishopPiece(int,int,bool);
 

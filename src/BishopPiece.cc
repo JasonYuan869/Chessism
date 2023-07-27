@@ -2,6 +2,7 @@
 
 using namespace std;
 
+double BishopPiece::value = 3.0;
 
 BishopPiece::BishopPiece(int x, int y,bool isWhite) : Piece{x,y,isWhite} {
 

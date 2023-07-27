@@ -9,7 +9,7 @@ using namespace std;
 
 class KnightPiece : public Piece {
 public:
-    static const double value = 2.7;
+    static double value;
 
     KnightPiece(int,int,bool);
 

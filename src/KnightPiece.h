@@ -13,9 +13,11 @@ public:
 
     ~KnightPiece();
 
-    std::vector <Move> getPieceMoves(BoardState &board);
+    std::vector <Move> getPieceMoves(BoardState &board) const override;
 
-    bool isAttacking(int x, int y, BoardState &board);
+    bool isAttacking(int x, int y, BoardState &board) const override;
+
+    double getValue() override;
 };
 
 #endif

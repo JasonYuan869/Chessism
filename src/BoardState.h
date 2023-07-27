@@ -6,6 +6,9 @@
 #include "KingPiece.h"
 #include "Piece.h"
 
+class Piece;
+class KingPiece;
+
 class BoardState {
     bool canStart; // true if there are exactly one white and one black king
 public:
@@ -52,7 +55,7 @@ public:
 
     // Returns whether there are exactly one white and one black king,
     // so the game can start
-    bool canStartGame();
+    bool canStartGame() const;
 };
 
 #endif 

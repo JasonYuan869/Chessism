@@ -181,3 +181,7 @@ void BoardState::updateValidMoves(bool white) {
 bool BoardState::movePiece(Move move) {
 
 }
+
+bool BoardState::canStartGame() const {
+    return canStart;
+}

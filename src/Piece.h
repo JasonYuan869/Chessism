@@ -5,6 +5,9 @@
 #include "Move.h"
 #include "BoardState.h"
 
+// Forward declarations for circular dependencies
+class Move;
+class BoardState;
 
 class Piece {
 public:
@@ -15,13 +18,13 @@ public:
     bool canCastle;
     std::vector<Move> validMoves;
 
-    bool withinBounds(int x, int y); //returns true if the position is inside the board
+    static bool withinBounds(int x, int y); //returns true if the position is inside the board
     Piece(int x ,int y,bool isWhite,bool canCastle = false);
     virtual ~Piece() = 0;
 
     virtual std::vector<Move> getPieceMoves(BoardState &board) const = 0;
 
-    virtual bool isAttacking(int x, int y, BoardState &board) = 0;
+    virtual bool isAttacking(int x, int y, BoardState &board) const = 0;
     virtual double getValue() = 0;
 
     std::pair<int, int> getPosition() const;

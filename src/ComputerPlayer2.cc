@@ -34,7 +34,7 @@ int ComputerPlayer2::makeMove(BoardState& board) {
                     pair<Move, int> thing{m, 0};
                     positions.push_back(thing);
                 } else {
-                    int score = abs(board.board[to.first][to.second]->value);
+                    int score = abs(board.board[to.first][to.second]->getValue());
                     pair<Move, int> thing{m, score};
                     positions.push_back(thing);
                 }

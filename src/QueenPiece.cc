@@ -1,4 +1,5 @@
 #include "QueenPiece.h"
+using namespace std;
 
 double QueenPiece::value = 9;
 
@@ -11,7 +12,7 @@ QueenPiece::~QueenPiece() {
 
 }
 
-vector<Move> QueenPiece::getPieceMoves(BoardState& board) {
+vector<Move> QueenPiece::getPieceMoves(BoardState& board) const {
     int directions[4][2] = {{1,1},{1,-1},{0,1},{1,0}};
     vector<Move> moves;
     int x = position_x;
@@ -52,7 +53,7 @@ vector<Move> QueenPiece::getPieceMoves(BoardState& board) {
     return moves;
 }
 
-bool QueenPiece::isAttacking(int x, int y, BoardState& board) {
+bool QueenPiece::isAttacking(int x, int y, BoardState& board) const {
     int directions[4][2] = {{1,1},{1,-1},{0,1},{1,0}};
 
     for (auto& direction : directions){
@@ -97,4 +98,8 @@ bool QueenPiece::isAttacking(int x, int y, BoardState& board) {
     }
     return false;
 
+}
+
+double QueenPiece::getValue() {
+    return value;
 }

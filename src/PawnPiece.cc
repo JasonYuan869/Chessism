@@ -1,4 +1,5 @@
 #include "PawnPiece.h"
+using namespace std;
 
 double PawnPiece::value = 1;
 
@@ -10,7 +11,7 @@ PawnPiece::~PawnPiece() {
 
 }
 
-vector<Move> PawnPiece::getPieceMoves(BoardState& board) { //TODO: add en passant, promotion
+vector<Move> PawnPiece::getPieceMoves(BoardState& board) const { //TODO: add en passant, promotion
     
     vector<Move> moves; 
 
@@ -45,7 +46,7 @@ vector<Move> PawnPiece::getPieceMoves(BoardState& board) { //TODO: add en passan
 
 }
 
-bool PawnPiece::isAttacking(int x, int y, BoardState& board) {
+bool PawnPiece::isAttacking(int x, int y, BoardState& board) const {
     int direction = isWhite ? 1 : -1;
     int new_y = position_y + direction;
     int new_x = position_x+1;
@@ -62,40 +63,47 @@ bool PawnPiece::isAttacking(int x, int y, BoardState& board) {
 }
 
 
-void PawnPiece::enPassant(BoardState& board, vector<Move>& moves){
+void PawnPiece::enPassant(BoardState& board, vector<Move>& moves) const {
     int x = position_x;
     int y = position_y;
-    int lastxStart = board.lastMove.getFrom().first;
-    int lastyStart = board.lastMove.getFrom().second;
+    int lastxStart = board.lastMoves.back().getFrom().first;
+    int lastyStart = board.lastMoves.back().getFrom().second;
 
-    int lastxEnd = board.lastMove.getTo().first;
-    int lastyEnd = board.lastMove.getTo().second;
+    int lastxEnd = board.lastMoves.back().getTo().first;
+    int lastyEnd = board.lastMoves.back().getTo().second;
     if (y == lastyEnd && abs(lastxEnd - x) == 1
         && board.board[y][lastxEnd] != nullptr 
         && board.board[y][lastxEnd]->getValue() == 1.0 
         && abs(lastyEnd - lastyStart) == 2
     ) {
-        moves.push_back(Move{lastxEnd,(lastyEnd + lastyStart)/2,x,y,lastxEnd,lastxStart,0,0,2});
+        moves.push_back(Move{
+            pair<int, int>(lastxEnd,(lastyEnd + lastyStart)/2),
+            pair<int, int>(x,y),
+            pair<int, int>(lastxEnd,lastxStart),
+            pair<int, int>(0, 0),
+            board.board[y][lastxEnd],
+        });
     }
-    
-
 }
 
-void PawnPiece::addToMoveList(int new_x, int new_y,vector<Move>& moves) {
-        int x = position_x;
-        int y = position_y;
-        char blackPromotions[4] = {'q','r','b','k'};
-        char whitePromotions[4] = {'Q','R','B','K'};
-        if (isWhite && y == 7){
-            for (auto promotion : whitePromotions){
-                moves.push_back(Move{new_x,new_y,x,y,promotion});
-            }
-        } else if (!isWhite && y == 0){
-            for (auto promotion : blackPromotions){
-                moves.push_back(Move{new_x,new_y,x,y,promotion});
-            }
-        } else {
-            moves.push_back(Move{new_x,new_y,x,y});
+void PawnPiece::addToMoveList(int new_x, int new_y,vector<Move>& moves) const {
+    int x = position_x;
+    int y = position_y;
+    char blackPromotions[4] = {'q','r','b','k'};
+    char whitePromotions[4] = {'Q','R','B','K'};
+    if (isWhite && y == 7){
+        for (auto promotion : whitePromotions){
+            moves.push_back(Move{new_x,new_y,x,y,promotion});
         }
-        return;
+    } else if (!isWhite && y == 0){
+        for (auto promotion : blackPromotions){
+            moves.push_back(Move{new_x,new_y,x,y,promotion});
+        }
+    } else {
+        moves.push_back(Move{new_x,new_y,x,y});
     }
+}
+
+double PawnPiece::getValue() {
+    return value;
+}

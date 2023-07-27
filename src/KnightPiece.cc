@@ -1,5 +1,7 @@
 #include "KnightPiece.h"
 
+using namespace std;
+
 double KnightPiece::value = 2.7;
 
 KnightPiece::KnightPiece(int x, int y,bool isWhite) : Piece{x,y,isWhite} {
@@ -10,7 +12,7 @@ KnightPiece::~KnightPiece() {
 
 }
 
-vector<Move> KnightPiece::getPieceMoves(BoardState& board) {
+vector<Move> KnightPiece::getPieceMoves(BoardState& board) const {
     int directions[4]= {2,1,-1,-2};
     vector<Move> moves;
     int x = position_x;
@@ -29,7 +31,7 @@ vector<Move> KnightPiece::getPieceMoves(BoardState& board) {
     return moves;
 }
 
-bool KnightPiece::isAttacking(int x, int y, BoardState& board) {
+bool KnightPiece::isAttacking(int x, int y, BoardState& board) const {
     int directions[4]= {2,1,-1,-2};
 
     for (auto xdirection: directions){
@@ -44,4 +46,8 @@ bool KnightPiece::isAttacking(int x, int y, BoardState& board) {
         }
     }
     return false;
+}
+
+double KnightPiece::getValue() {
+    return value;
 }

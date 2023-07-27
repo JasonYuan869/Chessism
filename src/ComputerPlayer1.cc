@@ -1,5 +1,5 @@
 #include "ComputerPlayer1.h"
-
+using namespace std;
 ComputerPlayer1::ComputerPlayer1(bool isWhite): Player{isWhite} {}
 ComputerPlayer1::~ComputerPlayer1() {
 

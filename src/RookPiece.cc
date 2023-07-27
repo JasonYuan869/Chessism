@@ -1,4 +1,5 @@
 #include "RookPiece.h"
+using namespace std;
 
 double RookPiece::value = 5;
 
@@ -10,7 +11,7 @@ RookPiece::~RookPiece() {
 
 }
 
-vector<Move> RookPiece::getPieceMoves(BoardState& board) {
+vector<Move> RookPiece::getPieceMoves(BoardState& board) const {
     vector<Move> moves;
     int x = position_x;
     int y = position_y;
@@ -51,7 +52,7 @@ vector<Move> RookPiece::getPieceMoves(BoardState& board) {
     return moves;
 }
 
-bool RookPiece::isAttacking(int x, int y, BoardState& board) {
+bool RookPiece::isAttacking(int x, int y, BoardState& board) const {
     int directions[2][2] = {{0,1},{1,0}};
 
 
@@ -95,4 +96,8 @@ bool RookPiece::isAttacking(int x, int y, BoardState& board) {
             }
         } 
     }
+}
+
+double RookPiece::getValue() {
+    return value;
 }

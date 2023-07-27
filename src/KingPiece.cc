@@ -1,5 +1,8 @@
 #include "KingPiece.h"
 #include "RookPiece.h"
+
+using namespace std;
+
 double KingPiece::value = 1000;
 
 
@@ -12,7 +15,7 @@ KingPiece::~KingPiece() {
 
 }
 
-vector<Move> KingPiece::getPieceMoves(BoardState& board) {
+vector<Move> KingPiece::getPieceMoves(BoardState& board) const {
     int directions[3]= {1,0,-1};
     vector<Move> moves;
     int x = position_x;
@@ -41,7 +44,13 @@ vector<Move> KingPiece::getPieceMoves(BoardState& board) {
         }
 
         if (rowEmpty && !board.getAttacked(x+1,y,!isWhite) && !board.getAttacked(x+2,y,!isWhite)){
-            moves.push_back(Move{x+2,y,x,y,7,y,x+1,y,1});
+            moves.push_back(Move {
+                pair<int, int>(x+2,y),
+                pair<int, int>(x,y),
+                pair<int, int>(7,y),
+                pair<int, int>(x+1,y),
+                board.board[y][7],
+            });
         }
     }
     //castle left
@@ -55,14 +64,20 @@ vector<Move> KingPiece::getPieceMoves(BoardState& board) {
         }
 
         if (rowEmpty && !board.getAttacked(x-1,y,!isWhite) && !board.getAttacked(x-2,y,!isWhite)){
-            moves.push_back(Move{x-2,y,x,y,0,y,x-1,y,1});
+            moves.push_back(Move {
+                pair<int, int>(x-2,y),
+                pair<int, int>(x,y),
+                pair<int, int>(0,y),
+                pair<int, int>(x-1,y),
+                board.board[y][0],
+            });
         }
     }
 
     return moves;
 }
 
-bool KingPiece::isAttacking(int x, int y, BoardState& board) {
+bool KingPiece::isAttacking(int x, int y, BoardState& board) const {
     
     int directions[3]= {1,0,-1};
     
@@ -78,4 +93,8 @@ bool KingPiece::isAttacking(int x, int y, BoardState& board) {
         }
     }
     return false;
+}
+
+double KingPiece::getValue() {
+    return value;
 }

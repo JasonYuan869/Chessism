@@ -6,19 +6,23 @@
 #include "BoardState.h"
 #include "Piece.h"
 
+class Move;
+class BoardState;
+
 class KingPiece : public Piece {
 public:
     static double value;
+    bool checked;
 
     KingPiece(int,int,bool);
 
     ~KingPiece();
 
-    std::vector<Move> getPieceMoves(BoardState &board) override;
+    std::vector<Move> getPieceMoves(BoardState &board) const override;
 
-    bool isAttacking(int x, int y, BoardState &board) override;
+    bool isAttacking(int x, int y, BoardState &board) const override;
 
-    bool checked;
+    double getValue() override;
 };
 
 #endif

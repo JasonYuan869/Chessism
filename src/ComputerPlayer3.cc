@@ -29,7 +29,7 @@ int ComputerPlayer3::makeMove(BoardState& board) {
                     pair<Move, int> thing{m, 0};
                     positions.push_back(thing);
                 } else {
-                    int score = abs(board.board[to.first][to.second]->value);
+                    int score = abs(board.board[to.first][to.second]->getValue());
                     pair<Move, int> thing{m, score};
                     positions.push_back(thing);
                 }
@@ -92,7 +92,7 @@ int ComputerPlayer3::simulate(BoardState board, Move m) {
         for (Move m : moves) {
             pair<int, int> to = m.getTo();
             if (board.board[to.first][to.second] != nullptr) {
-                int score = abs(board.board[to.first][to.second]->value);
+                int score = abs(board.board[to.first][to.second]->getValue());
                 minvalue = fmin(score, minvalue);
             }
         }

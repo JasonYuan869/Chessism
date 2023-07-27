@@ -1,5 +1,6 @@
 #include "ComputerPlayer4.h"
 #include <cmath>
+using namespace std;
 
 ComputerPlayer4::ComputerPlayer4(bool isWhite): Player{isWhite} {}
 ComputerPlayer4::~ComputerPlayer4() {
@@ -51,9 +52,9 @@ int ComputerPlayer4::evaluateBoard(BoardState& board) {
             if (board.board[i][j] != nullptr) {
                 if ((board.board[i][j]->isWhite && isWhite) || 
                     (board.board[i][j]->isWhite && !isWhite)) {
-                        eval += board.board[i][j]->value;
+                        eval += board.board[i][j]->getValue();
                 } else {
-                    eval -= board.board[i][j]->value;
+                    eval -= board.board[i][j]->getValue();
                 }
             }
         }

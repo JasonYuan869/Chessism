@@ -3,11 +3,11 @@
 
 #include <iostream>
 #include "BoardState.h"
+#include "Piece.h"
 
 class Move {
-    char promotion;
-
 public:
+    char promotion;
     std::pair<int, int> to;
     std::pair<int, int> from;
     // If the move is a capture, then to2 == from2 == capturedOrMovedPiece->getPos()

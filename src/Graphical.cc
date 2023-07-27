@@ -13,6 +13,9 @@ Graphical::Graphical(Game* game) : game{game} {
     game->attach(this);
 
     // Start the game loop
+
+    // TODO: if the user enters "setup" in the terminal, then call setup()
+    //  Otherwise call run() WITHOUT CONSUMING THE INPUT
     game->setup();
 }
 

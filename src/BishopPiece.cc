@@ -12,7 +12,7 @@ BishopPiece::~BishopPiece() {
 
 }
 
-vector<Move> BishopPiece::getPieceMoves(BoardState& board) {
+vector<Move> BishopPiece::getPieceMoves(BoardState& board) const {
     vector<Move> moves;
     int x = position_x;
     int y = position_y;
@@ -54,7 +54,7 @@ vector<Move> BishopPiece::getPieceMoves(BoardState& board) {
     return moves;
 }
 
-bool BishopPiece::isAttacking(int x, int y, BoardState& board) {
+bool BishopPiece::isAttacking(int x, int y, BoardState& board) const {
         int directions[2][2] = {{1,1},{1,-1}};
 
 
@@ -99,4 +99,8 @@ bool BishopPiece::isAttacking(int x, int y, BoardState& board) {
         } 
     }
     return false;
+}
+
+double BishopPiece::getValue() {
+    return value;
 }

@@ -13,10 +13,11 @@ bool Piece::withinBounds(int x, int y) {
 }
 
 std::pair<int, int> Piece::getPosition() const {
-    return pair{position_x, position_y};
+    return pair<int, int>{position_x, position_y};
 }
 
-Piece::Piece(int x, int y,bool isWhite,bool canCastle = false): position_x{x},position_y{y},isWhite{isWhite},isAlive{true},canCastle{canCastle}{}
+Piece::Piece(int x, int y, bool isWhite, bool canCastle) : position_x{x}, position_y{y}, isWhite{isWhite},
+                                                           isAlive{true}, canCastle{canCastle} {}
 
 Piece *makePiece(char piece, int x, int y) {
     switch (piece) {
@@ -44,5 +45,7 @@ Piece *makePiece(char piece, int x, int y) {
             return new KingPiece(x, y, true);
         case 'k':
             return new KingPiece(x, y, false);
+        default:
+            return nullptr;
     }
 }

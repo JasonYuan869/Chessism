@@ -13,9 +13,9 @@ public:
 
     ~RookPiece();
 
-    vector <Move> getPieceMoves(BoardState &board) override;
+    std::vector<Move> getPieceMoves(BoardState &board) const override;
 
-    bool isAttacking(int x, int y, BoardState &board) override;
+    bool isAttacking(int x, int y, BoardState &board) const override;
 
     double getValue() override;
 

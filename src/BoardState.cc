@@ -4,7 +4,7 @@
 
 using namespace std;
 
-BoardState::BoardState() {
+BoardState::BoardState(bool isWhiteTurn) : isWhiteTurn{isWhiteTurn} {
     board = vector<vector<Piece*>>(8,vector<Piece*>(8,nullptr));
 
 
@@ -176,7 +176,26 @@ void BoardState::updateValidMoves(bool white) {
 }
 
 bool BoardState::movePiece(Move move) {
+    int x = move.from.first;
+    int y = move.from.second;
+    Piece* PieceToMove = board[y][x];
+    bool moveIsValid = false;
+     
 
+    for (auto validMove : PieceToMove->validMoves){
+        if (move == validMove){
+            moveIsValid = true;
+            break;
+        }
+    }
+
+    if (!moveIsValid){
+        return false;
+    }
+
+    if (move.capturedOrMovedPiece != nullptr && move.to == move.capturedOrMovedPiece->getPosition()){
+
+    }
 }
 
 bool BoardState::canStartGame() const {

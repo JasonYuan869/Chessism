@@ -10,7 +10,6 @@ class Game : public Subject {
     BoardState board;
     Player* white;
     Player* black;
-    bool isWhiteTurn;
     public: 
         Game(Player* whitePlayer, Player* blackPlayer);
         ~Game();

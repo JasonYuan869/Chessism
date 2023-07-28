@@ -4,8 +4,6 @@
 #include <vector>
 #include "Observer.h"
 
-
-
 class Subject {
 	std::vector<Observer*> observers;
 	public: 
@@ -14,7 +12,7 @@ class Subject {
 		void notifyObservers() {
 			for (Observer* o : observers) o->notify();
 		}
-		virtual ~Subject() = 0;
+		virtual ~Subject();
 };
 
 #endif

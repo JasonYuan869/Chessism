@@ -10,9 +10,9 @@ public:
     char promotion;
     std::pair<int, int> to;
     std::pair<int, int> from;
-    // If the move is a capture, then to2 == from2 == capturedOrMovedPiece->getPos()
-    // If the move is a castle, then to2 != from2 is the rook's move and capturedOrMovedPiece is the rook
-    // Otherwise, capturedOrMovedPiece is nullptr
+    
+
+    //to2 and from2 are only used for castling, otherwise they are (-1,-1).
     std::pair<int, int> to2;
     std::pair<int, int> from2;
     Piece* capturedOrMovedPiece;
@@ -21,11 +21,15 @@ public:
 
     std::pair<int, int> getFrom();
 
-    Move(); // default
+    Move(); // default, we need for computerPlayer4
+
+    //move with no capture
     Move(std::pair<int, int> to, std::pair<int, int> from, char promotion = '-');
-
-    Move(int to_x, int to_y, int from_x, int from_y, char promotion = '-');
-
+    
+    //move with a capture
+    Move(std::pair<int, int> to, std::pair<int, int> from, Piece* capturedOrMovedPiece, char promotion = '-');
+    
+    //castling
     Move(std::pair<int, int> to, std::pair<int, int> to2, std::pair<int, int> from, std::pair<int, int> from2, Piece* capturedOrMovedPiece);
 
     // Does not delete lastMove or capturedPiece as they are not owned by this object

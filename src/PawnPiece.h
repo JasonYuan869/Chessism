@@ -9,7 +9,7 @@
 
 class PawnPiece : public Piece {
     void enPassant(BoardState &board,std::vector<Move>& moves) const;
-    void addToMoveList(int,int,std::vector<Move>&) const;
+    void addToMoveList(int,int, Piece*, std::vector<Move>&) const;
 
 public:
     static double value;

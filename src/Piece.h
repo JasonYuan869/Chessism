@@ -28,6 +28,7 @@ public:
     virtual double getValue() = 0;
 
     std::pair<int, int> getPosition() const;
+    void setPosition(int x,int y);
 };
 
 #endif

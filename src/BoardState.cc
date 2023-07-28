@@ -5,11 +5,8 @@
 using namespace std;
 
 BoardState::BoardState() {
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8;j++) {
-            board[i][j] = nullptr;
-        }
-    }
+    board = vector<vector<Piece*>>(8,vector<Piece*>(8,nullptr));
+
 
     // Initialize the board
     board[0][0] = makePiece('R', 0, 0);

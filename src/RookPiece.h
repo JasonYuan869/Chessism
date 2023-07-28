@@ -11,7 +11,7 @@ public:
 
     RookPiece(int,int,bool);
 
-    ~RookPiece();
+    ~RookPiece() override;
 
     std::vector<Move> getPieceMoves(BoardState &board) const override;
 

@@ -16,7 +16,7 @@ public:
 
     PawnPiece(int,int,bool);
 
-    ~PawnPiece();
+    ~PawnPiece() override;
 
     std::vector <Move> getPieceMoves(BoardState &board) const override;
     bool isAttacking(int x, int y, BoardState &board) const override;

@@ -13,7 +13,7 @@ public:
 
     QueenPiece(int,int,bool);
 
-    ~QueenPiece();
+    ~QueenPiece() override;
 
     std::vector <Move> getPieceMoves(BoardState &board) const override;
 

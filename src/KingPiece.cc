@@ -1,5 +1,4 @@
 #include "KingPiece.h"
-#include "RookPiece.h"
 
 using namespace std;
 

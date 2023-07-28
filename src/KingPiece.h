@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "Move.h"
-#include "BoardState.h"
 #include "Piece.h"
 
 class Move;
@@ -16,7 +15,7 @@ public:
 
     KingPiece(int,int,bool);
 
-    ~KingPiece();
+    ~KingPiece() override;
 
     std::vector<Move> getPieceMoves(BoardState &board) const override;
 

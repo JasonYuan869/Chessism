@@ -30,6 +30,7 @@ public:
 
     // Does not delete lastMove or capturedPiece as they are not owned by this object
     ~Move();
+    bool Move::operator==(Move& other);
 };
 
 #endif

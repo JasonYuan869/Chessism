@@ -19,9 +19,10 @@ public:
     KingPiece *whiteKing{};
     KingPiece *blackKing{};
     std::vector<Move> lastMoves;
+    bool isWhiteTurn;
 
 public:
-    BoardState();
+    BoardState(bool);
 
     ~BoardState();
 

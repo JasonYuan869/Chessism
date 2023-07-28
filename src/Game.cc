@@ -6,7 +6,7 @@
 #include <string>
 using namespace std;
 
-Game::Game(Player* whitePlayer, Player* blackPlayer) : white{whitePlayer}, black{blackPlayer}, isWhiteTurn{true} {}
+Game::Game(Player* whitePlayer, Player* blackPlayer) : white{whitePlayer}, black{blackPlayer}, board{true} {}
 
 Game::~Game() {
     delete white;
@@ -36,9 +36,9 @@ void Game::setup() {
         } else if (command == "=") {
             cin >> command;
             if (command == "white") {
-                isWhiteTurn = true;
+                board.isWhiteTurn = true;
             } else if (command == "black") {
-                isWhiteTurn = false;
+                board.isWhiteTurn = false;
             }
         } else if (command == "done") {
             if (board.canStartGame()) {
@@ -62,15 +62,15 @@ BoardState& Game::getBoard() {
 
 double Game::run() {
     while (true) {
-        Player* currentPlayer = isWhiteTurn ? white : black;
-        string colour = isWhiteTurn ? "White" : "Black";
+        Player* currentPlayer = board.isWhiteTurn ? white : black;
+        string colour = board.isWhiteTurn ? "White" : "Black";
 
         // Is the player in check?
-        if (board.getCheck(isWhiteTurn)) {
+        if (board.getCheck(board.isWhiteTurn)) {
             // Check if there is a checkmate for this player
-            if (board.getCheckmate(isWhiteTurn)) {
+            if (board.getCheckmate(board.isWhiteTurn)) {
                 // Checkmate
-                return isWhiteTurn ? 1 : 0;
+                return board.isWhiteTurn ? 1 : 0;
             }
 
             cout << colour << " is in check." << endl;
@@ -90,10 +90,10 @@ double Game::run() {
                 return 0.5;
             case 3:
                 // Player resigned
-                return isWhiteTurn ? 1 : 0;
+                return board.isWhiteTurn ? 1 : 0;
         }
 
         // Go to next player's turn
-        isWhiteTurn = !isWhiteTurn;
+        board.isWhiteTurn = !board.isWhiteTurn;
     }
 }

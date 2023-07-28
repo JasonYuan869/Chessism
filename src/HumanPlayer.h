@@ -6,7 +6,7 @@
 
 class HumanPlayer : public Player {
     public: 
-        HumanPlayer(bool isWhite);
+        explicit HumanPlayer(bool isWhite);
         int makeMove(BoardState& board) override;
 };
 

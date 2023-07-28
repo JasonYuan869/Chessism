@@ -6,8 +6,8 @@
 
 class ComputerPlayer3 : public Player {
     public: 
-        ComputerPlayer3(bool isWhite);
-        ~ComputerPlayer3();
+        explicit ComputerPlayer3(bool isWhite);
+        ~ComputerPlayer3() override;
         int makeMove(BoardState& board) override;
         int simulate(BoardState board, Move m);
 };

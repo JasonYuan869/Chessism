@@ -1,10 +1,5 @@
 #include "Game.h"
 #include "Piece.h"
-#include "PawnPiece.h"
-#include "RookPiece.h"
-#include "KnightPiece.h"
-#include "BishopPiece.h"
-#include "QueenPiece.h"
 #include "KingPiece.h"
 
 #include <iostream>
@@ -19,7 +14,6 @@ Game::~Game() {
 }
 
 void Game::setup() {
-
     string command;
     char piece;
     char location[2];
@@ -34,7 +28,7 @@ void Game::setup() {
             board.setPiece(newPiece, x, y);
             notifyObservers();
         } else if (command == "-") {
-            cin >> piece >> location[0] >> location[1];
+            cin >> location[0] >> location[1];
             x = location[0] - 'a';
             y = location[1] - '1';
             board.removePiece(x, y);

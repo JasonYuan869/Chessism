@@ -11,7 +11,7 @@ public:
     std::pair<int, int> to;
     std::pair<int, int> from;
     // If the move is a capture, then to2 == from2 == capturedOrMovedPiece->getPos()
-    // If the move is a castle, then to2 == from2 is the rook's move and capturedOrMovedPiece is the rook
+    // If the move is a castle, then to2 != from2 is the rook's move and capturedOrMovedPiece is the rook
     // Otherwise, capturedOrMovedPiece is nullptr
     std::pair<int, int> to2;
     std::pair<int, int> from2;

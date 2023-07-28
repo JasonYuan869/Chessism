@@ -19,7 +19,7 @@ int HumanPlayer::makeMove(BoardState& board) {
         command.push_back(s);
     }
 
-    if (command.size() < 1) {
+    if (command.empty()) {
         cout << "Invalid input" << endl;
         return 0;
     }

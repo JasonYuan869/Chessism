@@ -49,3 +49,14 @@ pair<int, int> Move::getTo() {
 pair<int, int> Move::getFrom() {
     return from;
 }
+
+
+bool Move::operator==(Move& other){
+    return (promotion == other.promotion
+    && to == other.to 
+    && from == other.from
+    && to2 == other.to2
+    && from2== other.from2
+    && capturedOrMovedPiece == other.capturedOrMovedPiece
+    );
+}

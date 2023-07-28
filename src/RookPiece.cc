@@ -95,6 +95,7 @@ bool RookPiece::isAttacking(int x, int y, BoardState& board) const {
             }
         } 
     }
+    return false;
 }
 
 double RookPiece::getValue() {

@@ -7,7 +7,7 @@ class Player {
     protected:
         bool isWhite;
     public:
-        Player(bool isWhite): isWhite{isWhite} {}
+        explicit Player(bool isWhite): isWhite{isWhite} {}
         virtual ~Player();
         virtual int makeMove(BoardState& board)=0;
 };

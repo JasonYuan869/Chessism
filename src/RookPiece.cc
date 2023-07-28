@@ -24,11 +24,11 @@ vector<Move> RookPiece::getPieceMoves(BoardState& board) const {
         while (withinBounds(tempx, tempy)){
             if (board.board[tempy][tempx] != nullptr ) {
                 if  (board.board[tempy][tempx]->isWhite != isWhite){
-                    moves.push_back(Move{tempx,tempy,x,y});
+                    moves.push_back(Move{{tempx,tempy}, {x,y}, board.board[tempy][tempx]});
                 } 
                 break;
             } else {
-                moves.push_back(Move{tempx,tempy,x,y});
+                moves.push_back(Move{{tempx,tempy},{x,y}});
                 tempx += direction[0];
                 tempy += direction[1];
             }
@@ -37,13 +37,15 @@ vector<Move> RookPiece::getPieceMoves(BoardState& board) const {
         tempx = x - direction[0];
         tempy = y - direction[1];
         while (withinBounds(tempx, tempy)){
+            //check if there is a piece, if yes, and the piece is opposite color, then 
+            //we can add a capture.
             if (board.board[tempy][tempx] != nullptr ) {
-                if  (board.board[tempy][tempx]->isWhite != isWhite){
-                    moves.push_back(Move{tempx,tempy,x,y});
+                if (board.board[tempy][tempx]->isWhite != isWhite){
+                    moves.push_back(Move{{tempx,tempy}, {x,y}, board.board[tempy][tempx]});
                 } 
                 break;
             } else {
-                moves.push_back(Move{tempx,tempy,x,y});
+                moves.push_back(Move{{tempx,tempy},{x,y}});
                 tempx -= direction[0];
                 tempy -= direction[1];
             }

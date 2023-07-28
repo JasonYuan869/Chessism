@@ -23,7 +23,7 @@ vector<Move> KnightPiece::getPieceMoves(BoardState& board) const {
                 int new_x = x + xdirection;
                 int new_y = y + ydirection;
                 if (withinBounds(new_x, new_y) && board.board[new_y][new_x] == nullptr || (board.board[new_y][new_x]->isWhite != isWhite)){
-                    moves.push_back(Move{new_x,new_y,x,y});
+                    moves.push_back( Move{{new_x,new_y}, {x,y}, board.board[new_y][new_x] } );
                 }
             }
         }

@@ -25,11 +25,11 @@ vector<Move> QueenPiece::getPieceMoves(BoardState& board) const {
         while (withinBounds(tempx, tempy)){
             if (board.board[tempy][tempx] != nullptr ) {
                 if  (board.board[tempy][tempx]->isWhite != isWhite){
-                    moves.push_back(Move{tempx,tempy,x,y});
+                    moves.push_back(Move{{tempx,tempy}, {x,y}, board.board[tempy][tempx]});
                 } 
                 break;
             } else {
-                moves.push_back(Move{tempx,tempy,x,y});
+                moves.push_back(Move{{tempx,tempy},{x,y}});
                 tempx += direction[0];
                 tempy += direction[1];
             }
@@ -40,11 +40,11 @@ vector<Move> QueenPiece::getPieceMoves(BoardState& board) const {
        while (withinBounds(tempx, tempy)){
             if (board.board[tempy][tempx] != nullptr ) {
                 if  (board.board[tempy][tempx]->isWhite != isWhite){
-                    moves.push_back(Move{tempx,tempy,x,y});
+                    moves.push_back(Move{{tempx,tempy}, {x,y}, board.board[tempy][tempx]});
                 } 
                 break;
             } else {
-                moves.push_back(Move{tempx,tempy,x,y});
+                moves.push_back(Move{{tempx,tempy},{x,y}});
                 tempx -= direction[0];
                 tempy -= direction[1];
             }

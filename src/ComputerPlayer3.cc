@@ -45,6 +45,8 @@ int ComputerPlayer3::makeMove(BoardState& board) {
         return 1;
     }
 
+    return 0;
+
     // evading next move captures, kinda unnecessary
     // vector<Piece*> pieces;
     // Move move;

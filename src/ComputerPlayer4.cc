@@ -92,4 +92,5 @@ int ComputerPlayer4::minimax(int depth, BoardState& board, bool isMaximizingPlay
             }
         }
     }
+    return 0;
 }

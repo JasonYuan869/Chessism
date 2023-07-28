@@ -49,4 +49,5 @@ int ComputerPlayer2::makeMove(BoardState& board) {
         board.movePiece(m);
         return 1;
     }
+    return 0;
 }

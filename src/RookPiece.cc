@@ -101,3 +101,7 @@ bool RookPiece::isAttacking(int x, int y, BoardState& board) const {
 double RookPiece::getValue() {
     return value;
 }
+
+PieceType RookPiece::getType() {
+    return ROOK;
+}

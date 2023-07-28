@@ -107,3 +107,7 @@ void PawnPiece::addToMoveList(int new_x, int new_y,vector<Move>& moves) const {
 double PawnPiece::getValue() {
     return value;
 }
+
+PieceType PawnPiece::getType() {
+    return PAWN;
+}

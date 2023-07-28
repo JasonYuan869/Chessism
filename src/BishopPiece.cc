@@ -104,3 +104,7 @@ bool BishopPiece::isAttacking(int x, int y, BoardState& board) const {
 double BishopPiece::getValue() {
     return value;
 }
+
+PieceType BishopPiece::getType() {
+    return BISHOP;
+}

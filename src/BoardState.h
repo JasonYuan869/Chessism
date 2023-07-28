@@ -22,7 +22,7 @@ public:
     bool isWhiteTurn;
 
 public:
-    BoardState(bool);
+    explicit BoardState(bool);
 
     ~BoardState();
 

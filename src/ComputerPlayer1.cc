@@ -26,7 +26,9 @@ int ComputerPlayer1::makeMove(BoardState& board) {
         Move m = moves.at(randomMove);
         board.movePiece(m);
         return 1;
+    } else if (command == "setup") {
+        return 4;
     }
-    
+
     return 0;
 }

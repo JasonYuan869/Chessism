@@ -11,7 +11,7 @@ int ComputerPlayer4::makeMove(BoardState& board) {
     string command;
     cin >> command;
     if (command == "move") {
-    
+
         int best = 0;
         Move bestmove;
         int depth = 3;
@@ -40,8 +40,10 @@ int ComputerPlayer4::makeMove(BoardState& board) {
             board.movePiece(bestmove);
             return 1;
         }
+    } else if (command == "setup") {
+        return 4;
     }
-    
+
     return 0;
 }
 
@@ -50,7 +52,7 @@ int ComputerPlayer4::evaluateBoard(BoardState& board) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             if (board.board[i][j] != nullptr) {
-                if ((board.board[i][j]->isWhite && isWhite) || 
+                if ((board.board[i][j]->isWhite && isWhite) ||
                     (board.board[i][j]->isWhite && !isWhite)) {
                         eval += board.board[i][j]->getValue();
                 } else {

@@ -97,3 +97,7 @@ bool KingPiece::isAttacking(int x, int y, BoardState& board) const {
 double KingPiece::getValue() {
     return value;
 }
+
+PieceType KingPiece::getType() {
+    return KING;
+}

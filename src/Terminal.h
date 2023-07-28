@@ -7,9 +7,9 @@
 class Terminal : public Observer {
     Game* game; 
     public: 
-        Terminal();
-        ~Terminal();
-        void printBoard();
+        explicit Terminal(Game* game);
+        ~Terminal() override;
+        void notify() override;
 };
 
 #endif

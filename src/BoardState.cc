@@ -9,7 +9,7 @@
 
 using namespace std;
 
-BoardState::BoardState(bool isWhiteTurn) : isWhiteTurn{isWhiteTurn} {
+BoardState::BoardState(bool isWhiteTurn) : isWhiteTurn{isWhiteTurn}, canStart{false} {
     board = vector<vector<Piece*>>(8,vector<Piece*>(8,nullptr));
 
 

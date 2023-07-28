@@ -103,3 +103,7 @@ bool QueenPiece::isAttacking(int x, int y, BoardState& board) const {
 double QueenPiece::getValue() {
     return value;
 }
+
+PieceType QueenPiece::getType() {
+    return QUEEN;
+}

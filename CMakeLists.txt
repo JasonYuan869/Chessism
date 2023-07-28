@@ -25,7 +25,7 @@ add_executable(chessism
         src/Piece.cc
         src/QueenPiece.cc
         src/RookPiece.cc
-        src/Terminal.cc src/Player.cc)
+        src/Terminal.cc src/Player.cc src/BoardGUI.cc src/Subject.cc src/Observer.cc)
 
 target_link_libraries(chessism ${gtkmm_LIBRARIES})
 target_include_directories(chessism PUBLIC ${gtkmm_INCLUDE_DIRS})

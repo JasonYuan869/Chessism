@@ -51,3 +51,7 @@ bool KnightPiece::isAttacking(int x, int y, BoardState& board) const {
 double KnightPiece::getValue() {
     return value;
 }
+
+PieceType KnightPiece::getType() {
+    return KNIGHT;
+}

@@ -61,6 +61,9 @@ BoardState& Game::getBoard() {
 }
 
 double Game::run() {
+    // Print the board
+    notifyObservers();
+
     while (true) {
         Player* currentPlayer = board.isWhiteTurn ? white : black;
         string colour = board.isWhiteTurn ? "White" : "Black";
@@ -91,6 +94,15 @@ double Game::run() {
             case 3:
                 // Player resigned
                 return board.isWhiteTurn ? 1 : 0;
+            case 4:
+                // Setup mode, only if game hasn't started
+                if (board.lastMoves.empty()) {
+                    setup();
+                    continue;
+                } else {
+                    cout << "Cannot enter setup mode after game has started" << endl;
+                    continue;
+                }
         }
 
         // Go to next player's turn

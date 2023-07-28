@@ -14,8 +14,8 @@ int HumanPlayer::makeMove(BoardState& board) {
     string c, s;
     vector<string> command;
     stringstream ss(c);
- 
-    while (getline(ss, s, ' ')) { 
+
+    while (getline(ss, s, ' ')) {
         command.push_back(s);
     }
 
@@ -26,6 +26,8 @@ int HumanPlayer::makeMove(BoardState& board) {
 
     if (command.at(0) == "resign") {
         return 3;
+    } else if (command.at(0) == "setup") {
+        return 4;
     } else if (command.at(0) == "move" && command.size() == 3) {
         string from, to;
         from = command.at(1);

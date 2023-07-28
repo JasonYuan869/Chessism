@@ -43,6 +43,8 @@ int ComputerPlayer3::makeMove(BoardState& board) {
         Move m = positions.at(0).first;
         board.movePiece(m);
         return 1;
+    } else if (command == "setup") {
+        return 4;
     }
 
     return 0;

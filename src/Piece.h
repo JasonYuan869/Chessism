@@ -5,6 +5,15 @@
 #include "Move.h"
 #include "BoardState.h"
 
+enum PieceType {
+    PAWN = 0,
+    ROOK = 1,
+    KNIGHT = 2,
+    BISHOP = 3,
+    QUEEN = 4,
+    KING = 5
+};
+
 // Forward declarations for circular dependencies
 class Move;
 class BoardState;
@@ -26,6 +35,7 @@ public:
 
     virtual bool isAttacking(int x, int y, BoardState &board) const = 0;
     virtual double getValue() = 0;
+    virtual PieceType getType() = 0;
 
     std::pair<int, int> getPosition() const;
 };

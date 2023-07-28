@@ -19,6 +19,7 @@ public:
 
     bool isAttacking(int x, int y, BoardState &board) const override;
     double getValue() override;
+    PieceType getType() override;
 
 };
 

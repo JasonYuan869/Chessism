@@ -21,8 +21,7 @@ public:
     std::vector <Move> getPieceMoves(BoardState &board) const override;
     bool isAttacking(int x, int y, BoardState &board) const override;
     double getValue() override;
-
-    Piece* promote();
+    PieceType getType() override;
 
 };
 

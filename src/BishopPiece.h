@@ -11,7 +11,7 @@ public:
 
     BishopPiece(int,int,bool);
 
-    ~BishopPiece();
+    ~BishopPiece() override;
 
     std::vector<Move> getPieceMoves(BoardState &board) const override;
 

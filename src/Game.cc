@@ -30,7 +30,7 @@ void Game::setup() {
             cin >> piece >> location[0] >> location[1];
             x = location[0] - 'a';
             y = location[1] - '1';
-            newPiece = makePiece(piece, x, y);
+            newPiece = BoardState::makePiece(piece, x, y);
             board.setPiece(newPiece, x, y);
             notifyObservers();
         } else if (command == "-") {

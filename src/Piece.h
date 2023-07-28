@@ -20,7 +20,7 @@ public:
 
     static bool withinBounds(int x, int y); //returns true if the position is inside the board
     Piece(int x ,int y,bool isWhite,bool canCastle = false);
-    virtual ~Piece() = 0;
+    virtual ~Piece();
 
     virtual std::vector<Move> getPieceMoves(BoardState &board) const = 0;
 
@@ -29,7 +29,5 @@ public:
 
     std::pair<int, int> getPosition() const;
 };
-
-Piece *makePiece(char piece, int x, int y);
 
 #endif

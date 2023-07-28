@@ -11,7 +11,7 @@ public:
 
     KnightPiece(int,int,bool);
 
-    ~KnightPiece();
+    ~KnightPiece() override;
 
     std::vector <Move> getPieceMoves(BoardState &board) const override;
 

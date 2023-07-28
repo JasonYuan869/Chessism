@@ -55,7 +55,6 @@ vector<Move> RookPiece::getPieceMoves(BoardState& board) const {
 bool RookPiece::isAttacking(int x, int y, BoardState& board) const {
     int directions[2][2] = {{0,1},{1,0}};
 
-
     for (auto& direction : directions){
 
         int tempx = position_x + direction[0];

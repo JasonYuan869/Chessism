@@ -64,6 +64,9 @@ bool PawnPiece::isAttacking(int x, int y, BoardState& board) const {
 
 
 void PawnPiece::enPassant(BoardState& board, vector<Move>& moves) const {
+    if (board.lastMoves.empty()){
+        return;
+    }
     int x = position_x;
     int y = position_y;
     int lastMoveStartx = board.lastMoves.back().getFrom().first;
@@ -72,7 +75,8 @@ void PawnPiece::enPassant(BoardState& board, vector<Move>& moves) const {
     int lastMoveEndx = board.lastMoves.back().getTo().first;
     int lastMoveEndy = board.lastMoves.back().getTo().second;
     
-    if (y == lastMoveEndy && abs(lastMoveEndx - x) == 1
+    if (
+        y == lastMoveEndy && abs(lastMoveEndx - x) == 1
         && board.board[y][lastMoveEndx] != nullptr 
         && board.board[y][lastMoveEndx]->getValue() == 1.0 
         && abs(lastMoveEndy - lastMoveStarty) == 2

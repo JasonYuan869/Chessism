@@ -195,9 +195,9 @@ void BoardState::undo() {
 
     if (lastMove.capturedOrMovedPiece != nullptr && lastMove.capturedOrMovedPiece->isWhite != isWhiteTurn){
         lastMove.capturedOrMovedPiece->isAlive = true;
-        int alivex = lastMove.capturedOrMovedPiece->position_x;
-        int alivey = lastMove.capturedOrMovedPiece->position_y;
-        board
+        int aliveX = lastMove.capturedOrMovedPiece->position_x;
+        int aliveY = lastMove.capturedOrMovedPiece->position_y;
+        board[aliveY][aliveX] = lastMove.capturedOrMovedPiece;
     }
 
     // if (lastMove.capturedOrMovedPiece != nullptr) {

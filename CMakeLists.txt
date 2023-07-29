@@ -29,6 +29,6 @@ add_executable(chessism
         src/Observer.cc
         src/GraphicalTile.cc)
 
-include_directories(chessism ${X11_INCLUDE_DIR})
-link_directories(chessism ${X11_LIBRARIES})
+include_directories(${X11_INCLUDE_DIR})
+link_directories(${X11_LIBRARIES})
 target_link_libraries(chessism ${X11_LIBRARIES})

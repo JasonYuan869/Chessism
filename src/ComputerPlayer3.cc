@@ -9,7 +9,7 @@ ComputerPlayer3::~ComputerPlayer3() {
 
 }
 
-int ComputerPlayer3::makeMove(BoardState& board) {
+MoveResult ComputerPlayer3::makeMove(BoardState& board) {
     string command;
     cin >> command;
 
@@ -47,12 +47,12 @@ int ComputerPlayer3::makeMove(BoardState& board) {
 
         Move m = positions.at(0).first;
         board.movePiece(m);
-        return 1;
+        return MoveResult::SUCCESS;
     } else if (command == "setup") {
-        return 4;
+        return MoveResult::SETUP;
     }
 
-    return 0;
+    return MoveResult::INVALID_MOVE;
 
     // evading next move captures, kinda unnecessary
     // vector<Piece*> pieces;

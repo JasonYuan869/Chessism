@@ -176,7 +176,7 @@ void BoardState::undo() {
         board[rookStarty][rookStartx]->setPosition(rookStartx,rookStarty);
     }
 
-    if (lastMove.promotion != '-'){
+    if (lastMove.promotion != '-') {
         if(lastTurnIsWhite){
             whitePieces.pop_back();
         } else {
@@ -271,7 +271,7 @@ bool BoardState::movePiece(const Move& move) {
     int y = move.from.second;
     Piece* pieceToMove = board[y][x];
 
-    if (pieceToMove == nullptr || pieceToMove->isWhite != isWhiteTurn){
+    if (pieceToMove == nullptr || pieceToMove->isWhite != isWhiteTurn) {
         return false;
     }
 

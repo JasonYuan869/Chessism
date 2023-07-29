@@ -5,9 +5,10 @@
 #include "BoardState.h"
 
 class HumanPlayer : public Player {
-    public: 
-        explicit HumanPlayer(bool isWhite);
-        int makeMove(BoardState& board) override;
+public:
+    explicit HumanPlayer(bool isWhite);
+
+    MoveResult makeMove(BoardState &board) override;
 };
 
 #endif

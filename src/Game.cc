@@ -93,22 +93,18 @@ double Game::run() {
             cout << colour << " is in check." << endl;
         }
 
-        int moveResult = currentPlayer->makeMove(board);
+        MoveResult moveResult = currentPlayer->makeMove(board);
         switch (moveResult) {
-            case 0:
-                // Invalid move, try again
+            case INVALID_MOVE:
                 continue;
-            case 1:
-                // Successful move
+            case SUCCESS:
                 notifyObservers();
                 break;
-            case 2:
-                // Stalemate, no valid moves
+            case STALEMATE:
                 return 0.5;
-            case 3:
-                // Player resigned
+            case RESIGNED:
                 return board.isWhiteTurn ? 1 : 0;
-            case 4:
+            case SETUP:
                 // Setup mode, only if game hasn't started
                 if (board.lastMoves.empty()) {
                     setup();
@@ -118,7 +114,5 @@ double Game::run() {
                     continue;
                 }
         }
-
-
     }
 }

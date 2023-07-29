@@ -44,6 +44,9 @@ public:
     // Moves the piece with the given move
     bool movePiece(const Move& move);
 
+    //moves piece only if it is a legal move
+    bool movePieceIfLegal(const Move& move);
+
     // Sets the piece at the given location
     void setPiece(Piece *piece, int x, int y);
 

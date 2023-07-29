@@ -7,15 +7,16 @@
 
 class Move {
 public:
-    char promotion;
     std::pair<int, int> to;
     std::pair<int, int> from;
-    
+    char promotion;
+
+    Piece* capturedOrMovedPiece;
+
 
     //rookTo and rookFrom are only used for castling, otherwise they are (-1,-1).
     std::pair<int, int> rookTo;
     std::pair<int, int> rookFrom;
-    Piece* capturedOrMovedPiece;
     bool isCastle;
 
     std::pair<int, int> getTo() const;
@@ -35,7 +36,8 @@ public:
 
     // Does not delete lastMove or capturedPiece as they are not owned by this object
     ~Move();
-    bool operator==(Move& other) const;
+    bool sameMoveAs(Move& other) const;
+
 };
 
 #endif

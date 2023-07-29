@@ -36,12 +36,12 @@ int HumanPlayer::makeMove(BoardState& board) {
         // check bounds
         if (from_pair.first < 0 || from_pair.first > 7 || from_pair.second < 0 || from_pair.second > 7 ||
             to_pair.first < 0 || to_pair.first > 7 || to_pair.second < 0 || to_pair.second > 7) {
-                cout << "Invalid move" << endl;
+                cout << "Invalid location" << endl;
                 return 0;
         }
 
         Move m{to_pair, from_pair};
-        bool success = board.movePiece(m);
+        bool success = board.movePieceIfLegal(m);
         if (success) {
             return 1;
         } else {

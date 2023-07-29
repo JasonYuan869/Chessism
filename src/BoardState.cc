@@ -158,7 +158,7 @@ void BoardState::undo() {
         int rookEndy = lastMove.rookTo.second;
         board[rookStarty][rookStartx] = board[rookEndy][rookEndx];
         board[rookEndy][rookEndx] = nullptr;
-        board[rookEndy][rookEndx]->setPosition(rookStartx,rookStarty);
+        board[rookStarty][rookStartx]->setPosition(rookStartx,rookStarty);
     }
 
     if (lastMove.promotion != '-'){
@@ -227,24 +227,31 @@ void BoardState::updateValidMoves(bool white) {
     }
 }
 
-bool BoardState::movePiece(const Move& move) {
+
+bool BoardState::movePieceIfLegal(const Move& move){
     int x = move.from.first;
     int y = move.from.second;
     Piece* pieceToMove = board[y][x];
-    bool moveIsValid = false;
 
     if (pieceToMove == nullptr || pieceToMove->isWhite != isWhiteTurn){
         return false;
     }
 
     for (auto validMove : pieceToMove->validMoves){
-        if (move == validMove){
-            moveIsValid = true;
-            break;
+        if (move.sameMoveAs(validMove)){
+            return movePiece(validMove);
         }
     }
 
-    if (!moveIsValid){
+   return false;
+}
+
+bool BoardState::movePiece(const Move& move) {
+    int x = move.from.first;
+    int y = move.from.second;
+    Piece* pieceToMove = board[y][x];
+
+    if (pieceToMove == nullptr || pieceToMove->isWhite != isWhiteTurn){
         return false;
     }
 
@@ -261,7 +268,6 @@ bool BoardState::movePiece(const Move& move) {
     // either pawn promotion, or we actually move the piece
     if (move.promotion != '-'){
         pieceToMove->isAlive = false;
-        board[y][x] = nullptr;
         board[to_y][to_x] = BoardState::makePiece(move.promotion,to_x,to_y);
         if (isWhiteTurn){
             whitePieces.push_back(board[to_y][to_x]);

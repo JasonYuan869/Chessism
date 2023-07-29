@@ -56,5 +56,5 @@ MoveResult ComputerPlayer2::makeMove(BoardState& board) {
     } else if (command == "setup") {
         return MoveResult::SETUP;
     }
-    return MoveResult::INVALID_MOVE
+    return MoveResult::INVALID_MOVE;
 }

@@ -10,8 +10,8 @@ Move::Move() :
         from{-1, -1},
         promotion{'-'},
         capturedOrMovedPiece{nullptr},
-        to2{-1, -1},
-        from2{-1, -1} {}
+        rookTo{-1, -1},
+        rookFrom{-1, -1} {}
 
 Move::Move(pair<int, int> to,
            pair<int, int> from,
@@ -20,8 +20,9 @@ Move::Move(pair<int, int> to,
     from{std::move(from)},
     promotion{promotion},
     capturedOrMovedPiece{nullptr},
-    to2{-1, -1},
-    from2{-1, -1} {}
+    rookTo{-1, -1},
+    rookFrom{-1, -1},
+    isCastle{false} {}
 
 Move::Move(std::pair<int, int> to,
            std::pair<int, int> from,
@@ -31,21 +32,23 @@ Move::Move(std::pair<int, int> to,
     from{std::move(from)},
     promotion{promotion},
     capturedOrMovedPiece{nullptr},
-    to2{-1, -1},
-    from2{-1, -1} {}
+    rookTo{-1, -1},
+    rookFrom{-1, -1},
+    isCastle{false} {}
 
 
 Move::Move(pair<int, int> to,
-           pair<int, int> to2,
            pair<int, int> from,
-           pair<int, int> from2,
+           pair<int, int> rookTo,
+           pair<int, int> rookFrom,
            Piece *capturedOrMovedPiece
 ) : to{std::move(to)},
     from{std::move(from)},
-    to2{std::move(to2)},
-    from2{std::move(from2)},
+    rookTo{std::move(rookTo)},
+    rookFrom{std::move(rookFrom)},
     capturedOrMovedPiece{capturedOrMovedPiece},
-    promotion{'-'} {}
+    promotion{'-'},
+    isCastle {true} {}
 
 
 Move::~Move() {}
@@ -63,8 +66,8 @@ bool Move::operator==(Move &other) const {
     return (promotion == other.promotion
             && to == other.to
             && from == other.from
-            && to2 == other.to2
-            && from2 == other.from2
+            && rookTo == other.rookTo
+            && rookFrom == other.rookFrom
             && capturedOrMovedPiece == other.capturedOrMovedPiece
     );
 }

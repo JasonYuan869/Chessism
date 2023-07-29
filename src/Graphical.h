@@ -3,7 +3,6 @@
 
 #include "Observer.h"
 #include "Game.h"
-#include "BoardGUI.h"
 
 class Graphical : public Observer {
     Game* game;

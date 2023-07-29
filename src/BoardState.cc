@@ -310,7 +310,7 @@ bool BoardState::canStartGame() const {
 }
 
 
-Piece *BoardState::makePiece(char piece, int x, int y) {
+Piece *BoardState::makePiece(char piece, int y, int x) {
     switch (piece) {
         case 'P':
             return new PawnPiece(x, y, true);

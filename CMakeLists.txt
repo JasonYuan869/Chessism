@@ -3,10 +3,8 @@ project(chessism)
 
 set(CMAKE_CXX_STANDARD 14)
 
-# For GTKMM
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(gtkmm REQUIRED gtkmm-3.0)
-
+# For X11
+find_package(X11 REQUIRED)
 add_executable(chessism
         src/main.cc
         src/BishopPiece.cc
@@ -25,8 +23,11 @@ add_executable(chessism
         src/Piece.cc
         src/QueenPiece.cc
         src/RookPiece.cc
-        src/Terminal.cc src/Player.cc src/BoardGUI.cc src/Subject.cc src/Observer.cc)
+        src/Terminal.cc
+        src/Player.cc
+        src/Subject.cc
+        src/Observer.cc)
 
-target_link_libraries(chessism ${gtkmm_LIBRARIES})
-target_include_directories(chessism PUBLIC ${gtkmm_INCLUDE_DIRS})
-target_compile_options(chessism PUBLIC ${gtkmm_CFLAGS_OTHER})
+include_directories(chessism ${X11_INCLUDE_DIR})
+link_directories(chessism ${X11_LIBRARIES})
+target_link_libraries(chessism ${X11_LIBRARIES})

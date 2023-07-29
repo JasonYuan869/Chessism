@@ -7,6 +7,9 @@
 
 using namespace std;
 
+#define WINDOW_SIZE 512
+#define TILE_SIZE 64
+
 Graphical::Graphical(Game *game) : game{game}, colours{0} {
     game->attach(this);
 
@@ -119,13 +122,13 @@ void Graphical::drawPiece(Piece *piece) {
 }
 
 void Graphical::drawPixels(int x, int y, const char* data) {
-    for (int i = 0; i < 64 * 64; i++) {
+    for (int i = 0; i < TILE_SIZE * TILE_SIZE; i++) {
         if (data[i] == 0) {
             continue;
         }
         XSetForeground(d, gc, data[i] == 1 ? colours[White] : colours[Black]);
-        int pixelX = x + i % 64;
-        int pixelY = y + i / 64;
+        int pixelX = x + i % TILE_SIZE;
+        int pixelY = y + i / TILE_SIZE;
         XDrawPoint(d, w, gc, pixelX, pixelY);
     }
 }

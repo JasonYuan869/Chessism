@@ -58,6 +58,7 @@ BoardState::BoardState(bool isWhiteTurn) : canStart{false},isWhiteTurn{isWhiteTu
         blackPieces.push_back(board[6][i]);
         blackPieces.push_back(board[7][i]);
     }
+
 }
 
 BoardState::~BoardState() {
@@ -93,7 +94,7 @@ bool BoardState::getCheck(bool white) {
     KingPiece* king = white ? whiteKing : blackKing;
 
     // Mutates the king's checked variable
-    king->checked = getAttacked(king->position_x, king->position_y, !white);
+    king->checked = getAttacked(king->position_x, king->position_y, white);
     return king->checked;
 }
 
@@ -150,8 +151,7 @@ void BoardState::undo() {
     int endy = lastMove.to.second;
 
     //castling logic 
-    //
-    if (lastMove.isCastle){
+    if (lastMove.isCastle && lastMove.capturedOrMovedPiece != nullptr){
         int rookStartx = lastMove.rookFrom.first;
         int rookStarty = lastMove.rookFrom.second;
         int rookEndx = lastMove.rookTo.first;
@@ -162,7 +162,6 @@ void BoardState::undo() {
     }
 
     if (lastMove.promotion != '-'){
-        board[endy][endx] = nullptr;
         if(lastTurnIsWhite){
             whitePieces.pop_back();
         } else {
@@ -195,7 +194,7 @@ void BoardState::undo() {
 
     board[endy][endx] = nullptr;
 
-    if (!lastMove.isCastle){
+    if (!lastMove.isCastle && lastMove.capturedOrMovedPiece != nullptr){
         lastMove.capturedOrMovedPiece->isAlive = true;
         int aliveX = lastMove.capturedOrMovedPiece->position_x;
         int aliveY = lastMove.capturedOrMovedPiece->position_y;
@@ -206,7 +205,7 @@ void BoardState::undo() {
 
 void BoardState::updateValidMoves(bool white) {
 
-    for (auto& piece : white ? blackPieces : whitePieces) {
+    for (auto& piece : white ? whitePieces : blackPieces) {
         vector<Move> moves;
 
         for (auto& move : piece->getPieceMoves(*this)) {
@@ -234,7 +233,7 @@ bool BoardState::movePiece(const Move& move) {
     Piece* pieceToMove = board[y][x];
     bool moveIsValid = false;
 
-    if (pieceToMove == nullptr){
+    if (pieceToMove == nullptr || pieceToMove->isWhite != isWhiteTurn){
         return false;
     }
 
@@ -253,7 +252,7 @@ bool BoardState::movePiece(const Move& move) {
     int to_y = move.to.second;
 
     //handle the capture
-    if (!move.isCastle){
+    if (!move.isCastle && move.capturedOrMovedPiece != nullptr){
        move.capturedOrMovedPiece->isAlive = false;
        board[to_y][to_x] = nullptr;
     }
@@ -276,7 +275,7 @@ bool BoardState::movePiece(const Move& move) {
 
     board[y][x] = nullptr;
     //castling
-    if (move.isCastle){
+    if (move.isCastle && move.capturedOrMovedPiece != nullptr){
         int rookStartx = move.rookFrom.first;
         int rookStarty = move.rookFrom.second;
         int rookEndx = move.rookTo.first;
@@ -285,7 +284,8 @@ bool BoardState::movePiece(const Move& move) {
         board[rookStarty][rookStartx] = nullptr;
         board[rookEndy][rookEndx]->setPosition(rookEndx,rookEndy);
     }
-
+    lastMoves.push_back(move);
+    isWhiteTurn = !isWhiteTurn;
     return true;
 }
 

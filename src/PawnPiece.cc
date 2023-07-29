@@ -69,7 +69,6 @@ void PawnPiece::enPassant(BoardState& board, vector<Move>& moves) const {
     }
     int x = position_x;
     int y = position_y;
-    int lastMoveStartx = board.lastMoves.back().getFrom().first;
     int lastMoveStarty = board.lastMoves.back().getFrom().second;
 
     int lastMoveEndx = board.lastMoves.back().getTo().first;

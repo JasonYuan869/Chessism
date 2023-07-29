@@ -230,14 +230,13 @@ void BoardState::updateValidMoves(bool white) {
             movePiece(move);
 
             // Is our king checked?
-            if (getCheck(white)) {
-                // Undo the move
-                undo();
-                continue;
+            if (!getCheck(white)) {
+                // Add the move to the vector of moves
+                moves.push_back(move);
             }
 
-            // Add the move to the vector of moves
-            moves.push_back(move);
+            // Undo the move
+            undo();
         }
 
         // Update the validMoves vector
@@ -245,12 +244,15 @@ void BoardState::updateValidMoves(bool white) {
     }
 }
 
-bool BoardState::movePiece(Move move) {
+bool BoardState::movePiece(const Move& move) {
     int x = move.from.first;
     int y = move.from.second;
     Piece* PieceToMove = board[y][x];
     bool moveIsValid = false;
-     
+
+    if (PieceToMove == nullptr){
+        return false;
+    }
 
     for (auto validMove : PieceToMove->validMoves){
         if (move == validMove){
@@ -300,7 +302,7 @@ bool BoardState::movePiece(Move move) {
         board[rookEndy][rookEndx]->setPosition(rookEndx,rookEndy);
     }
 
-
+    return true;
 }
 
 bool BoardState::canStartGame() const {

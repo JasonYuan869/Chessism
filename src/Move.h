@@ -17,9 +17,9 @@ public:
     std::pair<int, int> from2;
     Piece* capturedOrMovedPiece;
 
-    std::pair<int, int> getTo();
+    std::pair<int, int> getTo() const;
 
-    std::pair<int, int> getFrom();
+    std::pair<int, int> getFrom() const;
 
     Move(); // default, we need for computerPlayer4
 
@@ -34,7 +34,7 @@ public:
 
     // Does not delete lastMove or capturedPiece as they are not owned by this object
     ~Move();
-    bool operator==(Move& other);
+    bool operator==(Move& other) const;
 };
 
 #endif

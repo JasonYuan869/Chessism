@@ -43,7 +43,7 @@ public:
     void updateValidMoves(bool white);
 
     // Moves the piece with the given move
-    bool movePiece(Move move);
+    bool movePiece(const Move& move);
 
     // Sets the piece at the given location
     void setPiece(Piece *piece, int x, int y);

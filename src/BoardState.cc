@@ -208,6 +208,11 @@ void BoardState::updateValidMoves(bool white) {
     for (auto& piece : white ? whitePieces : blackPieces) {
         vector<Move> moves;
 
+        if (!piece->isAlive){
+            piece->validMoves = moves;
+            continue;
+        }
+
         for (auto& move : piece->getPieceMoves(*this)) {
             // Simulate the move
             movePiece(move);

@@ -100,7 +100,7 @@ bool BoardState::getCheck(bool white) {
 
 bool BoardState::getAttacked(int x, int y, bool white) {
     for (auto& piece : white ? blackPieces : whitePieces) {
-        if (piece->isAttacking(x, y, *this)) {
+        if (piece->isAlive && piece->isAttacking(x, y, *this)) {
             return true;
         }
     }
@@ -159,6 +159,7 @@ void BoardState::undo() {
         board[rookStarty][rookStartx] = board[rookEndy][rookEndx];
         board[rookEndy][rookEndx] = nullptr;
         board[rookStarty][rookStartx]->setPosition(rookStartx,rookStarty);
+    
     }
 
     if (lastMove.promotion != '-'){

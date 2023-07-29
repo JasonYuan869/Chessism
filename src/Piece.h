@@ -11,7 +11,8 @@ enum PieceType {
     KNIGHT = 2,
     BISHOP = 3,
     QUEEN = 4,
-    KING = 5
+    KING = 5,
+    EMPTY = 6,
 };
 
 // Forward declarations for circular dependencies

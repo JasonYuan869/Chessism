@@ -32,6 +32,14 @@ int HumanPlayer::makeMove(BoardState& board) {
         }
         pair<int, int> from_pair = {from[0] - 'a', from[1] - '1'};
         pair<int, int> to_pair = {to[0] - 'a', to[1] - '1'};
+
+        // check bounds
+        if (from_pair.first < 0 || from_pair.first > 7 || from_pair.second < 0 || from_pair.second > 7 ||
+            to_pair.first < 0 || to_pair.first > 7 || to_pair.second < 0 || to_pair.second > 7) {
+                cout << "Invalid move" << endl;
+                return 0;
+        }
+
         Move m{to_pair, from_pair};
         bool success = board.movePiece(m);
         if (success) {

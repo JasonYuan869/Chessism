@@ -24,6 +24,10 @@ void Game::setup() {
             cin >> piece >> location[0] >> location[1];
             x = location[0] - 'a';
             y = location[1] - '1';
+            if (x < 0 || x > 7 || y < 0 || y > 7) {
+                cout << "Invalid location" << endl;
+                continue;
+            }
             newPiece = BoardState::makePiece(piece, x, y);
             board.setPiece(newPiece, x, y);
             notifyObservers();
@@ -31,6 +35,10 @@ void Game::setup() {
             cin >> location[0] >> location[1];
             x = location[0] - 'a';
             y = location[1] - '1';
+            if (x < 0 || x > 7 || y < 0 || y > 7) {
+                cout << "Invalid location" << endl;
+                continue;
+            }
             board.removePiece(x, y);
             notifyObservers();
         } else if (command == "=") {

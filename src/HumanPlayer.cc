@@ -11,36 +11,35 @@ using namespace std;
 HumanPlayer::HumanPlayer(bool isWhite): Player{isWhite} {}
 
 int HumanPlayer::makeMove(BoardState& board) {
-    string c, s;
-    vector<string> command;
-    stringstream ss(c);
+    string command;
 
-    while (getline(ss, s, ' ')) {
-        command.push_back(s);
+    cin >> command;
+
+    if (cin.eof()) {
+        throw -1;
     }
 
-    if (command.empty()) {
-        cout << "Invalid input" << endl;
-        return 0;
-    }
-
-    if (command.at(0) == "resign") {
+    if (command == "resign") {
         return 3;
-    } else if (command.at(0) == "setup") {
+    } else if (command == "setup") {
         return 4;
-    } else if (command.at(0) == "move" && command.size() == 3) {
+    } else if (command == "move") {
         string from, to;
-        from = command.at(1);
-        to = command.at(2);
+        cin >> from >> to;
         if (from.size() != 2 || to.size() != 2) {
             cout << "Invalid input" << endl;
             return 0;
         }
-        pair<int, int> from_pair = {from[0], from[1]};
-        pair<int, int> to_pair = {to[0], to[1]};
+        pair<int, int> from_pair = {from[0] - 'a', from[1] - '1'};
+        pair<int, int> to_pair = {to[0] - 'a', to[1] - '1'};
         Move m{to_pair, from_pair};
-        board.movePiece(m);
-        return 1;
+        bool success = board.movePiece(m);
+        if (success) {
+            return 1;
+        } else {
+            cout << "Invalid move" << endl;
+            return 0;
+        }
     } else {
         cout << "Invalid input" << endl;
         return 0;

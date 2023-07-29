@@ -82,12 +82,12 @@ double Game::run() {
         int moveResult = currentPlayer->makeMove(board);
         switch (moveResult) {
             case 0:
+                // Invalid move, try again
+                continue;
+            case 1:
                 // Successful move
                 notifyObservers();
                 break;
-            case 1:
-                // Invalid move, try again
-                continue;
             case 2:
                 // Stalemate, no valid moves
                 return 0.5;

@@ -231,14 +231,14 @@ void BoardState::updateValidMoves(bool white) {
 bool BoardState::movePiece(const Move& move) {
     int x = move.from.first;
     int y = move.from.second;
-    Piece* PieceToMove = board[y][x];
+    Piece* pieceToMove = board[y][x];
     bool moveIsValid = false;
 
-    if (PieceToMove == nullptr){
+    if (pieceToMove == nullptr){
         return false;
     }
 
-    for (auto validMove : PieceToMove->validMoves){
+    for (auto validMove : pieceToMove->validMoves){
         if (move == validMove){
             moveIsValid = true;
             break;
@@ -261,7 +261,7 @@ bool BoardState::movePiece(const Move& move) {
 
     // either pawn promotion, or we actually move the piece
     if (move.promotion != '-'){
-        PieceToMove->isAlive = false;
+        pieceToMove->isAlive = false;
         board[y][x] = nullptr;
         board[to_y][to_x] = BoardState::makePiece(move.promotion,to_x,to_y);
         if (isWhiteTurn){
@@ -270,8 +270,8 @@ bool BoardState::movePiece(const Move& move) {
             blackPieces.push_back(board[to_y][to_x]);
         }
     } else {
-        board[to_y][to_x] = PieceToMove;
-        PieceToMove->setPosition(to_x,to_y);
+        board[to_y][to_x] = pieceToMove;
+        pieceToMove->setPosition(to_x,to_y);
     }
 
     board[y][x] = nullptr;

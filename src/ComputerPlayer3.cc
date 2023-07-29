@@ -12,6 +12,11 @@ ComputerPlayer3::~ComputerPlayer3() {
 int ComputerPlayer3::makeMove(BoardState& board) {
     string command;
     cin >> command;
+
+    if (cin.eof()) {
+        throw -1;
+    }
+
     if (command == "move") {
         vector<pair<Move, int>> positions;
         vector<Piece*> pieces;

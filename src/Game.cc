@@ -14,6 +14,7 @@ Game::~Game() {
 }
 
 void Game::setup() {
+    cout << "Enter setup commands" << endl;
     string command;
     char piece;
     char location[2];
@@ -47,6 +48,9 @@ void Game::setup() {
                 board.isWhiteTurn = true;
             } else if (command == "black") {
                 board.isWhiteTurn = false;
+            } else {
+                cout << "Invalid colour" << endl;
+                continue;
             }
         } else if (command == "done") {
             if (board.canStartGame()) {

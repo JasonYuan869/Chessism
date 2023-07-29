@@ -8,6 +8,11 @@ ComputerPlayer1::~ComputerPlayer1() {
 int ComputerPlayer1::makeMove(BoardState& board) {
     string command;
     cin >> command;
+
+    if (cin.eof()) {
+        throw -1;
+    }
+
     if (command == "move") {
         vector<Piece*> pieces;
         if (isWhite) {

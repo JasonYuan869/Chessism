@@ -10,6 +10,11 @@ ComputerPlayer4::~ComputerPlayer4() {
 int ComputerPlayer4::makeMove(BoardState& board) {
     string command;
     cin >> command;
+
+    if (cin.eof()) {
+        throw -1;
+    }
+
     if (command == "move") {
 
         int best = 0;

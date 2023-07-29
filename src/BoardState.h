@@ -10,7 +10,6 @@ class KingPiece;
 class Move;
 
 class BoardState {
-    bool canStart; // true if there are exactly one white and one black king
 public:
     std::vector<std::vector<Piece*>> board;
 

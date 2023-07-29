@@ -4,11 +4,9 @@
 #include <string>
 #include <unistd.h>
 #include "PiecePixels.h"
+#include "GraphicalTile.h"
 
 using namespace std;
-
-#define WINDOW_SIZE 512
-#define TILE_SIZE 64
 
 Graphical::Graphical(Game *game) : game{game}, colours{0} {
     game->attach(this);
@@ -54,29 +52,38 @@ Graphical::Graphical(Game *game) : game{game}, colours{0} {
 
     XSynchronize(d, True);
 
+    // Generate tiles
+    for (int i = 0; i < 64; i++) {
+        tiles[i] = new GraphicalTile(i % 8, i / 8, -1, false, this);
+    }
+
     usleep(1000);
-    draw();
+    drawBoard();
 }
 
 Graphical::~Graphical() {
     XFreeGC(d, gc);
     XDestroyWindow(d, w);
     XCloseDisplay(d);
+
+    for (auto & tile : tiles) {
+        delete tile;
+    }
 }
 
 void Graphical::notify() {
-    draw();
+    updateTiles();
 }
 
-void Graphical::draw() {
-    drawBoard();
-
+void Graphical::updateTiles() {
     BoardState& board = game->getBoard();
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             Piece *piece = board.board[i][j];
-            if (piece != nullptr) {
-                drawPiece(piece);
+            if (piece == nullptr) {
+                tiles[i * 8 + j]->update(-1, false);
+            } else {
+                tiles[i * 8 + j]->update(piece->getType(), piece->isWhite);
             }
         }
     }
@@ -87,37 +94,10 @@ void Graphical::drawBoard() {
     fillRectangle(0, 0, 512, 512, Sienna);
 
     // Draw board
-    int size = WINDOW_SIZE / 8;
-
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 4; j++) {
-            fillRectangle((j * 2 + (i % 2)) * size, i * size, size, size, PeachPuff);
+            fillRectangle((j * 2 + (i % 2)) * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE, PeachPuff);
         }
-    }
-}
-
-void Graphical::drawPiece(Piece *piece) {
-    int x = piece->position_x * WINDOW_SIZE / 8;
-    int y = (WINDOW_SIZE - (piece->position_y * WINDOW_SIZE / 8 + WINDOW_SIZE / 8));
-    switch (piece->getType()) {
-        case PAWN:
-            drawPixels(x, y,piece->isWhite ? wp : bp);
-            break;
-        case ROOK:
-            drawPixels(x, y,piece->isWhite ? wr : br);
-            break;
-        case KNIGHT:
-            drawPixels(x, y, piece->isWhite ? wn : bn);
-            break;
-        case BISHOP:
-            drawPixels(x, y,piece->isWhite ? wb : bb);
-            break;
-        case QUEEN:
-            drawPixels(x, y, piece->isWhite ? wq : bq);
-            break;
-        case KING:
-            drawPixels(x, y, piece->isWhite ? wk : bk);
-            break;
     }
 }
 
@@ -137,4 +117,3 @@ void Graphical::fillRectangle(int x, int y, int width, int height, int colour) {
     XSetForeground(d, gc, colours[colour]);
     XFillRectangle(d, w, gc, x, y, width, height);
 }
-

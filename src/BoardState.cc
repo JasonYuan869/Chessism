@@ -51,7 +51,7 @@ BoardState::BoardState(bool isWhiteTurn) : canStart{false},isWhiteTurn{isWhiteTu
     blackKing = dynamic_cast<KingPiece *>(board[7][4]);
 
     // Initialize the piece vectors
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 8; i++) {
         whitePieces.push_back(board[0][i]);
         whitePieces.push_back(board[1][i]);
 

@@ -26,7 +26,8 @@ add_executable(chessism
         src/Terminal.cc
         src/Player.cc
         src/Subject.cc
-        src/Observer.cc)
+        src/Observer.cc
+        src/GraphicalTile.cc)
 
 include_directories(chessism ${X11_INCLUDE_DIR})
 link_directories(chessism ${X11_LIBRARIES})

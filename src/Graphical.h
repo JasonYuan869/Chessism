@@ -5,9 +5,6 @@
 #include "Observer.h"
 #include "Game.h"
 
-#define WINDOW_SIZE 512
-
-
 class Graphical : public Observer {
     Game *game;
     Display *d;

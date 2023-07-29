@@ -12,10 +12,11 @@ public:
     std::pair<int, int> from;
     
 
-    //to2 and from2 are only used for castling, otherwise they are (-1,-1).
-    std::pair<int, int> to2;
-    std::pair<int, int> from2;
+    //rookTo and rookFrom are only used for castling, otherwise they are (-1,-1).
+    std::pair<int, int> rookTo;
+    std::pair<int, int> rookFrom;
     Piece* capturedOrMovedPiece;
+    bool isCastle;
 
     std::pair<int, int> getTo() const;
 
@@ -30,7 +31,7 @@ public:
     Move(std::pair<int, int> to, std::pair<int, int> from, Piece* capturedOrMovedPiece, char promotion = '-');
     
     //castling
-    Move(std::pair<int, int> to, std::pair<int, int> to2, std::pair<int, int> from, std::pair<int, int> from2, Piece* capturedOrMovedPiece);
+    Move(std::pair<int, int> to, std::pair<int, int> rookTo, std::pair<int, int> from, std::pair<int, int> rookFrom, Piece* capturedOrMovedPiece);
 
     // Does not delete lastMove or capturedPiece as they are not owned by this object
     ~Move();

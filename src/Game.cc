@@ -6,7 +6,7 @@
 #include <string>
 using namespace std;
 
-Game::Game(Player* whitePlayer, Player* blackPlayer) : white{whitePlayer}, black{blackPlayer}, board{true} {}
+Game::Game(Player* whitePlayer, Player* blackPlayer) :  board{true}, white{whitePlayer}, black{blackPlayer} {}
 
 Game::~Game() {
     delete white;

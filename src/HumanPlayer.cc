@@ -32,8 +32,9 @@ int HumanPlayer::makeMove(BoardState& board) {
         }
         pair<int, int> from_pair = {from[0] - 'a', from[1] - '1'};
         pair<int, int> to_pair = {to[0] - 'a', to[1] - '1'};
+        
         Move m{to_pair, from_pair};
-        bool success = board.movePiece(m);
+        bool success = board.movePieceIfLegal(m);
         if (success) {
             return 1;
         } else {

@@ -66,6 +66,9 @@ BoardState::~BoardState() {
     for (auto& piece : whitePieces) {
         delete piece;
     }
+    for (auto& piece : blackPieces) {
+        delete piece;
+    }
 }
 
 bool BoardState::getCheckmate(bool white) {

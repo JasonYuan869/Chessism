@@ -1,9 +1,9 @@
 #include "ComputerPlayer1.h"
+#include "../utility.h"
+
 using namespace std;
 ComputerPlayer1::ComputerPlayer1(bool isWhite): Player{isWhite} {}
-ComputerPlayer1::~ComputerPlayer1() {
-
-}
+ComputerPlayer1::~ComputerPlayer1() {}
 
 MoveResult ComputerPlayer1::makeMove(BoardState& board) {
     string command;
@@ -14,20 +14,10 @@ MoveResult ComputerPlayer1::makeMove(BoardState& board) {
     }
 
     if (command == "move") {
-        vector<Piece*> pieces;
-        if (isWhite) {
-            pieces = board.whitePieces;
-        } else {
-            pieces = board.blackPieces;
-        }
-
-        vector<Move> moves;
-        for (auto& piece : pieces) {
-            moves.insert(moves.end(), piece->validMoves.begin(), piece->validMoves.end());
-        }
+        vector<Move> moves = allValidMoves(board); // get valid moves from player
 
         int numMoves = moves.size();
-        int randomMove = rand() % numMoves;
+        int randomMove = randomFrom(0, numMoves - 1);
 
         Move m = moves.at(randomMove);
         board.movePiece(m);

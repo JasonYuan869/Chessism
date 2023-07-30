@@ -281,7 +281,7 @@ bool BoardState::movePiece(const Move& move) {
     int y = move.from.second;
     Piece* pieceToMove = board[y][x];
 
-    if (pieceToMove == nullptr) {
+    if (pieceToMove == nullptr || pieceToMove->isWhite != isWhiteTurn) {
         return false;
     }
 
@@ -304,7 +304,7 @@ bool BoardState::movePiece(const Move& move) {
     // either pawn promotion, or we actually move the piece
     if (move.promotion != '-'){
         pieceToMove->isAlive = false;
-        board[to_y][to_x] = BoardState::makePiece(move.promotion,to_x,to_y);
+        board[to_y][to_x] = BoardState::makePiece(move.promotion, to_y, to_x);
         if (isWhiteTurn){
             whitePieces.push_back(board[to_y][to_x]);
         } else {

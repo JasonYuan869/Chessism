@@ -1,6 +1,12 @@
 makefile
 aaa
 
-
 *.o
 *.d
+
+
+CMakeFiles/
+CMakeLists.txt
+Makefile 
+cmake_install.cmake 
+CMakeCache.txt 

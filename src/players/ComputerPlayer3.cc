@@ -19,7 +19,7 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
     }
 
     if (command == "move") {
-        vector<pair<Move, int>> positions;
+        vector<pair<Move, double>> positions;
         vector<Piece*> pieces;
         if (isWhite) {
             pieces = board.whitePieces;
@@ -27,7 +27,7 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
             pieces = board.blackPieces;
         }
 
-        // Same logic as ComputerPlayer2 so far (scoring based on captures only, not evading)
+        // Same logic as ComputerPlayer2
         for (Piece* p : pieces) {
             if (!p->isAlive) {
                 continue;
@@ -38,7 +38,7 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
                 pair<Move, double> scoredMove{m, 0};
                 if (board.board[to.second][to.first] != nullptr) {
                     double score = board.board[to.second][to.first]->getValue();
-                    scoredMove = {m, score};
+                    scoredMove.second = score;
                 }
 
                 // Check if the move puts the opponent in check
@@ -47,7 +47,11 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
                 if (board.getAttacked(enemyKing->position_x, enemyKing->position_y,!isWhite)) {
                     scoredMove.second += 0.5;
                 }
+
+                // subtract most valuable attacked
+                scoredMove.second -= mostValuableAttacked(board);
                 board.undo();
+                positions.push_back(scoredMove);
             }
         }
 
@@ -60,6 +64,7 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
         });
 
         Move m = positions.at(0).first;
+        
         board.movePiece(m);
         return MoveResult::SUCCESS;
     } else if (command == "setup") {
@@ -67,59 +72,32 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
     }
 
     return MoveResult::INVALID_MOVE;
-
-    // evading next move captures, kinda unnecessary
-    // vector<Piece*> pieces;
-    // Move move;
-    // int minvalue = 9999;
-    // if (isWhite) {
-    //     pieces = board.whitePieces;
-    // } else {
-    //     pieces = board.blackPieces;
-    // }
-
-    // for (Piece* p : pieces) {
-    //     vector<Move> moves = p->validMoves; // get valid moves from piece
-    //     for (Move m : moves) {
-    //         int value = simulate(board, m);
-    //         if (value < minvalue) {
-    //             move = m;
-    //             minvalue = value;
-    //         }
-    //     }
-    // }
-
-    // if (move.getTo().first != -1 && move.getTo().second != -1) {
-    //     board.movePiece(move);
-    //     return 1;
-    // }
-
-    // return 0;
 }
 
-// for evading next move captures
-// board pass by value??? copy operator??
-int ComputerPlayer3::simulate(BoardState board, Move m) {
-    board.movePiece(m);
+int mostValuableAttacked (BoardState& board) {
+    board.updateValidMoves(!board.isWhite);
+
+    int maxScore = 0;
     vector<Piece*> pieces;
-    if (isWhite) {
+    if (!isWhite) {
         pieces = board.whitePieces;
     } else {
         pieces = board.blackPieces;
     }
 
-    int minvalue = 9999;
-
     for (Piece* p : pieces) {
+        if (!p->isAlive) {
+            continue;
+        }
         vector<Move> moves = p->validMoves; // get valid moves from piece
-        for (Move m : moves) {
+        for (const Move& m : moves) {
             pair<int, int> to = m.getTo();
-            if (board.board[to.first][to.second] != nullptr) {
-                int score = abs(board.board[to.first][to.second]->getValue());
-                minvalue = fmin(score, minvalue);
+            if (board.board[to.second][to.first] != nullptr) {
+                double score = board.board[to.second][to.first]->getValue();
+                maxScore = fmax(score, maxScore);
             }
         }
     }
 
-    return minvalue;
+    return maxScore;
 }

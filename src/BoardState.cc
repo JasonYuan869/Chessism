@@ -74,7 +74,7 @@ bool BoardState::getCheckmate(bool white) {
     // Update the valid moves for each piece
     updateValidMoves(white);
 
-    if (!king->checked) {
+    if (!updateCheck(white)) {
         return false;
     }
 
@@ -91,6 +91,11 @@ bool BoardState::getCheckmate(bool white) {
 }
 
 bool BoardState::getCheck(bool white) {
+    KingPiece* king = white ? whiteKing : blackKing;
+    return king->checked;
+}
+
+bool BoardState::updateCheck(bool white) {
     KingPiece* king = white ? whiteKing : blackKing;
 
     // Mutates the king's checked variable

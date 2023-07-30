@@ -270,7 +270,7 @@ void BoardState::undo() {
     }
     //toggle the turn so that the logic is more similar to movePiece
     //we will undo movePiece in the opposite order compared to the order that
-    //movePiece was done in
+    //the last movePiece was done in
     isWhiteTurn = !isWhiteTurn;
     bool lastTurnIsWhite = isWhiteTurn;
     Move lastMove = lastMoves.back();
@@ -298,6 +298,7 @@ void BoardState::undo() {
         rook->canCastle = true;
     }
 
+    //pawn promotion or regular move
     if (lastMove.promotion != '-') {
         vector<Piece*>& pieces = lastTurnIsWhite ? whitePieces : blackPieces;
         Piece* promoted = pieces.back();
@@ -326,6 +327,7 @@ void BoardState::undo() {
 
     board[endy][endx] = nullptr;
 
+    //capturing piece
     if (!lastMove.isCastle && lastMove.capturedOrMovedPiece != nullptr){
         lastMove.capturedOrMovedPiece->isAlive = true;
         int aliveX = lastMove.capturedOrMovedPiece->position_x;

@@ -14,9 +14,14 @@ ComputerPlayer2::~ComputerPlayer2() {
     // do i have to do this lol
 }
 
-int ComputerPlayer2::makeMove(BoardState& board) {
+MoveResult ComputerPlayer2::makeMove(BoardState& board) {
     string command;
     cin >> command;
+
+    if (cin.eof()) {
+        throw -1;
+    }
+
     if (command == "move") {
         vector<pair<Move, int>> positions;
         vector<Piece*> pieces;
@@ -47,9 +52,9 @@ int ComputerPlayer2::makeMove(BoardState& board) {
 
         Move m = positions.at(0).first;
         board.movePiece(m);
-        return 1;
+        return MoveResult::SUCCESS;
     } else if (command == "setup") {
-        return 4;
+        return MoveResult::SETUP;
     }
-    return 0;
+    return MoveResult::INVALID_MOVE;
 }

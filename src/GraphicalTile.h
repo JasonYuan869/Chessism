@@ -1,22 +1,21 @@
-// #ifndef CHESSISM_GRAPHICALTILE_H
-// #define CHESSISM_GRAPHICALTILE_H
+ #ifndef CHESSISM_GRAPHICALTILE_H
+ #define CHESSISM_GRAPHICALTILE_H
 
-// #include "Graphical.h"
+ #include "Graphical.h"
 
-// class GraphicalTile {
-//     int x, y;
-//     int pieceType;
-//     bool white;
-//     Graphical *parent;
+ class GraphicalTile {
+     int x, y;
+     PieceType pieceType;
+     bool white;
+     Graphical *parent;
 
-// public:
-//     GraphicalTile(int x, int y, int pieceType, bool white, Graphical* parent);
+ public:
+     GraphicalTile(int x, int y, PieceType pieceType, bool white, Graphical* parent);
 
-//     void update();
-//     void draw();
+     void draw();
 
-//     void update(int pieceType, bool white);
-// };
+     void update(PieceType pieceType, bool white);
+ };
 
 
-// #endif //CHESSISM_GRAPHICALTILE_H
+ #endif //CHESSISM_GRAPHICALTILE_H

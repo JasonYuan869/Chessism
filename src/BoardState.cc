@@ -9,7 +9,7 @@
 
 using namespace std;
 
-BoardState::BoardState(bool isWhiteTurn) : canStart{false},isWhiteTurn{isWhiteTurn} {
+BoardState::BoardState(bool isWhiteTurn) : isWhiteTurn{isWhiteTurn} {
     board = vector<vector<Piece*>>(8,vector<Piece*>(8,nullptr));
 
 
@@ -122,11 +122,26 @@ void BoardState::setPiece(Piece *piece, int x, int y) {
     } else {
         blackPieces.push_back(piece);
     }
+
+    if (piece->getType() == PieceType::KING) {
+        if (isWhite) {
+            whiteKing = dynamic_cast<KingPiece *>(piece);
+        } else {
+            blackKing = dynamic_cast<KingPiece *>(piece);
+        }
+    }
 }
 
 void BoardState::removePiece(int x, int y) {
-    if (board[y][x] != nullptr) {
-        board[y][x]->isAlive = false;
+    Piece* piece = board[y][x];
+
+    if (piece != nullptr) {
+        piece->isAlive = false;
+        if (piece == whiteKing) {
+            whiteKing = nullptr;
+        } else if (piece == blackKing) {
+            blackKing = nullptr;
+        }
     }
 
     board[y][x] = nullptr;
@@ -162,7 +177,7 @@ void BoardState::undo() {
     
     }
 
-    if (lastMove.promotion != '-'){
+    if (lastMove.promotion != '-') {
         if(lastTurnIsWhite){
             whitePieces.pop_back();
         } else {
@@ -257,7 +272,7 @@ bool BoardState::movePiece(const Move& move) {
     int y = move.from.second;
     Piece* pieceToMove = board[y][x];
 
-    if (pieceToMove == nullptr || pieceToMove->isWhite != isWhiteTurn){
+    if (pieceToMove == nullptr || pieceToMove->isWhite != isWhiteTurn) {
         return false;
     }
 
@@ -302,7 +317,20 @@ bool BoardState::movePiece(const Move& move) {
 }
 
 bool BoardState::canStartGame() const {
-    return canStart;
+    int whiteKingCount = 0;
+    int blackKingCount = 0;
+    for (auto& piece : whitePieces) {
+        if (piece->isAlive && piece->getType() == PieceType::KING) {
+            whiteKingCount++;
+        }
+    }
+    for (auto& piece : blackPieces) {
+        if (piece->isAlive && piece->getType() == PieceType::KING) {
+            blackKingCount++;
+        }
+    }
+
+    return whiteKingCount == 1 && blackKingCount == 1;
 }
 
 

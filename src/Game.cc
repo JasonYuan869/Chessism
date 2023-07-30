@@ -14,6 +14,7 @@ Game::~Game() {
 }
 
 void Game::setup() {
+    cout << "Enter setup commands" << endl;
     string command;
     char piece;
     char location[2];
@@ -24,6 +25,10 @@ void Game::setup() {
             cin >> piece >> location[0] >> location[1];
             x = location[0] - 'a';
             y = location[1] - '1';
+            if (x < 0 || x > 7 || y < 0 || y > 7) {
+                cout << "Invalid location" << endl;
+                continue;
+            }
             newPiece = BoardState::makePiece(piece, x, y);
             board.setPiece(newPiece, x, y);
             notifyObservers();
@@ -31,6 +36,10 @@ void Game::setup() {
             cin >> location[0] >> location[1];
             x = location[0] - 'a';
             y = location[1] - '1';
+            if (x < 0 || x > 7 || y < 0 || y > 7) {
+                cout << "Invalid location" << endl;
+                continue;
+            }
             board.removePiece(x, y);
             notifyObservers();
         } else if (command == "=") {
@@ -39,6 +48,9 @@ void Game::setup() {
                 board.isWhiteTurn = true;
             } else if (command == "black") {
                 board.isWhiteTurn = false;
+            } else {
+                cout << "Invalid colour" << endl;
+                continue;
             }
         } else if (command == "done") {
             if (board.canStartGame()) {
@@ -81,22 +93,18 @@ double Game::run() {
             cout << colour << " is in check." << endl;
         }
 
-        int moveResult = currentPlayer->makeMove(board);
+        MoveResult moveResult = currentPlayer->makeMove(board);
         switch (moveResult) {
-            case 0:
-                // Invalid move, try again
+            case INVALID_MOVE:
                 continue;
-            case 1:
-                // Successful move
+            case SUCCESS:
                 notifyObservers();
                 break;
-            case 2:
-                // Stalemate, no valid moves
+            case STALEMATE:
                 return 0.5;
-            case 3:
-                // Player resigned
+            case RESIGNED:
                 return board.isWhiteTurn ? 1 : 0;
-            case 4:
+            case SETUP:
                 // Setup mode, only if game hasn't started
                 if (board.lastMoves.empty()) {
                     setup();
@@ -106,7 +114,5 @@ double Game::run() {
                     continue;
                 }
         }
-
-
     }
 }

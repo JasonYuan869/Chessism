@@ -7,11 +7,15 @@ ComputerPlayer4::~ComputerPlayer4() {
 
 }
 
-int ComputerPlayer4::makeMove(BoardState& board) {
+MoveResult ComputerPlayer4::makeMove(BoardState& board) {
     string command;
     cin >> command;
-    if (command == "move") {
 
+    if (cin.eof()) {
+        throw -1;
+    }
+
+    if (command == "move") {
         int best = 0;
         Move bestmove;
         int depth = 3;
@@ -25,11 +29,11 @@ int ComputerPlayer4::makeMove(BoardState& board) {
 
         for (Piece* p : pieces) {
             vector<Move> moves = p->validMoves; // get valid moves from piece
-            for (Move m : moves) {
+            for (const Move& m : moves) {
                 board.movePiece(m);
                 int value = minimax(depth - 1, board, true);
                 board.undo();
-                if(value >= best) {
+                if (value >= best) {
                     best = value;
                     bestmove = m;
                 }
@@ -38,13 +42,13 @@ int ComputerPlayer4::makeMove(BoardState& board) {
 
         if (bestmove.getTo().first != -1 && bestmove.getTo().second != -1) {
             board.movePiece(bestmove);
-            return 1;
+            return MoveResult::SUCCESS;
         }
     } else if (command == "setup") {
-        return 4;
+        return MoveResult::SETUP;
     }
 
-    return 0;
+    return MoveResult::INVALID_MOVE;
 }
 
 int ComputerPlayer4::evaluateBoard(BoardState& board) {

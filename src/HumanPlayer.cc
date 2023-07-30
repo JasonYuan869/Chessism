@@ -10,7 +10,7 @@ using namespace std;
 
 HumanPlayer::HumanPlayer(bool isWhite): Player{isWhite} {}
 
-int HumanPlayer::makeMove(BoardState& board) {
+MoveResult HumanPlayer::makeMove(BoardState& board) {
     string command;
 
     cin >> command;
@@ -20,29 +20,36 @@ int HumanPlayer::makeMove(BoardState& board) {
     }
 
     if (command == "resign") {
-        return 3;
+        return MoveResult::RESIGNED;
     } else if (command == "setup") {
-        return 4;
+        return MoveResult::SETUP;
     } else if (command == "move") {
         string from, to;
         cin >> from >> to;
         if (from.size() != 2 || to.size() != 2) {
             cout << "Invalid input" << endl;
-            return 0;
+            return MoveResult::INVALID_MOVE;
         }
         pair<int, int> from_pair = {from[0] - 'a', from[1] - '1'};
         pair<int, int> to_pair = {to[0] - 'a', to[1] - '1'};
-        
+
+        // check bounds
+        if (from_pair.first < 0 || from_pair.first > 7 || from_pair.second < 0 || from_pair.second > 7 ||
+            to_pair.first < 0 || to_pair.first > 7 || to_pair.second < 0 || to_pair.second > 7) {
+                cout << "Invalid location" << endl;
+                return MoveResult::INVALID_MOVE;
+        }
+
         Move m{to_pair, from_pair};
         bool success = board.movePieceIfLegal(m);
         if (success) {
-            return 1;
+            return MoveResult::SUCCESS;
         } else {
             cout << "Invalid move" << endl;
-            return 0;
+            return MoveResult::INVALID_MOVE;
         }
     } else {
         cout << "Invalid input" << endl;
-        return 0;
+        return MoveResult::INVALID_MOVE;
     }
 }

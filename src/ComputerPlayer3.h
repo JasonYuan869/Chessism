@@ -5,11 +5,14 @@
 #include "BoardState.h"
 
 class ComputerPlayer3 : public Player {
-    public: 
-        explicit ComputerPlayer3(bool isWhite);
-        ~ComputerPlayer3() override;
-        int makeMove(BoardState& board) override;
-        int simulate(BoardState board, Move m);
+public:
+    explicit ComputerPlayer3(bool isWhite);
+
+    ~ComputerPlayer3() override;
+
+    MoveResult makeMove(BoardState &board) override;
+
+    int simulate(BoardState board, Move m);
 };
 
 #endif

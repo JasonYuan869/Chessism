@@ -180,7 +180,7 @@ void BoardState::undo() {
         board[rookStarty][rookStartx] = board[rookEndy][rookEndx];
         board[rookEndy][rookEndx] = nullptr;
         board[rookStarty][rookStartx]->setPosition(rookStartx,rookStarty);
-    
+        board[rookStarty][rookStartx]->canCastle = true;
     }
 
     if (lastMove.promotion != '-') {
@@ -212,6 +212,9 @@ void BoardState::undo() {
         Piece* pieceThatMoved = board[endy][endx];
         board[starty][startx] = pieceThatMoved;
         pieceThatMoved->setPosition(startx,starty);
+        if (lastMove.disabledCastle) {
+            pieceThatMoved->canCastle = true;
+        }
     }
 
     board[endy][endx] = nullptr;
@@ -282,6 +285,10 @@ bool BoardState::movePiece(const Move& move) {
         return false;
     }
 
+    if (move.disabledCastle) {
+        pieceToMove->canCastle = false;
+    }
+
     int to_x = move.to.first;
     int to_y = move.to.second;
 
@@ -318,6 +325,9 @@ bool BoardState::movePiece(const Move& move) {
         board[rookEndy][rookEndx] = board[rookStarty][rookStartx];
         board[rookStarty][rookStartx] = nullptr;
         board[rookEndy][rookEndx]->setPosition(rookEndx,rookEndy);
+
+        // Disable castling for the rook
+        board[rookEndy][rookEndx]->canCastle = false;
     }
     lastMoves.push_back(move);
     isWhiteTurn = !isWhiteTurn;

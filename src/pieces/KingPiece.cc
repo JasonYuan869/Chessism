@@ -25,51 +25,52 @@ vector<Move> KingPiece::getPieceMoves(BoardState& board) const {
                 int new_x = x + xdirection;
                 int new_y = y + ydirection;
                 if (withinBounds(new_x, new_y) && (board.board[new_y][new_x] == nullptr || (board.board[new_y][new_x]->isWhite != isWhite))){
-                    moves.push_back(Move{{new_x,new_y}, {x,y}, board.board[new_y][new_x]});
+                    // If the king is able to castle, any move should disable that ability
+                    // If the king already cannot castle, then this will have no effect
+                    moves.push_back(Move{{new_x,new_y}, {x,y}, board.board[new_y][new_x], canCastle});
                 }
             }
         }
     }
 
 
-    //castle right
-    if (canCastle && board.board[y][7] != nullptr && board.board[y][7]->canCastle ){
+    // castle right
+    if (canCastle && board.board[y][7] != nullptr && board.board[y][7]->canCastle) {
         bool rowEmpty = true;
-        for (int i = x+1;i<7;i++){
-            if (board.board[y][i] != nullptr){
+        for (int i = x + 1; i < 7; i++) {
+            if (board.board[y][i] != nullptr) {
                 rowEmpty = false;
                 break;
             }
         }
 
-        if (rowEmpty && !board.getAttacked(x+1,y,isWhite) && !board.getAttacked(x+2,y,isWhite)){
-            moves.push_back(Move {
-                pair<int, int>(x+2,y),
-                pair<int, int>(x,y),
-                pair<int, int>(x+1,y),
-                pair<int, int>(7,y),
-
-                board.board[y][7],
+        if (rowEmpty && !board.getAttacked(x + 1, y, isWhite) && !board.getAttacked(x + 2, y, isWhite)) {
+            moves.push_back(Move{
+                    pair<int, int>(x + 2, y),
+                    pair<int, int>(x, y),
+                    pair<int, int>(x + 1, y),
+                    pair<int, int>(7, y),
+                    board.board[y][7],
             });
         }
     }
-    //castle left
-    if (canCastle && board.board[y][0] != nullptr && board.board[y][0]->canCastle ){
+    // castle left
+    if (canCastle && board.board[y][0] != nullptr && board.board[y][0]->canCastle) {
         bool rowEmpty = true;
-        for (int i = x-1;i>0;i--){
-            if (board.board[y][i] != nullptr){
+        for (int i = x - 1; i > 0; i--) {
+            if (board.board[y][i] != nullptr) {
                 rowEmpty = false;
                 break;
             }
         }
 
-        if (rowEmpty && !board.getAttacked(x-1,y,isWhite) && !board.getAttacked(x-2,y,isWhite)){
-            moves.push_back(Move {
-                pair<int, int>(x-2,y),
-                pair<int, int>(x,y),
-                pair<int, int>(x-1,y),
-                pair<int, int>(0,y),
-                board.board[y][0],
+        if (rowEmpty && !board.getAttacked(x - 1, y, isWhite) && !board.getAttacked(x - 2, y, isWhite)) {
+            moves.push_back(Move{
+                    pair<int, int>(x - 2, y),
+                    pair<int, int>(x, y),
+                    pair<int, int>(x - 1, y),
+                    pair<int, int>(0, y),
+                    board.board[y][0],
             });
         }
     }

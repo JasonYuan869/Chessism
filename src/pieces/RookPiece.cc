@@ -24,7 +24,9 @@ vector<Move> RookPiece::getPieceMoves(BoardState& board) const {
         while (withinBounds(tempx, tempy)){
             if (board.board[tempy][tempx] != nullptr ) {
                 if  (board.board[tempy][tempx]->isWhite != isWhite){
-                    moves.push_back(Move{{tempx,tempy}, {x,y}, board.board[tempy][tempx]});
+                    // If the rook is able to castle, any move should disable that ability
+                    // If the rook already cannot castle, then this will have no effect
+                    moves.push_back(Move{{tempx,tempy}, {x,y}, board.board[tempy][tempx], canCastle});
                 } 
                 break;
             } else {

@@ -1,5 +1,5 @@
 #include "BoardState.h"
-#include "PawnPiece.h"
+#include "pieces/PawnPiece.h"
 #include "pieces/RookPiece.h"
 #include "pieces/KnightPiece.h"
 #include "pieces/BishopPiece.h"

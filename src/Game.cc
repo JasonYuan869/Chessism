@@ -80,10 +80,11 @@ double Game::run() {
     while (true) {
         Player* currentPlayer = board.isWhiteTurn ? white : black;
         string colour = board.isWhiteTurn ? "White" : "Black";
+        string opponentColour = board.isWhiteTurn ? "Black" : "White";
 
         if (board.getCheckmate(board.isWhiteTurn)) {
             // Checkmate
-            cout << "Checkmate! " << colour << " wins!" << endl;
+            cout << "Checkmate! " << opponentColour << " wins!" << endl;
             return board.isWhiteTurn ? 1 : 0;
         }
 

@@ -19,7 +19,7 @@ add_executable(chessism
         src/pieces/KingPiece.cc
         src/pieces/KnightPiece.cc
         src/Move.cc
-        src/PawnPiece.cc
+        src/pieces/PawnPiece.cc
         src/pieces/Piece.cc
         src/pieces/QueenPiece.cc
         src/pieces/RookPiece.cc

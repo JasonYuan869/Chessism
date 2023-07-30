@@ -69,8 +69,6 @@ BoardState::~BoardState() {
 }
 
 bool BoardState::getCheckmate(bool white) {
-    KingPiece* king = white ? whiteKing : blackKing;
-
     // Update the valid moves for each piece
     updateValidMoves(white);
 
@@ -225,7 +223,7 @@ void BoardState::undo() {
 }
 
 void BoardState::updateValidMoves(bool white) {
-
+    KingPiece* king = white ? whiteKing : blackKing;
     for (auto& piece : white ? whitePieces : blackPieces) {
         vector<Move> moves;
 
@@ -239,7 +237,7 @@ void BoardState::updateValidMoves(bool white) {
             movePiece(move);
 
             // Is our king checked?
-            if (!getCheck(white)) {
+            if (!getAttacked(king->position_x, king->position_y, white)) {
                 // Add the move to the vector of moves
                 moves.push_back(move);
             }

@@ -2,7 +2,7 @@
 #define KINGPIECE_H
 
 #include <vector>
-#include "Move.h"
+#include "../Move.h"
 #include "Piece.h"
 
 class Move;

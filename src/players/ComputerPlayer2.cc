@@ -1,6 +1,4 @@
 #include "ComputerPlayer2.h"
-#include "BoardState.h"
-#include "Move.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>

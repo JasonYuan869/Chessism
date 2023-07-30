@@ -21,10 +21,11 @@ MoveResult ComputerPlayer1::makeMove(BoardState& board) {
             pieces = board.blackPieces;
         }
 
-        int numPieces = pieces.size();
-        int randomPiece = rand() % numPieces;
+        vector<Move> moves;
+        for (auto& piece : pieces) {
+            moves.insert(moves.end(), piece->validMoves.begin(), piece->validMoves.end());
+        }
 
-        vector<Move> moves = pieces.at(randomPiece)->validMoves;
         int numMoves = moves.size();
         int randomMove = rand() % numMoves;
 

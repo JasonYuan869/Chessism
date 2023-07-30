@@ -2,7 +2,7 @@
 #define COMPUTERPLAYER3_H
 
 #include "Player.h"
-#include "BoardState.h"
+#include "../BoardState.h"
 
 class ComputerPlayer3 : public Player {
 public:

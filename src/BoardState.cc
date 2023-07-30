@@ -1,10 +1,10 @@
 #include "BoardState.h"
 #include "PawnPiece.h"
-#include "RookPiece.h"
-#include "KnightPiece.h"
-#include "BishopPiece.h"
-#include "QueenPiece.h"
-#include "KingPiece.h"
+#include "pieces/RookPiece.h"
+#include "pieces/KnightPiece.h"
+#include "pieces/BishopPiece.h"
+#include "pieces/QueenPiece.h"
+#include "pieces/KingPiece.h"
 #include <vector>
 
 using namespace std;
@@ -74,7 +74,7 @@ bool BoardState::getCheckmate(bool white) {
     // Update the valid moves for each piece
     updateValidMoves(white);
 
-    if (!king->checked) {
+    if (!updateCheck(white)) {
         return false;
     }
 
@@ -91,6 +91,11 @@ bool BoardState::getCheckmate(bool white) {
 }
 
 bool BoardState::getCheck(bool white) {
+    KingPiece* king = white ? whiteKing : blackKing;
+    return king->checked;
+}
+
+bool BoardState::updateCheck(bool white) {
     KingPiece* king = white ? whiteKing : blackKing;
 
     // Mutates the king's checked variable

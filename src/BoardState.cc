@@ -281,7 +281,7 @@ bool BoardState::movePiece(const Move& move) {
     int y = move.from.second;
     Piece* pieceToMove = board[y][x];
 
-    if (pieceToMove == nullptr || pieceToMove->isWhite != isWhiteTurn) {
+    if (pieceToMove == nullptr) {
         return false;
     }
 

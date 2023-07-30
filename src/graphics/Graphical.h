@@ -2,8 +2,8 @@
  #define GRAPHICAL_H
 
  #include <X11/Xlib.h>
- #include "Observer.h"
- #include "Game.h"
+ #include "../Observer.h"
+ #include "../Game.h"
 
  #define TILE_SIZE 64
  #define WINDOW_SIZE (TILE_SIZE * 8)

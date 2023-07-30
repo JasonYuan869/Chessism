@@ -20,6 +20,7 @@ MoveResult ComputerPlayer2::makeMove(BoardState& board) {
     }
 
     if (command == "move") {
+        double highestScore;
         vector<pair<Move, double>> positions;
         vector<Piece*> pieces;
         if (isWhite) {
@@ -50,6 +51,9 @@ MoveResult ComputerPlayer2::makeMove(BoardState& board) {
                 board.undo();
 
                 positions.push_back(scoredMove);
+                if (scoredMove.second > highestScore) {
+                    highestScore = scoredMove.second;
+                }
             }
         }
 
@@ -59,15 +63,14 @@ MoveResult ComputerPlayer2::makeMove(BoardState& board) {
 
 
         // Randomly choose a move with the highest score
-        vector<pair<Move, double>> bestMoves;
-        double bestScore = positions.at(0).second;
+        vector<Move> bestMoves;
         for (const pair<Move, double>& p : positions) {
-            if (p.second == bestScore) {
-                bestMoves.push_back(p);
+            if (Utility::doubleEquality(p.second, highestScore)) {
+                bestMoves.push_back(p.first);
             }
         }
         int randomIndex = Utility::randomInt(0, bestMoves.size() - 1);
-        Move m = positions.at(randomIndex).first;
+        Move m = bestMoves.at(randomIndex);
 
         board.movePiece(m);
         return MoveResult::SUCCESS;

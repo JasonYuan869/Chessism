@@ -385,3 +385,12 @@ Piece *BoardState::makePiece(char piece, int y, int x) {
     }
 }
 
+std::vector<Move> BoardState::allValidMoves() const {
+    const vector<Piece*>& pieces = isWhiteTurn ? whitePieces : blackPieces;
+    vector<Move> moves;
+    for (auto& piece : pieces) {
+        moves.insert(moves.end(), piece->validMoves.begin(), piece->validMoves.end());
+    }
+    return moves;
+}
+

@@ -14,7 +14,7 @@ MoveResult ComputerPlayer1::makeMove(BoardState& board) {
     }
 
     if (command == "move") {
-        vector<Move> moves = allValidMoves(board); // get valid moves from player
+        vector<Move> moves = board.allValidMoves(); // get valid moves from player
 
         int numMoves = moves.size();
         if (numMoves == 0) {

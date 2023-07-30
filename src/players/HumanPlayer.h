@@ -5,7 +5,7 @@
 #include "../BoardState.h"
 
 class HumanPlayer : public Player {
-    char getPromotion(BoardState &board, std::pair<int,int> to, std::pair<int,int> from);
+    static char getPromotion(BoardState &board, std::pair<int,int> to, std::pair<int,int> from);
 public:
     explicit HumanPlayer(bool isWhite);
 

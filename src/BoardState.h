@@ -64,8 +64,11 @@ public:
     // so the game can start
     bool canStartGame() const;
 
-    static Piece* makePiece(char, int, int);
+    // Returns all valid moves for the current player
+    // Concatenates all validMoves vectors for the current player
+    std::vector<Move> allValidMoves() const;
 
+    static Piece* makePiece(char, int, int);
 
 };
 

@@ -8,7 +8,7 @@ using namespace std;
 HumanPlayer::HumanPlayer(bool isWhite): Player{isWhite} {}
 
 MoveResult HumanPlayer::makeMove(BoardState& board) {
-    vector<Move> moves = allValidMoves(board); // get valid moves from player
+    vector<Move> moves = board.allValidMoves(); // get valid moves from player
 
     int numMoves = moves.size();
     if (numMoves == 0) {
@@ -67,7 +67,7 @@ MoveResult HumanPlayer::makeMove(BoardState& board) {
 
 
 
-char HumanPlayer::getPromotion(BoardState &board, pair<int,int> to, pair<int,int> from){
+char HumanPlayer::getPromotion(BoardState &board, pair<int,int> to, pair<int,int> from) {
     int to_x = to.first;
     int to_y = to.second;
     int from_x = from.first;

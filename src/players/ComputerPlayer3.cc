@@ -10,6 +10,7 @@ ComputerPlayer3::ComputerPlayer3(bool isWhite): Player{isWhite} {}
 ComputerPlayer3::~ComputerPlayer3() {}
 
 MoveResult ComputerPlayer3::makeMove(BoardState& board) {
+    double highestScore = -9999;
     string command;
     cin >> command;
 
@@ -19,12 +20,7 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
 
     if (command == "move") {
         vector<pair<Move, double>> positions;
-        vector<Piece*> pieces;
-        if (isWhite) {
-            pieces = board.whitePieces;
-        } else {
-            pieces = board.blackPieces;
-        }
+        vector<Piece*> pieces = isWhite ? board.whitePieces : board.blackPieces;
 
         // Same logic as ComputerPlayer2
         for (Piece* p : pieces) {
@@ -51,6 +47,11 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
                 scoredMove.second -= mostValuableAttacked(board);
                 board.undo();
                 positions.push_back(scoredMove);
+
+                // Update the highest score
+                if (scoredMove.second > highestScore) {
+                    highestScore = scoredMove.second;
+                }
             }
         }
 
@@ -59,17 +60,16 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
         }
 
         // Randomly choose a move with the highest score
-        vector<pair<Move, double>> bestMoves;
-        double bestScore = positions.at(0).second;
+        vector<Move> bestMoves;
         for (const pair<Move, double>& p : positions) {
-            if (p.second == bestScore) {
-                bestMoves.push_back(p);
+            if (Utility::doubleEquality(p.second, highestScore)) {
+                bestMoves.push_back(p.first);
             }
         }
 
         int randomIndex = Utility::randomInt(0, bestMoves.size() - 1);
 
-        Move m = positions.at(randomIndex).first;
+        Move m = bestMoves.at(randomIndex);
         
         board.movePiece(m);
         return MoveResult::SUCCESS;

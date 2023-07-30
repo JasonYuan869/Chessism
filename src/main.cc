@@ -64,7 +64,7 @@ void loop(double& whiteScore, double& blackScore) {
         }
 
         Game game(whitePlayer, blackPlayer);
-        //  Graphical window(&game);
+        Graphical window(&game);
         Terminal terminal(&game);
 
         double score = game.run();

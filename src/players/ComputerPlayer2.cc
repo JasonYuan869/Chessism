@@ -8,9 +8,7 @@ using namespace std;
 
 ComputerPlayer2::ComputerPlayer2(bool isWhite): Player{isWhite} {}
 
-ComputerPlayer2::~ComputerPlayer2() {
-    // do i have to do this lol
-}
+ComputerPlayer2::~ComputerPlayer2() {}
 
 MoveResult ComputerPlayer2::makeMove(BoardState& board) {
     string command;
@@ -21,7 +19,7 @@ MoveResult ComputerPlayer2::makeMove(BoardState& board) {
     }
 
     if (command == "move") {
-        vector<pair<Move, int>> positions;
+        vector<pair<Move, double>> positions;
         vector<Piece*> pieces;
         if (isWhite) {
             pieces = board.whitePieces;
@@ -30,17 +28,18 @@ MoveResult ComputerPlayer2::makeMove(BoardState& board) {
         }
 
         for (Piece* p : pieces) {
+            if (!p->isAlive) {
+                continue;
+            }
             vector<Move> moves = p->validMoves; // get valid moves from piece
-            for (Move m : moves) {
+            for (const Move& m : moves) {
                 pair<int, int> to = m.getTo();
-                if (board.board[to.first][to.second] == nullptr) {
-                    pair<Move, int> thing{m, 0};
-                    positions.push_back(thing);
-                } else {
-                    int score = abs(board.board[to.first][to.second]->getValue());
-                    pair<Move, int> thing{m, score};
-                    positions.push_back(thing);
+                pair<Move, double> scoredMove{m, 0};
+                if (board.board[to.second][to.first] != nullptr) {
+                    double score = board.board[to.second][to.first]->getValue();
+                    scoredMove = {m, score};
                 }
+                positions.push_back(scoredMove);
             }
         }
 

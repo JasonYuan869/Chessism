@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cmath>
 #include "../pieces/KingPiece.h"
+#include "../utility.h"
 
 using namespace std;
 
@@ -66,7 +67,18 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
             return left.second > right.second;
         });
 
-        Move m = positions.at(0).first;
+        // Randomly choose a move with the highest score
+        vector<pair<Move, double>> bestMoves;
+        double bestScore = positions.at(0).second;
+        for (const pair<Move, double>& p : positions) {
+            if (p.second == bestScore) {
+                bestMoves.push_back(p);
+            }
+        }
+
+        int randomIndex = Utility::randomInt(0, bestMoves.size() - 1);
+
+        Move m = positions.at(randomIndex).first;
         
         board.movePiece(m);
         return MoveResult::SUCCESS;

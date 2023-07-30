@@ -16,7 +16,7 @@ add_executable(chessism
         src/players/ComputerPlayer3.cc
         src/players/ComputerPlayer4.cc
         src/Game.cc
-        src/Graphical.cc
+        src/graphics/Graphical.cc
         src/players/HumanPlayer.cc
         src/pieces/KingPiece.cc
         src/pieces/KnightPiece.cc
@@ -29,7 +29,7 @@ add_executable(chessism
         src/players/Player.cc
         src/Subject.cc
         src/Observer.cc
-        src/GraphicalTile.cc)
+        src/graphics/GraphicalTile.cc src/utility.cc)
 
 include_directories(${X11_INCLUDE_DIR})
 link_directories(${X11_LIBRARIES})

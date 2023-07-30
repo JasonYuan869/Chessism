@@ -1,5 +1,4 @@
-makefile
-aaa
+chessism
 
 *.o
 *.d
@@ -10,3 +9,10 @@ CMakeLists.txt
 Makefile 
 cmake_install.cmake 
 CMakeCache.txt 
+chessism.cbp
+cmake_install.cmake
+CMakeCache.txt
+Makefile
+CMakeFiles/
+cmake-build-debug
+.cmake/

@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "Graphical.h"
+#include "graphics/Graphical.h"
 #include "players/HumanPlayer.h"
 #include "players/ComputerPlayer1.h"
 #include "players/ComputerPlayer2.h"

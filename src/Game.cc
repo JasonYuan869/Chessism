@@ -102,6 +102,7 @@ double Game::run() {
                 notifyObservers();
                 break;
             case STALEMATE:
+                cout << "Stalemate!" << endl;
                 return 0.5;
             case RESIGNED:
                 return board.isWhiteTurn ? 1 : 0;

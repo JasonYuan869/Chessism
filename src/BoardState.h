@@ -5,8 +5,8 @@
 #include "Move.h"
 #include "pieces/Piece.h"
 
-class Piece;
 class KingPiece;
+class Piece;
 class Move;
 
 class BoardState {
@@ -38,7 +38,7 @@ public:
     bool updateCheck(bool white);
 
     // Gets whether pieces are attacking the given location. If white == true we are seeing if there 
-    // are white pieces which attack this tile
+    // are black pieces which attack this tile
     bool getAttacked(int x, int y, bool white); 
 
     // Updates the validMoves vectors with the valid moves for the given color

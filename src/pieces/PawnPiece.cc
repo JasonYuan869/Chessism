@@ -88,11 +88,11 @@ void PawnPiece::addToMoveList(int new_x, int new_y, Piece* pieceCaptured, vector
     int y = position_y;
     char blackPromotions[4] = {'q','r','b','n'};
     char whitePromotions[4] = {'Q','R','B','N'};
-    if (isWhite && y == 7){
+    if (isWhite && new_y == 7){
         for (auto promotion : whitePromotions){
             moves.push_back(Move{{new_x,new_y},{x,y},pieceCaptured, promotion});
         }
-    } else if (!isWhite && y == 0){
+    } else if (!isWhite && new_y == 0){
         for (auto promotion : blackPromotions){
             moves.push_back(Move{{new_x,new_y},{x,y},pieceCaptured,promotion});
         }

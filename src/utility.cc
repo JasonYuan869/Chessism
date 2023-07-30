@@ -7,3 +7,7 @@ int Utility::randomInt(int min, int max) {
     std::uniform_int_distribution<> dis(min, max);
     return dis(gen);
 }
+
+bool Utility::withinBounds(int x,int y){
+     return (x >=0 && x < 8 && y >= 0 && y < 8);
+}

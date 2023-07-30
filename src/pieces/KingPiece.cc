@@ -42,12 +42,13 @@ vector<Move> KingPiece::getPieceMoves(BoardState& board) const {
             }
         }
 
-        if (rowEmpty && !board.getAttacked(x+1,y,!isWhite) && !board.getAttacked(x+2,y,!isWhite)){
+        if (rowEmpty && !board.getAttacked(x+1,y,isWhite) && !board.getAttacked(x+2,y,isWhite)){
             moves.push_back(Move {
                 pair<int, int>(x+2,y),
                 pair<int, int>(x,y),
-                pair<int, int>(7,y),
                 pair<int, int>(x+1,y),
+                pair<int, int>(7,y),
+
                 board.board[y][7],
             });
         }
@@ -55,19 +56,19 @@ vector<Move> KingPiece::getPieceMoves(BoardState& board) const {
     //castle left
     if (canCastle && board.board[y][0] != nullptr && board.board[y][0]->canCastle ){
         bool rowEmpty = true;
-        for (int i = x-1;i>=0;i--){
+        for (int i = x-1;i>0;i--){
             if (board.board[y][i] != nullptr){
                 rowEmpty = false;
                 break;
             }
         }
 
-        if (rowEmpty && !board.getAttacked(x-1,y,!isWhite) && !board.getAttacked(x-2,y,!isWhite)){
+        if (rowEmpty && !board.getAttacked(x-1,y,isWhite) && !board.getAttacked(x-2,y,isWhite)){
             moves.push_back(Move {
                 pair<int, int>(x-2,y),
                 pair<int, int>(x,y),
-                pair<int, int>(0,y),
                 pair<int, int>(x-1,y),
+                pair<int, int>(0,y),
                 board.board[y][0],
             });
         }

@@ -16,7 +16,8 @@ Move::Move() :
 
 Move::Move(pair<int, int> to,
            pair<int, int> from,
-           char promotion
+           char promotion,
+           bool isCastle
 ) : to{std::move(to)},
     from{std::move(from)},
     promotion{promotion},

@@ -227,7 +227,7 @@ void BoardState::undo() {
 
 void BoardState::updateValidMoves(bool white) {
     KingPiece* king = white ? whiteKing : blackKing;
-    for (auto& piece : white ? whitePieces : blackPieces) {
+    for (auto piece : white ? whitePieces : blackPieces) {
         vector<Move> moves;
 
         if (!piece->isAlive){

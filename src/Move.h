@@ -26,7 +26,7 @@ public:
     Move(); // default, we need for computerPlayer4
 
     //move with no capture
-    Move(std::pair<int, int> to, std::pair<int, int> from, char promotion = '-');
+    Move(std::pair<int, int> to, std::pair<int, int> from, char promotion = '-',bool isCastle = false);
     
     //move with a capture
     Move(std::pair<int, int> to, std::pair<int, int> from, Piece* capturedOrMovedPiece, char promotion = '-');

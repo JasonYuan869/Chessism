@@ -1,5 +1,5 @@
 #include "HumanPlayer.h"
-
+#include "../utility.h"
 #include <iostream>
 #include <vector>
 
@@ -45,15 +45,14 @@ MoveResult HumanPlayer::makeMove(BoardState& board) {
         pair<int, int> to_pair = {to_x, to_y};
 
         // check bounds
-        if (from_pair.first < 0 || from_pair.first > 7 || from_pair.second < 0 || from_pair.second > 7 ||
-            to_pair.first < 0 || to_pair.first > 7 || to_pair.second < 0 || to_pair.second > 7) {
-                cout << "Invalid location" << endl;
-                return MoveResult::INVALID_MOVE;
+        if (!Utility::withinBounds(from_x,from_y) || !Utility::withinBounds(to_x,to_y)) {
+            cout << "Invalid location" << endl;
+            return MoveResult::INVALID_MOVE;
         }
-        // if (board.board[from_y][from_x] != nullptr && board.board[from_y][from_x]->getType() == PAWN){
-            
-        // }
-        Move m{to_pair, from_pair};
+        char promotionPiece = getPromotion(board,to_pair,from_pair);
+        bool isCastle = getCastle(board,to_pair,from_pair);
+       
+        Move m{to_pair, from_pair, promotionPiece, isCastle};
         bool success = board.movePieceIfLegal(m);
         if (success) {
             return MoveResult::SUCCESS;
@@ -66,3 +65,37 @@ MoveResult HumanPlayer::makeMove(BoardState& board) {
         return MoveResult::INVALID_MOVE;
     }
 }
+
+
+
+char HumanPlayer::getPromotion(BoardState &board, pair<int,int> to, pair<int,int> from){
+    int to_x = to.first;
+    int to_y = to.second;
+    int from_x = from.first;
+    int from_y = from.second;
+    char promotionPiece = '-';
+
+    if (board.board[from_y][from_x] != nullptr 
+        && board.board[from_y][from_x]->getType() == PAWN
+        && (to_y == 7 || to_y == 0)){
+        cin >> promotionPiece;
+    }
+    return promotionPiece;
+}
+
+
+bool HumanPlayer::getCastle(BoardState &board, pair<int,int> to, pair<int,int> from){
+    int to_x = to.first;
+    int to_y = to.second;
+    int from_x = from.first;
+    int from_y = from.second;
+    if (board.board[from_y][from_x] != nullptr
+        && board.board[from_y][from_x]->getType() == KING 
+        && (abs(to_x-from_x) == 2)
+    ){
+        return true;
+    }
+    
+    return false;
+}
+

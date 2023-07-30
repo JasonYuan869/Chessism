@@ -7,9 +7,7 @@
 using namespace std;
 
 ComputerPlayer3::ComputerPlayer3(bool isWhite): Player{isWhite} {}
-ComputerPlayer3::~ComputerPlayer3() {
-
-}
+ComputerPlayer3::~ComputerPlayer3() {}
 
 MoveResult ComputerPlayer3::makeMove(BoardState& board) {
     string command;
@@ -20,9 +18,6 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
     }
 
     if (command == "move") {
-        // Update valid moves for opponent
-        board.updateValidMoves(!isWhite);
-
         vector<pair<Move, double>> positions;
         vector<Piece*> pieces;
         if (isWhite) {
@@ -52,7 +47,7 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
                     scoredMove.second += 0.5;
                 }
 
-                // subtract most valuable attacked
+                // Subtract most valuable attacked
                 scoredMove.second -= mostValuableAttacked(board);
                 board.undo();
                 positions.push_back(scoredMove);
@@ -62,10 +57,6 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
         if (positions.empty()) {
             return MoveResult::STALEMATE;
         }
-
-        std::sort(positions.begin(), positions.end(), [](auto &left, auto &right) {
-            return left.second > right.second;
-        });
 
         // Randomly choose a move with the highest score
         vector<pair<Move, double>> bestMoves;
@@ -90,19 +81,18 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
 }
 
 double ComputerPlayer3::mostValuableAttacked(BoardState& board) {
-    double maxScore = 0;
-    vector<Piece*> pieces;
-    if (!isWhite) {
-        pieces = board.whitePieces;
-    } else {
-        pieces = board.blackPieces;
-    }
+    // Update valid moves for opponent
+    board.updateValidMoves(!isWhite);
 
+    double maxScore = 0;
+    vector<Piece*> pieces = isWhite ? board.blackPieces : board.whitePieces;
+
+    // For each opponent piece, check which piece it can attack with the highest value
     for (Piece* p : pieces) {
         if (!p->isAlive) {
             continue;
         }
-        vector<Move> moves = p->validMoves; // get valid moves from piece
+        vector<Move> moves = p->validMoves;
         for (const Move& m : moves) {
             pair<int, int> to = m.getTo();
             if (board.board[to.second][to.first] != nullptr) {

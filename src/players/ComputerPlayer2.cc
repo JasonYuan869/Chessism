@@ -57,9 +57,7 @@ MoveResult ComputerPlayer2::makeMove(BoardState& board) {
             return MoveResult::STALEMATE;
         }
 
-        std::sort(positions.begin(), positions.end(), [](auto &left, auto &right) {
-            return left.second > right.second;
-        });
+
         // Randomly choose a move with the highest score
         vector<pair<Move, double>> bestMoves;
         double bestScore = positions.at(0).second;
@@ -68,7 +66,6 @@ MoveResult ComputerPlayer2::makeMove(BoardState& board) {
                 bestMoves.push_back(p);
             }
         }
-
         int randomIndex = Utility::randomInt(0, bestMoves.size() - 1);
         Move m = positions.at(randomIndex).first;
 

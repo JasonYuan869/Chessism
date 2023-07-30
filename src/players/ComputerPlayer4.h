@@ -14,7 +14,7 @@ public:
 
     int evaluateBoard(BoardState &board);
 
-    int minimax(int depth, BoardState &board, bool isMaximizingPlayer);
+    double minimax(int depth, BoardState &board, bool isMaximizingPlayer);
 };
 
 #endif

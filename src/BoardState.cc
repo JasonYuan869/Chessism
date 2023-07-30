@@ -190,14 +190,13 @@ void BoardState::undo() {
         delete promoted;
 
         Piece* pawn = nullptr;
-        for (auto piece : pieces){
+        for (auto& piece : pieces){
             if (!piece->isAlive && piece->getPosition() == lastMove.from) {
                 pawn = piece;
                 break;
             }
         }
 
-        // TODO: Fix bug where pawn is not found (not sure when it happens but it's happened before)
         pawn->isAlive = true;
         board[starty][startx] = pawn;
     } else {

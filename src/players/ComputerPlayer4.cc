@@ -16,7 +16,7 @@ MoveResult ComputerPlayer4::makeMove(BoardState& board) {
     }
 
     if (command == "move") {
-        int best = 0;
+        double best = 0;
         Move bestmove;
         int depth = 3;
 
@@ -31,7 +31,7 @@ MoveResult ComputerPlayer4::makeMove(BoardState& board) {
             vector<Move> moves = p->validMoves; // get valid moves from piece
             for (const Move& m : moves) {
                 board.movePiece(m);
-                int value = minimax(depth - 1, board, true);
+                double value = minimax(depth - 1, board, true);
                 board.undo();
                 if (value >= best) {
                     best = value;
@@ -72,7 +72,11 @@ int ComputerPlayer4::evaluateBoard(BoardState& board) {
     return eval;
 }
 
-int ComputerPlayer4::minimax(int depth, BoardState& board, bool isMaximizingPlayer) {
+double ComputerPlayer4::minimax(int depth, BoardState& board, bool isMaximizingPlayer) {
+    // update valid moves
+    board.updateValidMoves(true);
+    board.updateValidMoves(false);
+
     if (depth == 0) {
         return -1 * evaluateBoard(board);
     }
@@ -86,17 +90,17 @@ int ComputerPlayer4::minimax(int depth, BoardState& board, bool isMaximizingPlay
 
     for (Piece* p : pieces) {
         vector<Move> moves = p->validMoves; // get valid moves from piece
-        for (Move m : moves) {
+        for (const Move& m : moves) {
             if (isMaximizingPlayer) {
-                int best = 0;
+                double best = 0;
                 board.movePiece(m);
-                best = fmax(best, minimax(depth - 1, board, !isMaximizingPlayer));
+                best = fmax(best, minimax(depth - 1, board, false));
                 board.undo();
                 return best;
             } else {
-                int best = 9999;
+                double best = 9999;
                 board.movePiece(m);
-                best = fmin(best, minimax(depth - 1, board, !isMaximizingPlayer));
+                best = fmin(best, minimax(depth - 1, board, true));
                 board.undo();
                 return best;
             }

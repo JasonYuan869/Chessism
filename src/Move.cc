@@ -17,22 +17,20 @@ Move::Move() :
 
 Move::Move(pair<int, int> to,
            pair<int, int> from,
-           char promotion,
-           bool isCastle,
-           bool disabledCastle
+           char promotion
 ) : to{std::move(to)},
     from{std::move(from)},
     promotion{promotion},
     capturedOrMovedPiece{nullptr},
     rookTo{-1, -1},
     rookFrom{-1, -1},
-    isCastle{isCastle},
-    disabledCastle{disabledCastle} {}
+    isCastle{false},
+    disabledCastle{false} {}
 
 Move::Move(std::pair<int, int> to,
            std::pair<int, int> from,
-           Piece *capturedOrMovedPiece,
-           bool disabledCastle
+            bool disabledCastle,
+            Piece *capturedOrMovedPiece
 ): to{std::move(to)},
     from{std::move(from)},
     promotion{'-'},

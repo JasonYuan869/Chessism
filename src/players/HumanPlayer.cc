@@ -50,9 +50,8 @@ MoveResult HumanPlayer::makeMove(BoardState& board) {
             return MoveResult::INVALID_MOVE;
         }
         char promotionPiece = getPromotion(board,to_pair,from_pair);
-        bool isCastle = getCastle(board,to_pair,from_pair);
        
-        Move m{to_pair, from_pair, promotionPiece, isCastle};
+        Move m{to_pair, from_pair, promotionPiece};
         bool success = board.movePieceIfLegal(m);
         if (success) {
             return MoveResult::SUCCESS;
@@ -83,19 +82,4 @@ char HumanPlayer::getPromotion(BoardState &board, pair<int,int> to, pair<int,int
     return promotionPiece;
 }
 
-
-bool HumanPlayer::getCastle(BoardState &board, pair<int,int> to, pair<int,int> from){
-    int to_x = to.first;
-    int to_y = to.second;
-    int from_x = from.first;
-    int from_y = from.second;
-    if (board.board[from_y][from_x] != nullptr
-        && board.board[from_y][from_x]->getType() == KING 
-        && (abs(to_x-from_x) == 2)
-    ){
-        return true;
-    }
-    
-    return false;
-}
 

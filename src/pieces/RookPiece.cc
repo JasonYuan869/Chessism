@@ -26,11 +26,11 @@ vector<Move> RookPiece::getPieceMoves(BoardState& board) const {
                 if  (board.board[tempy][tempx]->isWhite != isWhite){
                     // If the rook is able to castle, any move should disable that ability
                     // If the rook already cannot castle, then this will have no effect
-                    moves.push_back(Move{{tempx,tempy}, {x,y}, board.board[tempy][tempx], canCastle});
+                    moves.push_back(Move{{tempx,tempy}, {x,y}, canCastle, board.board[tempy][tempx]});
                 } 
                 break;
             } else {
-                moves.push_back(Move{{tempx,tempy},{x,y}});
+                moves.push_back(Move{{tempx,tempy},{x,y}, canCastle});
                 tempx += direction[0];
                 tempy += direction[1];
             }
@@ -43,11 +43,11 @@ vector<Move> RookPiece::getPieceMoves(BoardState& board) const {
             //we can add a capture.
             if (board.board[tempy][tempx] != nullptr ) {
                 if (board.board[tempy][tempx]->isWhite != isWhite){
-                    moves.push_back(Move{{tempx,tempy}, {x,y}, board.board[tempy][tempx]});
+                    moves.push_back(Move{{tempx,tempy}, {x,y}, canCastle, board.board[tempy][tempx]});
                 } 
                 break;
             } else {
-                moves.push_back(Move{{tempx,tempy},{x,y}});
+                moves.push_back(Move{{tempx,tempy}, {x,y}, canCastle});
                 tempx -= direction[0];
                 tempy -= direction[1];
             }

@@ -12,7 +12,7 @@ PawnPiece::~PawnPiece() {
 
 }
 
-vector<Move> PawnPiece::getPieceMoves(BoardState& board) const { //TODO: add en passant, promotion
+vector<Move> PawnPiece::getPieceMoves(BoardState& board) const { 
     
     vector<Move> moves; 
 
@@ -53,11 +53,32 @@ bool PawnPiece::isAttacking(int x, int y, BoardState& board) const {
     if (y == position_y + direction && (x == position_x + 1 || x == position_x - 1)){
         return true;
     }
-
+    if (enPassantAttacking(x,y,board)){
+        return true;
+    }
     return false;
 }
 
+bool PawnPiece::enPassantAttacking(int target_x, int target_y, BoardState &board) const{
+    if (board.lastMoves.empty()){
+        return false;
+    }
+    
+    int x = position_x;
+    int y = position_y;
+    int lastMoveStarty = board.lastMoves.back().getFrom().second;
 
+    int lastMoveEndx = board.lastMoves.back().getTo().first;
+    int lastMoveEndy = board.lastMoves.back().getTo().second;
+    
+    return (
+        target_x == lastMoveEndx && target_y == lastMoveEndy &&
+        y == lastMoveEndy && abs(lastMoveEndx - x) == 1
+        && board.board[y][lastMoveEndx] != nullptr 
+        && board.board[y][lastMoveEndx]->getType() == PAWN
+        && abs(lastMoveEndy - lastMoveStarty) == 2
+    );
+}
 void PawnPiece::enPassant(BoardState& board, vector<Move>& moves) const {
     if (board.lastMoves.empty()){
         return;

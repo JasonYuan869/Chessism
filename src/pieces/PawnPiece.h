@@ -10,6 +10,7 @@
 class PawnPiece : public Piece {
     void enPassant(BoardState &board,std::vector<Move>& moves) const;
     void addToMoveList(int,int, Piece*, std::vector<Move>&) const;
+    bool enPassantAttacking(int target_x, int target_y, BoardState &board) const;
 
 public:
     static double value;

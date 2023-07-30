@@ -30,6 +30,7 @@ void Game::setup() {
                 continue;
             }
             newPiece = BoardState::makePiece(piece, x, y);
+            newPiece->canCastle = false;  // Disable castling for newly placed pieces
             board.setPiece(newPiece, x, y);
             notifyObservers();
         } else if (command == "-") {
@@ -82,6 +83,7 @@ double Game::run() {
 
         if (board.getCheckmate(board.isWhiteTurn)) {
             // Checkmate
+            cout << "Checkmate! " << colour << " wins!" << endl;
             return board.isWhiteTurn ? 1 : 0;
         }
 

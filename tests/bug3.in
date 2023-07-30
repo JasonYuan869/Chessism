@@ -1,0 +1,102 @@
+game computer1 computer1
+setup
+- a1
+- b1
+- c1
+- d1
+- e1
+- f1
+- g1
+- h1
+- a2
+- b2
+- c2
+- d2
+- e2
+- f2
+- g2
+- h2
+- a7
+- b7
+- c7
+- d7
+- e7
+- f7
+- g7
+- h7
+- a8
+- b8
+- c8
+- d8
+- e8
+- f8
+- g8
+- h8
++ r b8
++ b c8
++ k e8
++ r h8
++ p b7
++ q c7
++ n e7
++ b g7
++ p a6
++ p g6
++ P h6
++ p c5
++ P d5
++ p f5
++ P a4
++ P b4
++ K f4
++ B g4
++ B c3
++ P d3
++ n f3
++ Q f2
++ p g2
++ R b1
++ N d1
++ N g1
++ R h1
+done
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move
+move

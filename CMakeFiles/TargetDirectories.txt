@@ -1,3 +1,0 @@
-/u3/rz6zhang/cs247/chessism/CMakeFiles/chessism.dir
-/u3/rz6zhang/cs247/chessism/CMakeFiles/edit_cache.dir
-/u3/rz6zhang/cs247/chessism/CMakeFiles/rebuild_cache.dir

@@ -8,8 +8,6 @@ enum MoveResult {
     INVALID_MOVE,
     SUCCESS,
     STALEMATE,
-    RESIGNED,
-    SETUP
 };
 
 class Player {

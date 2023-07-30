@@ -94,27 +94,34 @@ double Game::run() {
             cout << colour << " is in check." << endl;
         }
 
-        MoveResult moveResult = currentPlayer->makeMove(board);
-        switch (moveResult) {
-            case INVALID_MOVE:
-                continue;
-            case SUCCESS:
-                notifyObservers();
-                break;
-            case STALEMATE:
-                cout << "Stalemate!" << endl;
-                return 0.5;
-            case RESIGNED:
-                return board.isWhiteTurn ? 1 : 0;
-            case SETUP:
-                // Setup mode, only if game hasn't started
-                if (board.lastMoves.empty()) {
-                    setup();
-                    continue;
-                } else {
-                    cout << "Cannot enter setup mode after game has started" << endl;
-                    continue;
-                }
+        string command;
+        cin >> command;
+        if (cin.eof()) {
+            throw -1;
+        }
+
+        if (command == "setup") {
+            if (board.lastMoves.empty()) {
+                setup();
+            } else {
+                cout << "Cannot enter setup mode after game has started" << endl;
+            }
+        } else if (command == "move") {
+            MoveResult moveResult = currentPlayer->makeMove(board);
+            switch (moveResult) {
+                case INVALID_MOVE:
+                    break;
+                case SUCCESS:
+                    notifyObservers();
+                    break;
+                case STALEMATE:
+                    cout << "Stalemate!" << endl;
+                    return 0.5;
+            }
+        } else if (command == "resign") {
+            return board.isWhiteTurn ? 1 : 0;
+        } else {
+            cout << "Invalid command" << endl;
         }
     }
 }

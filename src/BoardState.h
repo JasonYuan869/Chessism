@@ -23,6 +23,9 @@ public:
 public:
     explicit BoardState(bool);
 
+    // Do not allow copying
+    BoardState(const BoardState& other) = delete;
+
     ~BoardState();
 
     // Gets whether there is a checkmate for the given color

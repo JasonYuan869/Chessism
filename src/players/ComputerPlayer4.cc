@@ -8,39 +8,26 @@ ComputerPlayer4::ComputerPlayer4(bool isWhite): Player{isWhite} {}
 ComputerPlayer4::~ComputerPlayer4() {}
 
 MoveResult ComputerPlayer4::makeMove(BoardState& board) {
-    string command;
-    cin >> command;
+    double best = -9999;
+    Move bestmove;
 
-    if (cin.eof()) {
-        throw -1;
+    vector<Move> validMoves = board.allValidMoves();
+    for (const Move& m : validMoves) {
+        board.movePiece(m);
+        double value = minimax(DEPTH, board, false);
+        board.undo();
+        if (value >= best) {
+            best = value;
+            bestmove = m;
+        }
     }
 
-    if (command == "move") {
-        double best = -9999;
-        Move bestmove;
-
-        vector<Move> validMoves = board.allValidMoves();
-        for (const Move& m : validMoves) {
-            board.movePiece(m);
-            double value = minimax(DEPTH, board, false);
-            board.undo();
-            if (value >= best) {
-                best = value;
-                bestmove = m;
-            }
-        }
-
-        if (bestmove.getTo() == make_pair(-1, -1)) {
-            return MoveResult::STALEMATE;
-        }
-
-        board.movePiece(bestmove);
-        return MoveResult::SUCCESS;
-    } else if (command == "setup") {
-        return MoveResult::SETUP;
+    if (bestmove.getTo() == make_pair(-1, -1)) {
+        return MoveResult::STALEMATE;
     }
 
-    return MoveResult::INVALID_MOVE;
+    board.movePiece(bestmove);
+    return MoveResult::SUCCESS;
 }
 
 double ComputerPlayer4::evaluateBoard(BoardState& board) {

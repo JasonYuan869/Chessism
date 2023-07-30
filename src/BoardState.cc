@@ -61,6 +61,7 @@ BoardState::BoardState(bool isWhiteTurn) : isWhiteTurn{isWhiteTurn} {
 
 }
 
+
 BoardState::~BoardState() {
     // Delete pieces
     for (auto& piece : whitePieces) {

@@ -6,29 +6,16 @@ ComputerPlayer1::ComputerPlayer1(bool isWhite): Player{isWhite} {}
 ComputerPlayer1::~ComputerPlayer1() {}
 
 MoveResult ComputerPlayer1::makeMove(BoardState& board) {
-    string command;
-    cin >> command;
+    vector<Move> moves = board.allValidMoves(); // get valid moves from player
 
-    if (cin.eof()) {
-        throw -1;
+    int numMoves = moves.size();
+    if (numMoves == 0) {
+        return MoveResult::STALEMATE;
     }
 
-    if (command == "move") {
-        vector<Move> moves = board.allValidMoves(); // get valid moves from player
+    int randomMove = Utility::randomInt(0, numMoves - 1);
 
-        int numMoves = moves.size();
-        if (numMoves == 0) {
-            return MoveResult::STALEMATE;
-        }
-
-        int randomMove = Utility::randomInt(0, numMoves - 1);
-
-        Move m = moves.at(randomMove);
-        board.movePiece(m);
-        return MoveResult::SUCCESS;
-    } else if (command == "setup") {
-        return MoveResult::SETUP;
-    }
-
-    return MoveResult::INVALID_MOVE;
+    Move m = moves.at(randomMove);
+    board.movePiece(m);
+    return MoveResult::SUCCESS;
 }

@@ -19,6 +19,9 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
     }
 
     if (command == "move") {
+        // Update valid moves for opponent
+        board.updateValidMoves(!isWhite);
+
         vector<pair<Move, double>> positions;
         vector<Piece*> pieces;
         if (isWhite) {
@@ -74,10 +77,8 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
     return MoveResult::INVALID_MOVE;
 }
 
-int mostValuableAttacked (BoardState& board) {
-    board.updateValidMoves(!board.isWhite);
-
-    int maxScore = 0;
+double ComputerPlayer3::mostValuableAttacked(BoardState& board) {
+    double maxScore = 0;
     vector<Piece*> pieces;
     if (!isWhite) {
         pieces = board.whitePieces;

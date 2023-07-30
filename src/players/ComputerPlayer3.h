@@ -12,7 +12,8 @@ public:
 
     MoveResult makeMove(BoardState &board) override;
 
-    int simulate(BoardState board, Move m);
+    // Returns the most valuable piece that is under attack by the opponent, given the board state.
+    double mostValuableAttacked(BoardState &board);
 };
 
 #endif

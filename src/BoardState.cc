@@ -153,73 +153,6 @@ void BoardState::removePiece(int x, int y) {
     board[y][x] = nullptr;
 }
 
-void BoardState::undo() {
-    if (lastMoves.empty()){
-        return;
-    }
-    //toggle the turn so that the logic is more similar to movePiece
-    //we will undo movePiece in the opposite order compared to the order that
-    //movePiece was done in 
-    isWhiteTurn = !isWhiteTurn;
-    bool lastTurnIsWhite = isWhiteTurn;
-    Move lastMove = lastMoves.back(); 
-    lastMoves.pop_back();
-
-    int startx = lastMove.from.first;
-    int starty = lastMove.from.second;
-
-    int endx = lastMove.to.first;
-    int endy = lastMove.to.second;
-
-    //castling logic 
-    if (lastMove.isCastle && lastMove.capturedOrMovedPiece != nullptr){
-        int rookStartx = lastMove.rookFrom.first;
-        int rookStarty = lastMove.rookFrom.second;
-        int rookEndx = lastMove.rookTo.first;
-        int rookEndy = lastMove.rookTo.second;
-        board[rookStarty][rookStartx] = board[rookEndy][rookEndx];
-        board[rookEndy][rookEndx] = nullptr;
-        board[rookStarty][rookStartx]->setPosition(rookStartx,rookStarty);
-        board[rookStarty][rookStartx]->canCastle = true;
-    }
-
-    if (lastMove.promotion != '-') {
-        vector<Piece*>& pieces = lastTurnIsWhite ? whitePieces : blackPieces;
-        Piece* promoted = pieces.back();
-        pieces.pop_back();
-        delete promoted;
-
-        Piece* pawn = nullptr;
-        for (auto piece : pieces){
-            if (!piece->isAlive && piece->getPosition() == lastMove.from) {
-                pawn = piece;
-                break;
-            }
-        }
-
-        // TODO: Fix bug where pawn is not found (not sure when it happens but it's happened before)
-        pawn->isAlive = true;
-        board[starty][startx] = pawn;
-    } else {
-        Piece* pieceThatMoved = board[endy][endx];
-        board[starty][startx] = pieceThatMoved;
-        pieceThatMoved->setPosition(startx,starty);
-        if (lastMove.disabledCastle) {
-            pieceThatMoved->canCastle = true;
-        }
-    }
-
-    board[endy][endx] = nullptr;
-
-    if (!lastMove.isCastle && lastMove.capturedOrMovedPiece != nullptr){
-        lastMove.capturedOrMovedPiece->isAlive = true;
-        int aliveX = lastMove.capturedOrMovedPiece->position_x;
-        int aliveY = lastMove.capturedOrMovedPiece->position_y;
-        board[aliveY][aliveX] = lastMove.capturedOrMovedPiece;
-    }
-
-}
-
 void BoardState::updateValidMoves(bool white) {
     KingPiece* king = white ? whiteKing : blackKing;
     for (auto piece : white ? whitePieces : blackPieces) {
@@ -232,16 +165,16 @@ void BoardState::updateValidMoves(bool white) {
 
         for (auto& move : piece->getPieceMoves(*this)) {
             // Simulate the move
-            movePiece(move);
+            if (movePiece(move)){
+                // Is our king checked?
+                if (!getAttacked(king->position_x, king->position_y, white)) {
+                    // Add the move to the vector of moves
+                    moves.push_back(move);
+                }
 
-            // Is our king checked?
-            if (!getAttacked(king->position_x, king->position_y, white)) {
-                // Add the move to the vector of moves
-                moves.push_back(move);
-            }
-
-            // Undo the move
-            undo();
+                // Undo the move
+                undo();
+            }            
         }
 
         // Update the validMoves vector
@@ -255,7 +188,7 @@ bool BoardState::movePieceIfLegal(const Move& move){
     int y = move.from.second;
     Piece* pieceToMove = board[y][x];
 
-    if (pieceToMove == nullptr || pieceToMove->isWhite != isWhiteTurn){
+    if (pieceToMove == nullptr || (pieceToMove->isWhite != isWhiteTurn)){
         return false;
     }
 
@@ -308,23 +241,100 @@ bool BoardState::movePiece(const Move& move) {
     }
 
     board[y][x] = nullptr;
+    
     //castling
     if (move.isCastle && move.capturedOrMovedPiece != nullptr){
+
         int rookStartx = move.rookFrom.first;
         int rookStarty = move.rookFrom.second;
         int rookEndx = move.rookTo.first;
         int rookEndy = move.rookTo.second;
-        board[rookEndy][rookEndx] = board[rookStarty][rookStartx];
+
+        Piece* rook =  board[rookStarty][rookStartx];
+
+        board[rookEndy][rookEndx] = rook;
         board[rookStarty][rookStartx] = nullptr;
-        board[rookEndy][rookEndx]->setPosition(rookEndx,rookEndy);
+        rook->setPosition(rookEndx,rookEndy);
 
         // Disable castling for the rook
-        board[rookEndy][rookEndx]->canCastle = false;
+        rook->canCastle = false;
     }
     lastMoves.push_back(move);
     isWhiteTurn = !isWhiteTurn;
     return true;
 }
+
+void BoardState::undo() {
+    if (lastMoves.empty()){
+        return;
+    }
+    //toggle the turn so that the logic is more similar to movePiece
+    //we will undo movePiece in the opposite order compared to the order that
+    //movePiece was done in 
+    isWhiteTurn = !isWhiteTurn;
+    bool lastTurnIsWhite = isWhiteTurn;
+    Move lastMove = lastMoves.back(); 
+    lastMoves.pop_back();
+
+    int startx = lastMove.from.first;
+    int starty = lastMove.from.second;
+
+    int endx = lastMove.to.first;
+    int endy = lastMove.to.second;
+
+    //castling logic 
+    if (lastMove.isCastle && lastMove.capturedOrMovedPiece != nullptr){
+
+        int rookStartx = lastMove.rookFrom.first;
+        int rookStarty = lastMove.rookFrom.second;
+        int rookEndx = lastMove.rookTo.first;
+        int rookEndy = lastMove.rookTo.second;
+
+        Piece* rook =  board[rookEndy][rookEndx];
+
+        board[rookStarty][rookStartx] = rook;
+        board[rookEndy][rookEndx] = nullptr;
+        rook->setPosition(rookStartx,rookStarty);
+        rook->canCastle = true;
+    }
+
+    if (lastMove.promotion != '-') {
+        vector<Piece*>& pieces = lastTurnIsWhite ? whitePieces : blackPieces;
+        Piece* promoted = pieces.back();
+        pieces.pop_back();
+        delete promoted;
+
+        Piece* pawn = nullptr;
+        for (auto piece : pieces){
+            if (!piece->isAlive && piece->getPosition() == lastMove.from) {
+                pawn = piece;
+                break;
+            }
+        }
+
+        pawn->isAlive = true;
+        board[starty][startx] = pawn;
+    } else {
+        Piece* pieceThatMoved = board[endy][endx];
+        board[starty][startx] = pieceThatMoved;
+        pieceThatMoved->setPosition(startx,starty);
+        
+        if (lastMove.disabledCastle) {
+            pieceThatMoved->canCastle = true;
+        }
+    }
+
+    board[endy][endx] = nullptr;
+
+    if (!lastMove.isCastle && lastMove.capturedOrMovedPiece != nullptr){
+        lastMove.capturedOrMovedPiece->isAlive = true;
+        int aliveX = lastMove.capturedOrMovedPiece->position_x;
+        int aliveY = lastMove.capturedOrMovedPiece->position_y;
+        board[aliveY][aliveX] = lastMove.capturedOrMovedPiece;
+    }
+
+}
+
 
 bool BoardState::canStartGame() const {
     int whiteKingCount = 0;

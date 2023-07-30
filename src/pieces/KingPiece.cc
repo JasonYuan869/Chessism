@@ -27,7 +27,7 @@ vector<Move> KingPiece::getPieceMoves(BoardState& board) const {
                 if (withinBounds(new_x, new_y) && (board.board[new_y][new_x] == nullptr || (board.board[new_y][new_x]->isWhite != isWhite))){
                     // If the king is able to castle, any move should disable that ability
                     // If the king already cannot castle, then this will have no effect
-                    moves.push_back(Move{{new_x,new_y}, {x,y}, board.board[new_y][new_x], canCastle});
+                    moves.push_back(Move{{new_x,new_y}, {x,y}, canCastle, board.board[new_y][new_x]});
                 }
             }
         }

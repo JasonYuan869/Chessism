@@ -285,7 +285,9 @@ bool BoardState::movePiece(const Move& move) {
     //handle the capture
     if (!move.isCastle && move.capturedOrMovedPiece != nullptr){
        move.capturedOrMovedPiece->isAlive = false;
-       board[to_y][to_x] = nullptr;
+       int captured_x = move.capturedOrMovedPiece->position_x;
+       int captured_y = move.capturedOrMovedPiece->position_y;
+       board[captured_y][captured_x] = nullptr;
     }
 
 

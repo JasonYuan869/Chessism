@@ -1,3 +1,4 @@
+
 #include "PawnPiece.h"
 using namespace std;
 
@@ -71,13 +72,13 @@ void PawnPiece::enPassant(BoardState& board, vector<Move>& moves) const {
     if (
         y == lastMoveEndy && abs(lastMoveEndx - x) == 1
         && board.board[y][lastMoveEndx] != nullptr 
-        && board.board[y][lastMoveEndx]->getValue() == 1.0 
+        && board.board[y][lastMoveEndx]->getType() == PAWN
         && abs(lastMoveEndy - lastMoveStarty) == 2
     ) {
         moves.push_back(Move{
             {lastMoveEndx,(lastMoveStarty + lastMoveEndy)/2},
             {x,y},
-            board.board[y][lastMoveEndx]
+            board.board[lastMoveEndy][lastMoveEndx]
         });
     }
 }

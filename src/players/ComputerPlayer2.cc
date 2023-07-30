@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <cmath>
+#include "../pieces/KingPiece.h"
 
 using namespace std;
 
@@ -39,6 +39,15 @@ MoveResult ComputerPlayer2::makeMove(BoardState& board) {
                     double score = board.board[to.second][to.first]->getValue();
                     scoredMove = {m, score};
                 }
+
+                // Check if the move puts the opponent in check
+                KingPiece* enemyKing = isWhite ? board.blackKing : board.whiteKing;
+                board.movePiece(m);
+                if (board.getAttacked(enemyKing->position_x, enemyKing->position_y,!isWhite)) {
+                    scoredMove.second += 0.5;
+                }
+                board.undo();
+
                 positions.push_back(scoredMove);
             }
         }

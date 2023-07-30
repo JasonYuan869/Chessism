@@ -184,28 +184,20 @@ void BoardState::undo() {
     }
 
     if (lastMove.promotion != '-') {
-        if(lastTurnIsWhite){
-            whitePieces.pop_back();
-        } else {
-            blackPieces.pop_back();
-        }
+        vector<Piece*>& pieces = lastTurnIsWhite ? whitePieces : blackPieces;
+        Piece* promoted = pieces.back();
+        pieces.pop_back();
+        delete promoted;
 
         Piece* pawn = nullptr;
-        if (lastTurnIsWhite){
-            for (auto piece : whitePieces){
-                if (!piece->isAlive && piece->getPosition() == lastMove.from){
-                    pawn = piece;
-                    break;
-                }
-            }
-        } else {
-            for (auto piece : blackPieces){
-                if (!piece->isAlive && piece->getPosition() == lastMove.from){
-                    pawn = piece;
-                    break;
-                }
+        for (auto piece : pieces){
+            if (!piece->isAlive && piece->getPosition() == lastMove.from) {
+                pawn = piece;
+                break;
             }
         }
+
+        // TODO: Fix bug where pawn is not found (not sure when it happens but it's happened before)
         pawn->isAlive = true;
         board[starty][startx] = pawn;
     } else {

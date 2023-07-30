@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "BoardState.h"
-#include "Piece.h"
+#include "pieces/Piece.h"
 
 class Move {
 public:

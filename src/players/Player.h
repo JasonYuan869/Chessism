@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "BoardState.h"
+#include "../BoardState.h"
 
 enum MoveResult {
     INVALID_MOVE,

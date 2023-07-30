@@ -2,7 +2,7 @@
 #define HUMANPLAYER_H
 
 #include "Player.h"
-#include "BoardState.h"
+#include "../BoardState.h"
 
 class HumanPlayer : public Player {
 public:

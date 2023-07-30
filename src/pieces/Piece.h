@@ -2,8 +2,8 @@
 #define PIECE_H
 
 #include <vector>
-#include "Move.h"
-#include "BoardState.h"
+#include "../Move.h"
+#include "../BoardState.h"
 
 enum PieceType {
     PAWN = 0,

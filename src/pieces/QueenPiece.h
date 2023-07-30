@@ -2,8 +2,8 @@
 #define QUEENPIECE_H
 
 #include <vector>
-#include "Move.h"
-#include "BoardState.h"
+#include "../Move.h"
+#include "../BoardState.h"
 
 
 

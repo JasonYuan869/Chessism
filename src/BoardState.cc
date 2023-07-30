@@ -1,10 +1,10 @@
 #include "BoardState.h"
 #include "PawnPiece.h"
-#include "RookPiece.h"
-#include "KnightPiece.h"
-#include "BishopPiece.h"
-#include "QueenPiece.h"
-#include "KingPiece.h"
+#include "pieces/RookPiece.h"
+#include "pieces/KnightPiece.h"
+#include "pieces/BishopPiece.h"
+#include "pieces/QueenPiece.h"
+#include "pieces/KingPiece.h"
 #include <vector>
 
 using namespace std;

@@ -2,8 +2,8 @@
 #define KNIGHTPIECE_H
 
 #include <vector>
-#include "Move.h"
-#include "BoardState.h"
+#include "../Move.h"
+#include "../BoardState.h"
 
 class KnightPiece : public Piece {
 public:

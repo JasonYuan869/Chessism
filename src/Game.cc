@@ -1,6 +1,6 @@
 #include "Game.h"
-#include "Piece.h"
-#include "KingPiece.h"
+#include "pieces/Piece.h"
+#include "pieces/KingPiece.h"
 
 #include <iostream>
 #include <string>

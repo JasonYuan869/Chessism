@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "Move.h"
-#include "Piece.h"
+#include "pieces/Piece.h"
 
 class Piece;
 class KingPiece;

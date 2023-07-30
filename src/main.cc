@@ -1,10 +1,10 @@
 #include "Game.h"
 #include "Graphical.h"
-#include "HumanPlayer.h"
-#include "ComputerPlayer1.h"
-#include "ComputerPlayer2.h"
-#include "ComputerPlayer3.h"
-#include "ComputerPlayer4.h"
+#include "players/HumanPlayer.h"
+#include "players/ComputerPlayer1.h"
+#include "players/ComputerPlayer2.h"
+#include "players/ComputerPlayer3.h"
+#include "players/ComputerPlayer4.h"
 #include "Terminal.h"
 #include <iostream>
 #include <string>

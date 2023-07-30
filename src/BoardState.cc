@@ -339,21 +339,47 @@ void BoardState::undo() {
 }
 
 
-bool BoardState::canStartGame() const {
+bool BoardState::canStartGame() {
+    // Check that there is exactly one king of each color
     int whiteKingCount = 0;
     int blackKingCount = 0;
-    for (auto& piece : whitePieces) {
+    for (const auto& piece : whitePieces) {
         if (piece->isAlive && piece->getType() == PieceType::KING) {
             whiteKingCount++;
         }
     }
-    for (auto& piece : blackPieces) {
+    for (const auto& piece : blackPieces) {
         if (piece->isAlive && piece->getType() == PieceType::KING) {
             blackKingCount++;
         }
     }
+    if (whiteKingCount != 1 || blackKingCount != 1) {
+        return false;
+    }
 
-    return whiteKingCount == 1 && blackKingCount == 1;
+    // Ensure no pawns are on the first or last row
+    for (auto& piece : whitePieces) {
+        if (piece->isAlive && piece->getType() == PAWN) {
+            if (piece->position_y == 0 || piece->position_y == 7) {
+                return false;
+            }
+        }
+    }
+    for (auto& piece : blackPieces) {
+        if (piece->isAlive && piece->getType() == PAWN) {
+            if (piece->position_y == 0 || piece->position_y == 7) {
+                return false;
+            }
+        }
+    }
+
+    // Ensure that the kings are not in check
+    KingPiece* king = isWhiteTurn ? whiteKing : blackKing;
+    if (getAttacked(king->position_x, king->position_y, isWhiteTurn)) {
+        return false;
+    }
+
+    return true;
 }
 
 

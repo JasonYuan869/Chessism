@@ -63,9 +63,9 @@ public:
     // Undoes the last move
     void undo();
 
-    // Returns whether there are exactly one white and one black king,
+    // Returns whether the conditions are met
     // so the game can start
-    bool canStartGame() const;
+    bool canStartGame();
 
     // Returns all valid moves for the current player
     // Concatenates all validMoves vectors for the current player

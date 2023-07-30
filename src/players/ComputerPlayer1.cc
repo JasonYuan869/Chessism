@@ -17,6 +17,10 @@ MoveResult ComputerPlayer1::makeMove(BoardState& board) {
         vector<Move> moves = allValidMoves(board); // get valid moves from player
 
         int numMoves = moves.size();
+        if (numMoves == 0) {
+            return MoveResult::STALEMATE;
+        }
+
         int randomMove = Utility::randomInt(0, numMoves - 1);
 
         Move m = moves.at(randomMove);

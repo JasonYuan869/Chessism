@@ -8,6 +8,13 @@ using namespace std;
 HumanPlayer::HumanPlayer(bool isWhite): Player{isWhite} {}
 
 MoveResult HumanPlayer::makeMove(BoardState& board) {
+    vector<Move> moves = allValidMoves(board); // get valid moves from player
+
+    int numMoves = moves.size();
+    if (numMoves == 0) {
+        return MoveResult::STALEMATE;
+    }
+
     string command;
 
     cin >> command;

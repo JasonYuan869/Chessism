@@ -40,6 +40,10 @@ MoveResult ComputerPlayer4::makeMove(BoardState& board) {
             }
         }
 
+        if (bestmove.getTo() == make_pair(-1, -1)) {
+            return MoveResult::STALEMATE;
+        }
+
         if (bestmove.getTo().first != -1 && bestmove.getTo().second != -1) {
             board.movePiece(bestmove);
             return MoveResult::SUCCESS;

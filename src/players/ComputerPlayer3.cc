@@ -41,6 +41,10 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
             }
         }
 
+        if (positions.empty()) {
+            return MoveResult::STALEMATE;
+        }
+
         std::sort(positions.begin(), positions.end(), [](auto &left, auto &right) {
             return left.second > right.second;
         });

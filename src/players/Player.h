@@ -1,7 +1,15 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "BoardState.h"
+#include "../BoardState.h"
+
+enum MoveResult {
+    INVALID_MOVE,
+    SUCCESS,
+    STALEMATE,
+    RESIGNED,
+    SETUP
+};
 
 class Player {
     protected:
@@ -9,7 +17,7 @@ class Player {
     public:
         explicit Player(bool isWhite): isWhite{isWhite} {}
         virtual ~Player();
-        virtual int makeMove(BoardState& board)=0;
+        virtual MoveResult makeMove(BoardState& board)=0;
 };
 
 #endif

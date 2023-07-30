@@ -3,14 +3,13 @@
 
 #include <vector>
 #include "Move.h"
-#include "Piece.h"
+#include "pieces/Piece.h"
 
 class Piece;
 class KingPiece;
 class Move;
 
 class BoardState {
-    bool canStart; // true if there are exactly one white and one black king
 public:
     std::vector<std::vector<Piece*>> board;
 
@@ -30,9 +29,13 @@ public:
     // Will call updateValidMoves() and getCheck() to determine this
     bool getCheckmate(bool white);
 
+    // Returns KingPiece.checked for the current king
+    // Does not update KingPiece.checked
+    bool getCheck(bool white);
+
     // Gets whether pieces are attacking the king
     // Will update KingPiece.checked
-    bool getCheck(bool white);
+    bool updateCheck(bool white);
 
     // Gets whether pieces are attacking the given location. If white == true we are seeing if there 
     // are white pieces which attack this tile
@@ -62,6 +65,8 @@ public:
     bool canStartGame() const;
 
     static Piece* makePiece(char, int, int);
+
+
 };
 
 #endif 

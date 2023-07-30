@@ -48,17 +48,11 @@ vector<Move> PawnPiece::getPieceMoves(BoardState& board) const { //TODO: add en 
 
 bool PawnPiece::isAttacking(int x, int y, BoardState& board) const {
     int direction = isWhite ? 1 : -1;
-    int new_y = position_y + direction;
-    int new_x = position_x+1;
 
-    if (new_y == y && new_x == x){
+    if (y == position_y + direction && (x == position_x + 1 || x == position_x - 1)){
         return true;
     }
 
-    new_x = x-1;
-    if (new_y == y && new_x == x){
-        return true;
-    }
     return false;
 }
 

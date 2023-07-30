@@ -5,9 +5,14 @@ ComputerPlayer1::~ComputerPlayer1() {
 
 }
 
-int ComputerPlayer1::makeMove(BoardState& board) {
+MoveResult ComputerPlayer1::makeMove(BoardState& board) {
     string command;
     cin >> command;
+
+    if (cin.eof()) {
+        throw -1;
+    }
+
     if (command == "move") {
         vector<Piece*> pieces;
         if (isWhite) {
@@ -16,19 +21,20 @@ int ComputerPlayer1::makeMove(BoardState& board) {
             pieces = board.blackPieces;
         }
 
-        int numPieces = pieces.size();
-        int randomPiece = rand() % numPieces;
+        vector<Move> moves;
+        for (auto& piece : pieces) {
+            moves.insert(moves.end(), piece->validMoves.begin(), piece->validMoves.end());
+        }
 
-        vector<Move> moves = pieces.at(randomPiece)->validMoves;
         int numMoves = moves.size();
         int randomMove = rand() % numMoves;
 
         Move m = moves.at(randomMove);
         board.movePiece(m);
-        return 1;
+        return MoveResult::SUCCESS;
     } else if (command == "setup") {
-        return 4;
+        return MoveResult::SETUP;
     }
 
-    return 0;
+    return MoveResult::INVALID_MOVE;
 }

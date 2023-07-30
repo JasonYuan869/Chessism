@@ -1,25 +1,23 @@
-#ifndef ROOKPIECE_H
-#define ROOKPIECE_H
+#ifndef BISHOPPIECE_H
+#define BISHOPPIECE_H
 
 #include <vector>
-#include "Move.h"
-#include "BoardState.h"
+#include "../Move.h"
+#include "../BoardState.h"
 
-class RookPiece : public Piece {
+class BishopPiece : public Piece {
 public:
     static double value;
 
-    RookPiece(int,int,bool);
+    BishopPiece(int,int,bool);
 
-    ~RookPiece() override;
+    ~BishopPiece() override;
 
     std::vector<Move> getPieceMoves(BoardState &board) const override;
 
     bool isAttacking(int x, int y, BoardState &board) const override;
-
     double getValue() override;
     PieceType getType() override;
-
 };
 
 #endif

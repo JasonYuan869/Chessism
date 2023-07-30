@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "BoardState.h"
-#include "Player.h"
+#include "players/Player.h"
 #include "Subject.h"
 
 class Game : public Subject {

@@ -12,7 +12,7 @@ public:
 
     MoveResult makeMove(BoardState &board) override;
 
-    int evaluateBoard(BoardState &board);
+    double evaluateBoard(BoardState &board);
 
     double minimax(int depth, BoardState &board, bool isMaximizingPlayer);
 };

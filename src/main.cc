@@ -8,6 +8,7 @@
 #include "Terminal.h"
 #include <iostream>
 #include <string>
+#include <memory>
 
 using namespace std;
 
@@ -16,37 +17,37 @@ void loop(double& whiteScore, double& blackScore) {
     string player1;
     string player2;
     while (true) {
-        Player* whitePlayer = nullptr;
-        Player* blackPlayer = nullptr;
+        unique_ptr<Player> whitePlayer;
+        unique_ptr<Player> blackPlayer;
         while (cin >> command) {
             if (command == "game") {
                 cin >> player1 >> player2;
 
                 if (player1 == "human") {
-                    whitePlayer = new HumanPlayer(true);
+                    whitePlayer = make_unique<HumanPlayer>(true);
                 } else if (player1 == "computer1") {
-                    whitePlayer = new ComputerPlayer1(true);
+                    whitePlayer = make_unique<ComputerPlayer1>(true);
                 } else if (player1 == "computer2") {
-                    whitePlayer = new ComputerPlayer2(true);
+                    whitePlayer = make_unique<ComputerPlayer2>(true);
                 } else if (player1 == "computer3") {
-                    whitePlayer = new ComputerPlayer3(true);
+                    whitePlayer = make_unique<ComputerPlayer3>(true);
                 } else if (player1 == "computer4") {
-                    whitePlayer = new ComputerPlayer4(true);
+                    whitePlayer = make_unique<ComputerPlayer4>(true);
                 } else {
                     cout << "Invalid player type" << endl;
                     continue;
                 }
 
                 if (player2 == "human") {
-                    blackPlayer = new HumanPlayer(false);
+                    blackPlayer = make_unique<HumanPlayer>(false);
                 } else if (player2 == "computer1") {
-                    blackPlayer = new ComputerPlayer1(false);
+                    blackPlayer = make_unique<ComputerPlayer1>(false);
                 } else if (player2 == "computer2") {
-                    blackPlayer = new ComputerPlayer2(false);
+                    blackPlayer = make_unique<ComputerPlayer2>(false);
                 } else if (player2 == "computer3") {
-                    blackPlayer = new ComputerPlayer3(false);
+                    blackPlayer = make_unique<ComputerPlayer3>(false);
                 } else if (player2 == "computer4") {
-                    blackPlayer = new ComputerPlayer4(false);
+                    blackPlayer = make_unique<ComputerPlayer4>(false);
                 } else {
                     cout << "Invalid player type" << endl;
                     continue;
@@ -59,12 +60,12 @@ void loop(double& whiteScore, double& blackScore) {
             }
         }
 
-        if (cin.eof() || whitePlayer == nullptr || blackPlayer == nullptr) {
+        if (cin.eof()) {
             throw -1;
         }
 
-        Game game(whitePlayer, blackPlayer);
-        // Graphical window(&game);
+        Game game(std::move(whitePlayer), std::move(blackPlayer));
+        Graphical window(&game);
         Terminal terminal(&game);
 
         double score = game.run();

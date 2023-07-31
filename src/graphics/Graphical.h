@@ -16,7 +16,7 @@
      Window w;
      GC gc;
      unsigned long colours[10];
-     GraphicalTile *tiles[64];
+     std::vector<GraphicalTile> tiles;
 
  public:
      explicit Graphical(Game *game);

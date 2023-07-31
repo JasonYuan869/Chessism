@@ -12,16 +12,11 @@ ComputerPlayer2::ComputerPlayer2(bool isWhite): Player{isWhite} {}
 ComputerPlayer2::~ComputerPlayer2() {}
 
 MoveResult ComputerPlayer2::makeMove(BoardState& board) {
-    double highestScore;
+    double highestScore = -9999;
     vector<pair<Move, double>> positions;
-    vector<Piece*> pieces;
-    if (isWhite) {
-        pieces = board.whitePieces;
-    } else {
-        pieces = board.blackPieces;
-    }
+    vector<unique_ptr<Piece>>& pieces = isWhite ? board.whitePieces : board.blackPieces;
 
-    for (Piece* p : pieces) {
+    for (auto& p : pieces) {
         if (!p->isAlive) {
             continue;
         }

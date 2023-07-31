@@ -12,65 +12,51 @@ using namespace std;
 BoardState::BoardState(bool isWhiteTurn) : isWhiteTurn{isWhiteTurn} {
     board = vector<vector<Piece*>>(8,vector<Piece*>(8,nullptr));
 
+    // Rank 1
+    whitePieces.emplace_back(makePiece('R', 0, 0));
+    whitePieces.emplace_back(makePiece('N', 0, 1));
+    whitePieces.emplace_back(makePiece('B', 0, 2));
+    whitePieces.emplace_back(makePiece('Q', 0, 3));
+    whitePieces.emplace_back(makePiece('K', 0, 4));
+    whitePieces.emplace_back(makePiece('B', 0, 5));
+    whitePieces.emplace_back(makePiece('N', 0, 6));
+    whitePieces.emplace_back(makePiece('R', 0, 7));
+
+    // Pawns, rank 2
+    for (int i = 0; i < 8; i++) {
+        whitePieces.emplace_back(makePiece('P', 1, i));
+    }
+
+    // Rank 8
+    blackPieces.emplace_back(makePiece('r', 7, 0));
+    blackPieces.emplace_back(makePiece('n', 7, 1));
+    blackPieces.emplace_back(makePiece('b', 7, 2));
+    blackPieces.emplace_back(makePiece('q', 7, 3));
+    blackPieces.emplace_back(makePiece('k', 7, 4));
+    blackPieces.emplace_back(makePiece('b', 7, 5));
+    blackPieces.emplace_back(makePiece('n', 7, 6));
+    blackPieces.emplace_back(makePiece('r', 7, 7));
+
+    // Pawns, rank 7
+    for (int i = 0; i < 8; i++) {
+        blackPieces.emplace_back(makePiece('p', 6, i));
+    }
 
     // Initialize the board
-    board[0][0] = makePiece('R', 0, 0);
-    board[0][1] = makePiece('N', 0, 1);
-    board[0][2] = makePiece('B', 0, 2);
-    board[0][3] = makePiece('Q', 0, 3);
-    board[0][4] = makePiece('K', 0, 4);
-    board[0][5] = makePiece('B', 0, 5);
-    board[0][6] = makePiece('N', 0, 6);
-    board[0][7] = makePiece('R', 0, 7);
-
-    for (int i = 0; i < 8; i++) {
-        board[1][i] = makePiece('P', 1, i);
+    for (auto& piece : whitePieces) {
+        board[piece->positionY][piece->positionX] = piece.get();
     }
-
-    for (int i = 2; i < 6; i++) {
-        for (int j = 0; j < 8; j++) {
-            board[i][j] = nullptr;
-        }
+    for (auto& piece : blackPieces) {
+        board[piece->positionY][piece->positionX] = piece.get();
     }
-
-    for (int i = 0; i < 8; i++) {
-        board[6][i] = makePiece('p', 6, i);
-    }
-
-    board[7][0] = makePiece('r', 7, 0);
-    board[7][1] = makePiece('n', 7, 1);
-    board[7][2] = makePiece('b', 7, 2);
-    board[7][3] = makePiece('q', 7, 3);
-    board[7][4] = makePiece('k', 7, 4);
-    board[7][5] = makePiece('b', 7, 5);
-    board[7][6] = makePiece('n', 7, 6);
-    board[7][7] = makePiece('r', 7, 7);
 
     // Initialize the king pointers
     whiteKing = dynamic_cast<KingPiece *>(board[0][4]);
     blackKing = dynamic_cast<KingPiece *>(board[7][4]);
-
-    // Initialize the piece vectors
-    for (int i = 0; i < 8; i++) {
-        whitePieces.push_back(board[0][i]);
-        whitePieces.push_back(board[1][i]);
-
-        blackPieces.push_back(board[6][i]);
-        blackPieces.push_back(board[7][i]);
-    }
-
 }
 
 
-BoardState::~BoardState() {
-    // Delete pieces
-    for (auto& piece : whitePieces) {
-        delete piece;
-    }
-    for (auto& piece : blackPieces) {
-        delete piece;
-    }
-}
+BoardState::~BoardState() {}
 
 bool BoardState::getCheckmate(bool white) {
     // Update the valid moves for each piece
@@ -114,28 +100,29 @@ bool BoardState::getAttacked(int x, int y, bool white) {
     return false;
 }
 
-void BoardState::setPiece(Piece *piece, int x, int y) {
+void BoardState::setPiece(unique_ptr<Piece>&& piece, int x, int y) {
     if (board[y][x] != nullptr) {
         board[y][x]->isAlive = false;
     }
 
-    board[y][x] = piece;
+    board[y][x] = piece.get();
     piece->positionX = x;
     piece->positionY = y;
 
-    bool isWhite = piece->isWhite;
-    if (isWhite) {
-        whitePieces.push_back(piece);
-    } else {
-        blackPieces.push_back(piece);
-    }
 
+    bool isWhite = piece->isWhite;
     if (piece->getType() == PieceType::KING) {
         if (isWhite) {
-            whiteKing = dynamic_cast<KingPiece *>(piece);
+            whiteKing = dynamic_cast<KingPiece *>(piece.get());
         } else {
-            blackKing = dynamic_cast<KingPiece *>(piece);
+            blackKing = dynamic_cast<KingPiece *>(piece.get());
         }
+    }
+
+    if (isWhite) {
+        whitePieces.push_back(std::move(piece));
+    } else {
+        blackPieces.push_back(std::move(piece));
     }
 }
 
@@ -156,7 +143,7 @@ void BoardState::removePiece(int x, int y) {
 
 void BoardState::updateValidMoves(bool white) {
     KingPiece* king = white ? whiteKing : blackKing;
-    for (auto piece : white ? whitePieces : blackPieces) {
+    for (auto& piece : white ? whitePieces : blackPieces) {
         vector<Move> moves;
 
         if (!piece->isAlive){
@@ -230,11 +217,13 @@ bool BoardState::movePiece(const Move& move) {
     // either pawn promotion, or we actually move the piece
     if (move.promotion != '-'){
         pieceToMove->isAlive = false;
-        board[to_y][to_x] = BoardState::makePiece(move.promotion, to_y, to_x);
+        unique_ptr<Piece> newPiece = makePiece(move.promotion, to_y, to_x);
+
+        board[to_y][to_x] = newPiece.get();
         if (isWhiteTurn){
-            whitePieces.push_back(board[to_y][to_x]);
+            whitePieces.push_back(std::move(newPiece));
         } else {
-            blackPieces.push_back(board[to_y][to_x]);
+            blackPieces.push_back(std::move(newPiece));
         }
     } else {
         board[to_y][to_x] = pieceToMove;
@@ -301,21 +290,21 @@ void BoardState::undo() {
 
     //pawn promotion or regular move
     if (lastMove.promotion != '-') {
-        vector<Piece*>& pieces = lastTurnIsWhite ? whitePieces : blackPieces;
-        Piece* promoted = pieces.back();
-        pieces.pop_back();
-        delete promoted;
+        vector<unique_ptr<Piece>>& pieces = lastTurnIsWhite ? whitePieces : blackPieces;
 
+        // The last piece was the newly promoted piece, so we remove it
+        // This should run the destructor for the piece because it is a unique_ptr
+        pieces.pop_back();
+
+        // Find the pawn used to promote
         Piece* pawn = nullptr;
-        for (auto piece : pieces){
+        for (auto& piece : pieces){
             if (!piece->isAlive && piece->getPosition() == lastMove.from) {
-                pawn = piece;
+                piece->isAlive = true;
+                board[starty][startx] = piece.get();
                 break;
             }
         }
-
-        pawn->isAlive = true;
-        board[starty][startx] = pawn;
     } else {
         Piece* pieceThatMoved = board[endy][endx];
         board[starty][startx] = pieceThatMoved;
@@ -382,39 +371,39 @@ bool BoardState::canStartGame() {
 }
 
 
-Piece *BoardState::makePiece(char piece, int y, int x) {
+unique_ptr<Piece> BoardState::makePiece(char piece, int y, int x) {
     switch (piece) {
         case 'P':
-            return new PawnPiece(x, y, true);
+            return make_unique<PawnPiece>(x, y, true);
         case 'p':
-            return new PawnPiece(x, y, false);
+            return make_unique<PawnPiece>(x, y, false);
         case 'R':
-            return new RookPiece(x, y, true);
+            return make_unique<RookPiece>(x, y, true);
         case 'r':
-            return new RookPiece(x, y, false);
+            return make_unique<RookPiece>(x, y, false);
         case 'N':
-            return new KnightPiece(x, y, true);
+            return make_unique<KnightPiece>(x, y, true);
         case 'n':
-            return new KnightPiece(x, y, false);
+            return make_unique<KnightPiece>(x, y, false);
         case 'B':
-            return new BishopPiece(x, y, true);
+            return make_unique<BishopPiece>(x, y, true);
         case 'b':
-            return new BishopPiece(x, y, false);
+            return make_unique<BishopPiece>(x, y, false);
         case 'Q':
-            return new QueenPiece(x, y, true);
+            return make_unique<QueenPiece>(x, y, true);
         case 'q':
-            return new QueenPiece(x, y, false);
+            return make_unique<QueenPiece>(x, y, false);
         case 'K':
-            return new KingPiece(x, y, true);
+            return make_unique<KingPiece>(x, y, true);
         case 'k':
-            return new KingPiece(x, y, false);
+            return make_unique<KingPiece>(x, y, false);
         default:
             return nullptr;
     }
 }
 
 std::vector<Move> BoardState::allValidMoves() const {
-    const vector<Piece*>& pieces = isWhiteTurn ? whitePieces : blackPieces;
+    const vector<unique_ptr<Piece>>& pieces = isWhiteTurn ? whitePieces : blackPieces;
     vector<Move> moves;
     for (auto& piece : pieces) {
         moves.insert(moves.end(), piece->validMoves.begin(), piece->validMoves.end());

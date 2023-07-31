@@ -10,14 +10,16 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
+
 using namespace std;
 
-Game::Game(Player* whitePlayer, Player* blackPlayer) :  board{true}, white{whitePlayer}, black{blackPlayer}, features{0} {}
+Game::Game(unique_ptr<Player> &&whitePlayer, unique_ptr<Player> &&blackPlayer) : board{true},
+                                                                                 white{std::move(whitePlayer)},
+                                                                                 black{std::move(blackPlayer)},
+                                                                                 features{0} {}
 
-Game::~Game() {
-    delete white;
-    delete black;
-}
+Game::~Game() {}
 
 void Game::setup() {
     cout << "Enter setup commands" << endl;
@@ -25,7 +27,7 @@ void Game::setup() {
     char piece;
     char location[2];
     int x, y;
-    Piece* newPiece;
+    unique_ptr<Piece> newPiece;
     while (cin >> command) {
         if (command == "+") {
             cin >> piece >> location[0] >> location[1];
@@ -37,7 +39,7 @@ void Game::setup() {
             }
             newPiece = BoardState::makePiece(piece, x, y);
             newPiece->canCastle = false;  // Disable castling for newly placed pieces
-            board.setPiece(newPiece, x, y);
+            board.setPiece(std::move(newPiece), x, y);
             notifyObservers();
         } else if (command == "-") {
             cin >> location[0] >> location[1];
@@ -75,7 +77,7 @@ void Game::setup() {
     }
 }
 
-BoardState& Game::getBoard() {
+BoardState &Game::getBoard() {
     return board;
 }
 
@@ -84,7 +86,7 @@ double Game::run() {
     notifyObservers();
 
     while (true) {
-        Player* currentPlayer = board.isWhiteTurn ? white : black;
+        unique_ptr<Player> &currentPlayer = board.isWhiteTurn ? white : black;
         string colour = board.isWhiteTurn ? "White" : "Black";
         string opponentColour = board.isWhiteTurn ? "Black" : "White";
 
@@ -126,65 +128,59 @@ double Game::run() {
             }
         } else if (command == "resign") {
             return board.isWhiteTurn ? 1 : 0;
-        } else if (command == "enable"){
+        } else if (command == "enable") {
             int featureNumber = 0;
             cin >> featureNumber;
-            if (!cin || featureNumber > 3){
+            if (!cin || featureNumber >= 3) {
                 cout << "Invalid command" << endl;
                 continue;
-            } 
-            features  = features | (1 << featureNumber);
-        } else if (command == "disable"){
+            }
+            features = features | (1 << featureNumber);
+        } else if (command == "disable") {
             int featureNumber;
             cin >> featureNumber;
-            if (!cin || featureNumber > 3){
+            if (!cin || featureNumber >= 3) {
                 cout << "Invalid command" << endl;
                 continue;
-            } 
-            features  = features & ~(1 << featureNumber);
-        } else if (command == "undo" && (features & 1)){
-            if (board.lastMoves.empty()){
-                cout << "Cannot undo from the start of the game!"<<endl;
+            }
+            features = features & ~(1 << featureNumber);
+        } else if (command == "undo" && (features & 1)) {
+            if (board.lastMoves.empty()) {
+                cout << "Cannot undo from the start of the game!" << endl;
                 continue;
-            } 
+            }
             board.undo();
             notifyObservers();
-        } else if (command == "help" && (features & (1 << 1))){
+        } else if (command == "help" && (features & (1 << 1))) {
             currentPlayer->getHelp(board);
-        } else if (command == "switch" && (features & (1 << 2))){
-            cout<<"select what player you would like to switch for the "<<colour<<" player:"<<endl;
+        } else if (command == "switch" && (features & (1 << 2))) {
+            cout << "Select what player you would like to switch for the " << colour << " player:" << endl;
             string playerType;
-            Player* newPlayer;
+            unique_ptr<Player> newPlayer;
 
             cin >> playerType;
 
-            if (!cin){
+            if (!cin) {
                 cout << "Invalid player type" << endl;
                 continue;
             }
             if (playerType == "human") {
-                newPlayer = new HumanPlayer(board.isWhiteTurn);
+                newPlayer = make_unique<HumanPlayer>(board.isWhiteTurn);
             } else if (playerType == "computer1") {
-                newPlayer = new ComputerPlayer1(board.isWhiteTurn);
+                newPlayer = make_unique<ComputerPlayer1>(board.isWhiteTurn);
             } else if (playerType == "computer2") {
-                newPlayer = new ComputerPlayer2(board.isWhiteTurn);
+                newPlayer = make_unique<ComputerPlayer2>(board.isWhiteTurn);
             } else if (playerType == "computer3") {
-                newPlayer = new ComputerPlayer3(board.isWhiteTurn);
+                newPlayer = make_unique<ComputerPlayer3>(board.isWhiteTurn);
             } else if (playerType == "computer4") {
-                newPlayer = new ComputerPlayer4(board.isWhiteTurn);
+                newPlayer = make_unique<ComputerPlayer4>(board.isWhiteTurn);
             } else {
                 cout << "Invalid player type" << endl;
                 continue;
             }
-            delete currentPlayer;
-            if (board.isWhiteTurn){
-                white = newPlayer;
-            } else {
-                black = newPlayer;
-            }
-            cout<<"switched in "<<playerType<<endl;
-        }
-        else {
+            std::swap(currentPlayer, newPlayer);
+            cout << "switched in " << playerType << endl;
+        } else {
             cout << "Invalid command" << endl;
         }
     }

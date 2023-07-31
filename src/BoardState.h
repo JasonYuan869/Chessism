@@ -2,6 +2,7 @@
 #define BOARDSTATE_H
 
 #include <vector>
+#include <memory>
 #include "Move.h"
 #include "pieces/Piece.h"
 
@@ -11,12 +12,17 @@ class Move;
 
 class BoardState {
 public:
+    // Does not own the pieces, only stores pointers
     std::vector<std::vector<Piece*>> board;
 
-    std::vector<Piece*> whitePieces;
-    std::vector<Piece*> blackPieces;
-    KingPiece *whiteKing{};
-    KingPiece *blackKing{};
+    // Source of truth for pieces, full ownership and responsible for deletion
+    std::vector<std::unique_ptr<Piece>> whitePieces;
+    std::vector<std::unique_ptr<Piece>> blackPieces;
+
+    // Does not own the king pieces, only stores pointers
+    KingPiece *whiteKing;
+    KingPiece *blackKing;
+
     std::vector<Move> lastMoves;
     bool isWhiteTurn;
 
@@ -55,7 +61,7 @@ public:
     bool movePieceIfLegal(const Move& move);
 
     // Sets the piece at the given location
-    void setPiece(Piece *piece, int x, int y);
+    void setPiece(std::unique_ptr<Piece>&& piece, int x, int y);
 
     // Removes the piece at the given location
     void removePiece(int x, int y);
@@ -71,7 +77,7 @@ public:
     // Concatenates all validMoves vectors for the current player
     std::vector<Move> allValidMoves() const;
 
-    static Piece* makePiece(char, int, int);
+    static std::unique_ptr<Piece> makePiece(char, int, int);
 
 };
 

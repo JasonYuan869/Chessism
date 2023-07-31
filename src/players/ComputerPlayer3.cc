@@ -13,9 +13,9 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
     double highestScore = -9999;
 
     vector<pair<Move, double>> positions;
-    vector<Piece*> pieces = isWhite ? board.whitePieces : board.blackPieces;
+    vector<unique_ptr<Piece>>& pieces = isWhite ? board.whitePieces : board.blackPieces;
 
-    for (Piece* p : pieces) {
+    for (auto& p : pieces) {
         if (!p->isAlive) {
             continue;
         }
@@ -72,10 +72,10 @@ double ComputerPlayer3::mostValuableAttacked(BoardState& board) {
     board.updateValidMoves(!isWhite);
 
     double maxScore = 0;
-    vector<Piece*> pieces = isWhite ? board.blackPieces : board.whitePieces;
+    vector<unique_ptr<Piece>>& pieces = isWhite ? board.blackPieces : board.whitePieces;
 
     // For each opponent piece, check which piece it can attack with the highest value
-    for (Piece* p : pieces) {
+    for (auto& p : pieces) {
         if (!p->isAlive) {
             continue;
         }

@@ -54,7 +54,7 @@
 
      // Generate tiles
      for (int i = 0; i < 64; i++) {
-         tiles[i] = new GraphicalTile(i % 8, i / 8, PieceType::EMPTY, false, this);
+         tiles.emplace_back(i % 8, i / 8, PieceType::EMPTY, false, this);
      }
 
      usleep(1000);
@@ -65,10 +65,6 @@
      XFreeGC(d, gc);
      XDestroyWindow(d, w);
      XCloseDisplay(d);
-
-     for (auto & tile : tiles) {
-         delete tile;
-     }
  }
 
  void Graphical::notify() {
@@ -81,9 +77,9 @@
          for (int j = 0; j < 8; j++) {
              Piece *piece = board.board[i][j];
              if (piece == nullptr) {
-                 tiles[i * 8 + j]->update(PieceType::EMPTY, false);
+                 tiles[i * 8 + j].update(PieceType::EMPTY, false);
              } else {
-                 tiles[i * 8 + j]->update(piece->getType(), piece->isWhite);
+                 tiles[i * 8 + j].update(piece->getType(), piece->isWhite);
              }
          }
      }

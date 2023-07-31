@@ -2,14 +2,15 @@
 #define GAME_H
 
 #include <iostream>
+#include <memory>
 #include "BoardState.h"
 #include "players/Player.h"
 #include "Subject.h"
 
 class Game : public Subject {
     BoardState board;
-    Player* white;
-    Player* black;
+    std::unique_ptr<Player> white;
+    std::unique_ptr<Player> black;
 
     
     /*use bit encoding for each feature:
@@ -19,7 +20,7 @@ class Game : public Subject {
     */
     int features; 
     public: 
-        Game(Player* whitePlayer, Player* blackPlayer);
+        Game(std::unique_ptr<Player>&& whitePlayer, std::unique_ptr<Player>&& blackPlayer);
         ~Game();
         void setup();
         BoardState& getBoard();

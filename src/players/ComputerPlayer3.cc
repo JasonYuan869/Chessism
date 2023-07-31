@@ -15,7 +15,6 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
     vector<pair<Move, double>> positions;
     vector<Piece*> pieces = isWhite ? board.whitePieces : board.blackPieces;
 
-    // Same logic as ComputerPlayer2
     for (Piece* p : pieces) {
         if (!p->isAlive) {
             continue;
@@ -32,7 +31,7 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
             // Check if the move puts the opponent in check
             KingPiece* enemyKing = isWhite ? board.blackKing : board.whiteKing;
             board.movePiece(m);
-            if (board.getAttacked(enemyKing->position_x, enemyKing->position_y,!isWhite)) {
+            if (board.getAttacked(enemyKing->positionX, enemyKing->positionY, !isWhite)) {
                 scoredMove.second += 0.5;
             }
 

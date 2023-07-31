@@ -15,8 +15,8 @@ QueenPiece::~QueenPiece() {
 vector<Move> QueenPiece::getPieceMoves(BoardState& board) const {
     int directions[4][2] = {{1,1},{1,-1},{0,1},{1,0}};
     vector<Move> moves;
-    int x = position_x;
-    int y = position_y;
+    int x = positionX;
+    int y = positionY;
 
     for (auto& direction : directions){
 
@@ -58,8 +58,8 @@ bool QueenPiece::isAttacking(int x, int y, BoardState& board) const {
 
     for (auto& direction : directions){
 
-        int tempx = position_x + direction[0];
-        int tempy = position_y + direction[1];
+        int tempx = positionX + direction[0];
+        int tempy = positionY + direction[1];
         while (withinBounds(tempx, tempy)){
             if (board.board[tempy][tempx] != nullptr ) {
                 if  (board.board[tempy][tempx]->isWhite != isWhite){
@@ -77,8 +77,8 @@ bool QueenPiece::isAttacking(int x, int y, BoardState& board) const {
             }
         } 
 
-        tempx = position_x - direction[0];
-        tempy = position_y - direction[1];
+        tempx = positionX - direction[0];
+        tempy = positionY - direction[1];
         while (withinBounds(tempx, tempy)){
             if (board.board[tempy][tempx] != nullptr ) {
                 if  (board.board[tempy][tempx]->isWhite != isWhite){

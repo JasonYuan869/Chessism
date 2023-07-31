@@ -21,8 +21,8 @@ class BoardState;
 
 class Piece {
 public:
-    int position_x;
-    int position_y;
+    int positionX;
+    int positionY;
     bool isWhite;
     bool isAlive;
     bool canCastle;

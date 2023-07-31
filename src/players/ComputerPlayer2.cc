@@ -37,7 +37,7 @@ MoveResult ComputerPlayer2::makeMove(BoardState& board) {
             // Check if the move puts the opponent in check
             KingPiece* enemyKing = isWhite ? board.blackKing : board.whiteKing;
             board.movePiece(m);
-            if (board.getAttacked(enemyKing->position_x, enemyKing->position_y,!isWhite)) {
+            if (board.getAttacked(enemyKing->positionX, enemyKing->positionY, !isWhite)) {
                 scoredMove.second += 0.5;
             }
             board.undo();

@@ -1,0 +1,69 @@
+game computer4 human
+setup
+- a1
+- b1
+- c1
+- d1
+- e1
+- f1
+- g1
+- h1
+- a2
+- b2
+- c2
+- d2
+- e2
+- f2
+- g2
+- h2
+- a7
+- b7
+- c7
+- d7
+- e7
+- f7
+- g7
+- h7
+- a8
+- b8
+- c8
+- d8
+- e8
+- f8
+- g8
+- h8
++ r a8
++ b c8
++ r f8
++ k g8
++ p a7
++ p b7
++ p d7
++ p f7
++ p g7
++ p h7
++ q b6
++ n c6
++ p e6
++ n f6
++ b c5
++ N c3
++ P e3
++ N f3
++ P a2
++ P b2
++ P c2
++ B d2
++ P f2
++ P g2
++ P h2
++ R a1
++ Q d1
++ K e1
++ B f1
++ R h1
+done
+
+Solution (free bishop):
+Na4  Qc7
+Nxc5

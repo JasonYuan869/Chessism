@@ -101,7 +101,7 @@ bool BoardState::updateCheck(bool white) {
     KingPiece* king = white ? whiteKing : blackKing;
 
     // Mutates the king's checked variable
-    king->checked = getAttacked(king->position_x, king->position_y, white);
+    king->checked = getAttacked(king->positionX, king->positionY, white);
     return king->checked;
 }
 
@@ -120,8 +120,8 @@ void BoardState::setPiece(Piece *piece, int x, int y) {
     }
 
     board[y][x] = piece;
-    piece->position_x = x;
-    piece->position_y = y;
+    piece->positionX = x;
+    piece->positionY = y;
 
     bool isWhite = piece->isWhite;
     if (isWhite) {
@@ -168,7 +168,7 @@ void BoardState::updateValidMoves(bool white) {
             // Simulate the move
             if (movePiece(move)) {
                 // Is our king checked?
-                if (!getAttacked(king->position_x, king->position_y, white)) {
+                if (!getAttacked(king->positionX, king->positionY, white)) {
                     // Add the move to the vector of moves
                     moves.push_back(move);
                 }
@@ -221,8 +221,8 @@ bool BoardState::movePiece(const Move& move) {
     //handle the capture
     if (!move.isCastle && move.capturedOrMovedPiece != nullptr){
        move.capturedOrMovedPiece->isAlive = false;
-       int captured_x = move.capturedOrMovedPiece->position_x;
-       int captured_y = move.capturedOrMovedPiece->position_y;
+       int captured_x = move.capturedOrMovedPiece->positionX;
+       int captured_y = move.capturedOrMovedPiece->positionY;
        board[captured_y][captured_x] = nullptr;
     }
 
@@ -331,29 +331,54 @@ void BoardState::undo() {
     //capturing piece
     if (!lastMove.isCastle && lastMove.capturedOrMovedPiece != nullptr){
         lastMove.capturedOrMovedPiece->isAlive = true;
-        int aliveX = lastMove.capturedOrMovedPiece->position_x;
-        int aliveY = lastMove.capturedOrMovedPiece->position_y;
+        int aliveX = lastMove.capturedOrMovedPiece->positionX;
+        int aliveY = lastMove.capturedOrMovedPiece->positionY;
         board[aliveY][aliveX] = lastMove.capturedOrMovedPiece;
     }
 
 }
 
 
-bool BoardState::canStartGame() const {
+bool BoardState::canStartGame() {
+    // Check that there is exactly one king of each color
     int whiteKingCount = 0;
     int blackKingCount = 0;
-    for (auto& piece : whitePieces) {
+    for (const auto& piece : whitePieces) {
+        // Check that no pawns are on the first or last row
+        if (piece->isAlive && piece->getType() == PAWN) {
+            if (piece->positionY == 0 || piece->positionY == 7) {
+                return false;
+            }
+        }
+
+        // Count kings
         if (piece->isAlive && piece->getType() == PieceType::KING) {
             whiteKingCount++;
         }
     }
-    for (auto& piece : blackPieces) {
+    for (const auto& piece : blackPieces) {
         if (piece->isAlive && piece->getType() == PieceType::KING) {
             blackKingCount++;
         }
+        if (piece->isAlive && piece->getType() == PAWN) {
+            if (piece->positionY == 0 || piece->positionY == 7) {
+                return false;
+            }
+        }
     }
 
-    return whiteKingCount == 1 && blackKingCount == 1;
+    // Check that there is exactly one king of each color
+    if (whiteKingCount != 1 || blackKingCount != 1) {
+        return false;
+    }
+
+    // Ensure that the kings are not in check
+    KingPiece* king = isWhiteTurn ? blackKing : whiteKing;
+    if (getAttacked(king->positionX, king->positionY, isWhiteTurn)) {
+        return false;
+    }
+
+    return true;
 }
 
 

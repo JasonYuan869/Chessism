@@ -1,4 +1,5 @@
 #include "ComputerPlayer4.h"
+#include "../utility.h"
 #include <cmath>
 using namespace std;
 
@@ -9,24 +10,34 @@ ComputerPlayer4::~ComputerPlayer4() {}
 
 MoveResult ComputerPlayer4::makeMove(BoardState& board) {
     double best = -9999;
-    Move bestmove;
+    vector<pair<Move, double>> positions;
 
     vector<Move> validMoves = board.allValidMoves();
     for (const Move& m : validMoves) {
         board.movePiece(m);
         double value = minimax(DEPTH, board, false);
         board.undo();
+
+        positions.emplace_back(m, value);
         if (value >= best) {
             best = value;
-            bestmove = m;
         }
     }
 
-    if (bestmove.getTo() == make_pair(-1, -1)) {
+    if (positions.empty()) {
         return MoveResult::STALEMATE;
     }
 
-    board.movePiece(bestmove);
+    vector<Move> bestMoves;
+    for (const pair<Move, double>& p : positions) {
+        if (Utility::doubleEquality(p.second, best)) {
+            bestMoves.push_back(p.first);
+        }
+    }
+
+    int randomIndex = Utility::randomInt(0, bestMoves.size() - 1);
+    Move m = bestMoves.at(randomIndex);
+    board.movePiece(m);
     return MoveResult::SUCCESS;
 }
 

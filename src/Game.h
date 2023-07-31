@@ -7,6 +7,8 @@
 #include "players/Player.h"
 #include "Subject.h"
 
+#define NUM_FEATURES 4
+
 class Game : public Subject {
     BoardState board;
     std::unique_ptr<Player> white;
@@ -17,6 +19,7 @@ class Game : public Subject {
         1 << 0 is undo
         1 << 1 is help 
         1 << 2 is switch player
+        1 << 3 is computer hint
     */
     int features;
 public:
@@ -30,6 +33,9 @@ public:
     // blackScore += return
     // whiteScore += (1-return)
     double run();
+
+    // Returns a unique_ptr to a player of the given type
+    static std::unique_ptr<Player> makePlayer(bool white, const std::string& playerType);
 };
 
 #endif

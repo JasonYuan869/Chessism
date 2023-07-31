@@ -128,7 +128,7 @@ double Game::run() {
         } else if (command == "enable") {
             int featureNumber = 0;
             cin >> featureNumber;
-            if (!cin || featureNumber >= 3) {
+            if (!cin || featureNumber >= NUM_FEATURES) {
                 cout << "Invalid command" << endl;
                 continue;
             }
@@ -136,7 +136,7 @@ double Game::run() {
         } else if (command == "disable") {
             int featureNumber;
             cin >> featureNumber;
-            if (!cin || featureNumber >= 3) {
+            if (!cin || featureNumber >= NUM_FEATURES) {
                 cout << "Invalid command" << endl;
                 continue;
             }
@@ -153,32 +153,42 @@ double Game::run() {
         } else if (command == "switch" && (features & (1 << 2))) {
             cout << "Select what player you would like to switch for the " << colour << " player:" << endl;
             string playerType;
-            unique_ptr<Player> newPlayer;
-
             cin >> playerType;
 
             if (!cin) {
                 cout << "Invalid player type" << endl;
                 continue;
             }
-            if (playerType == "human") {
-                newPlayer = make_unique<HumanPlayer>(board.isWhiteTurn);
-            } else if (playerType == "computer1") {
-                newPlayer = make_unique<ComputerPlayer1>(board.isWhiteTurn);
-            } else if (playerType == "computer2") {
-                newPlayer = make_unique<ComputerPlayer2>(board.isWhiteTurn);
-            } else if (playerType == "computer3") {
-                newPlayer = make_unique<ComputerPlayer3>(board.isWhiteTurn);
-            } else if (playerType == "computer4") {
-                newPlayer = make_unique<ComputerPlayer4>(board.isWhiteTurn);
-            } else {
+
+            unique_ptr<Player> newPlayer = makePlayer(board.isWhiteTurn, playerType);
+
+            if (!newPlayer) {
                 cout << "Invalid player type" << endl;
                 continue;
             }
+
             std::swap(currentPlayer, newPlayer);
             cout << "Switched in " << playerType << endl;
         } else {
             cout << "Invalid command" << endl;
         }
     }
+}
+
+std::unique_ptr<Player> Game::makePlayer(bool white, const std::string& playerType) {
+    unique_ptr<Player> newPlayer;
+    if (playerType == "human") {
+        newPlayer = make_unique<HumanPlayer>(white);
+    } else if (playerType == "computer1") {
+        newPlayer = make_unique<ComputerPlayer1>(white);
+    } else if (playerType == "computer2") {
+        newPlayer = make_unique<ComputerPlayer2>(white);
+    } else if (playerType == "computer3") {
+        newPlayer = make_unique<ComputerPlayer3>(white);
+    } else if (playerType == "computer4") {
+        newPlayer = make_unique<ComputerPlayer4>(white);
+    }
+
+    // nullptr if playerType is invalid
+    return newPlayer;
 }

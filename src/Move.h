@@ -16,7 +16,6 @@ public:
     //rookTo and rookFrom are only used for castling, otherwise they are (-1,-1).
     std::pair<int, int> rookTo;
     std::pair<int, int> rookFrom;
-    bool isCastle;
     bool disabledCastle;
 
     std::pair<int, int> getTo() const;
@@ -41,8 +40,12 @@ public:
     // Does not delete lastMove or capturedPiece as they are not owned by this object
     ~Move();
 
+    // Returns whether two moves are partially equal
+    // This is defined as having the same to, from, and promotion values
     bool sameMoveAs(Move& other) const;
 
+    // Returns whether the move is a castle by checking rookTo and rookFrom
+    bool isCastle() const;
 };
 
 #endif

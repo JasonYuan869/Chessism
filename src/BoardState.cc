@@ -207,7 +207,7 @@ bool BoardState::movePiece(const Move& move) {
     int to_y = move.to.second;
 
     //handle the capture
-    if (!move.isCastle && move.capturedOrMovedPiece != nullptr){
+    if (!move.isCastle() && move.capturedOrMovedPiece != nullptr){
        move.capturedOrMovedPiece->isAlive = false;
        int captured_x = move.capturedOrMovedPiece->x;
        int captured_y = move.capturedOrMovedPiece->y;
@@ -233,7 +233,7 @@ bool BoardState::movePiece(const Move& move) {
     board[y][x] = nullptr;
 
     //castling
-    if (move.isCastle && move.capturedOrMovedPiece != nullptr){
+    if (move.isCastle() && move.capturedOrMovedPiece != nullptr){
 
         int rookStartx = move.rookFrom.first;
         int rookStarty = move.rookFrom.second;
@@ -273,7 +273,7 @@ void BoardState::undo() {
     int endy = lastMove.to.second;
 
     //castling logic
-    if (lastMove.isCastle && lastMove.capturedOrMovedPiece != nullptr){
+    if (lastMove.isCastle() && lastMove.capturedOrMovedPiece != nullptr){
 
         int rookStartx = lastMove.rookFrom.first;
         int rookStarty = lastMove.rookFrom.second;
@@ -317,7 +317,7 @@ void BoardState::undo() {
     board[endy][endx] = nullptr;
 
     //capturing piece
-    if (!lastMove.isCastle && lastMove.capturedOrMovedPiece != nullptr){
+    if (!lastMove.isCastle() && lastMove.capturedOrMovedPiece != nullptr){
         lastMove.capturedOrMovedPiece->isAlive = true;
         int aliveX = lastMove.capturedOrMovedPiece->x;
         int aliveY = lastMove.capturedOrMovedPiece->y;

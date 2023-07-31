@@ -12,7 +12,6 @@ Move::Move() :
         capturedOrMovedPiece{nullptr},
         rookTo{-1, -1},
         rookFrom{-1, -1},
-        isCastle{false},
         disabledCastle{false} {}
 
 Move::Move(pair<int, int> to,
@@ -24,7 +23,6 @@ Move::Move(pair<int, int> to,
     capturedOrMovedPiece{nullptr},
     rookTo{-1, -1},
     rookFrom{-1, -1},
-    isCastle{false},
     disabledCastle{false} {}
 
 Move::Move(std::pair<int, int> to,
@@ -37,7 +35,6 @@ Move::Move(std::pair<int, int> to,
     capturedOrMovedPiece{capturedOrMovedPiece},
     rookTo{-1, -1},
     rookFrom{-1, -1},
-    isCastle{false},
     disabledCastle{disabledCastle} {}
 
 Move::Move(std::pair<int, int> to,
@@ -50,7 +47,6 @@ Move::Move(std::pair<int, int> to,
     capturedOrMovedPiece{capturedOrMovedPiece},
     rookTo{-1, -1},
     rookFrom{-1, -1},
-    isCastle{false},
     disabledCastle{false} {}
 
 
@@ -65,7 +61,6 @@ Move::Move(pair<int, int> to,
     capturedOrMovedPiece{capturedOrMovedPiece},
     rookTo{std::move(rookTo)},
     rookFrom{std::move(rookFrom)},
-    isCastle{true},
     disabledCastle{true} {}
 
 
@@ -85,4 +80,8 @@ bool Move::sameMoveAs(Move &other) const {
             && to == other.to
             && from == other.from
     );
+}
+
+bool Move::isCastle() const {
+    return rookTo != pair<int, int>{-1, -1} && rookFrom != pair<int, int>{-1, -1};
 }

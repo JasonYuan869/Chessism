@@ -7,7 +7,9 @@
 #include "pieces/Piece.h"
 
 class KingPiece;
+
 class Piece;
+
 class Move;
 
 class BoardState {
@@ -20,19 +22,17 @@ public:
     std::vector<std::unique_ptr<Piece>> blackPieces;
 
     // Does not own the king pieces, only stores pointers
-    KingPiece *whiteKing;
-    KingPiece *blackKing;
+    KingPiece* whiteKing;
+    KingPiece* blackKing;
 
     std::vector<Move> lastMoves;
     bool isWhiteTurn;
 
 public:
-    explicit BoardState(bool);
+    BoardState();
 
     // Do not allow copying
     BoardState(const BoardState& other) = delete;
-
-    ~BoardState();
 
     // Gets whether there is a checkmate for the given color
     // Will call updateValidMoves() and getCheck() to determine this
@@ -48,7 +48,7 @@ public:
 
     // Gets whether pieces are attacking the given location. If white == true we are seeing if there 
     // are black pieces which attack this tile
-    bool getAttacked(int x, int y, bool white); 
+    bool getAttacked(int x, int y, bool white);
 
     // Updates the validMoves vectors with the valid moves for the given color
     // Will call Piece::getPieceMoves(board) which returns a vector of moves

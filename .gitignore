@@ -13,6 +13,5 @@ chessism.cbp
 cmake_install.cmake
 CMakeCache.txt
 Makefile
-CMakeFiles/
 cmake-build-debug
 .cmake/

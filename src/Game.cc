@@ -14,12 +14,9 @@
 
 using namespace std;
 
-Game::Game(unique_ptr<Player> &&whitePlayer, unique_ptr<Player> &&blackPlayer) : board{true},
-                                                                                 white{std::move(whitePlayer)},
+Game::Game(unique_ptr<Player>&& whitePlayer, unique_ptr<Player>&& blackPlayer) : white{std::move(whitePlayer)},
                                                                                  black{std::move(blackPlayer)},
                                                                                  features{0} {}
-
-Game::~Game() {}
 
 void Game::setup() {
     cout << "Enter setup commands" << endl;
@@ -77,7 +74,7 @@ void Game::setup() {
     }
 }
 
-BoardState &Game::getBoard() {
+BoardState& Game::getBoard() {
     return board;
 }
 
@@ -86,7 +83,7 @@ double Game::run() {
     notifyObservers();
 
     while (true) {
-        unique_ptr<Player> &currentPlayer = board.isWhiteTurn ? white : black;
+        unique_ptr<Player>& currentPlayer = board.isWhiteTurn ? white : black;
         string colour = board.isWhiteTurn ? "White" : "Black";
         string opponentColour = board.isWhiteTurn ? "Black" : "White";
 

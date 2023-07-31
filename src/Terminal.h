@@ -8,7 +8,6 @@ class Terminal : public Observer {
     Game* game; 
     public: 
         explicit Terminal(Game* game);
-        ~Terminal() override;
         void notify() override;
 };
 

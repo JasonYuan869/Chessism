@@ -7,8 +7,6 @@ Terminal::Terminal(Game* game) : game{game} {
     game->attach(this);
 }
 
-Terminal::~Terminal() {}
-
 void Terminal::notify() {
     BoardState& board = game->getBoard();
 
@@ -38,6 +36,9 @@ void Terminal::notify() {
                         break;
                     case PieceType::KING:
                         cout << (piece->isWhite ? 'K' : 'k');
+                        break;
+                    case PieceType::EMPTY:
+                        // Not possible because nullptr is caught above
                         break;
                 }
             }

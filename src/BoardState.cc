@@ -9,7 +9,7 @@
 
 using namespace std;
 
-BoardState::BoardState(bool isWhiteTurn) : isWhiteTurn{isWhiteTurn} {
+BoardState::BoardState() : isWhiteTurn{true} {
     board = vector<vector<Piece*>>(8,vector<Piece*>(8,nullptr));
 
     // Rank 1
@@ -54,9 +54,6 @@ BoardState::BoardState(bool isWhiteTurn) : isWhiteTurn{isWhiteTurn} {
     whiteKing = dynamic_cast<KingPiece *>(board[0][4]);
     blackKing = dynamic_cast<KingPiece *>(board[7][4]);
 }
-
-
-BoardState::~BoardState() {}
 
 bool BoardState::getCheckmate(bool white) {
     // Update the valid moves for each piece

@@ -27,8 +27,6 @@ add_executable(chessism
         src/pieces/RookPiece.cc
         src/Terminal.cc
         src/players/Player.cc
-        src/Subject.cc
-        src/Observer.cc
         src/graphics/GraphicalTile.cc src/Utility.cc)
 
 include_directories(${X11_INCLUDE_DIR})

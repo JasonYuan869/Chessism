@@ -12,7 +12,7 @@
 
 using namespace std;
 
-void loop(double& whiteScore, double& blackScore) {
+void loop(double& whiteScore, double& blackScore, bool enableGraphics) {
     string command;
     string player1;
     string player2;
@@ -64,22 +64,36 @@ void loop(double& whiteScore, double& blackScore) {
             throw -1;
         }
 
+        // Construct the game
         Game game(std::move(whitePlayer), std::move(blackPlayer));
-        Graphical window(&game);
+
+        // Initialize observers
         Terminal terminal(&game);
 
+        unique_ptr<Graphical> window = nullptr;
+        if (enableGraphics) {
+            window = make_unique<Graphical>(&game);
+        }
+
+        // Run the game and update scores upon completion
         double score = game.run();
         blackScore += score;
-        whiteScore += (1-score);
+        whiteScore += (1 - score);
     }
 }
 
-int main() {
+int main(int argc, char** argv) {
     double whiteScore = 0;
     double blackScore = 0;
 
+    // Disable graphics if -nographics is passed
+    bool enableGraphics = true;
+    if (argc >= 2) {
+        enableGraphics = !(string(argv[1]) ==  "-nographics");
+    }
+
     try {
-        loop(whiteScore, blackScore);
+        loop(whiteScore, blackScore, enableGraphics);
     } catch (int e) {
         cout << "Final Score:" << endl;
         cout << "White: " << whiteScore << endl;

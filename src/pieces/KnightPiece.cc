@@ -15,8 +15,8 @@ KnightPiece::~KnightPiece() {
 vector<Move> KnightPiece::getPieceMoves(BoardState& board) const {
     int directions[4]= {2,1,-1,-2};
     vector<Move> moves;
-    int x = position_x;
-    int y = position_y;
+    int x = positionX;
+    int y = positionY;
     for (auto xdirection: directions){
         for (auto ydirection:directions){
             if (abs(xdirection) + abs(ydirection) == 3){
@@ -37,8 +37,8 @@ bool KnightPiece::isAttacking(int x, int y, BoardState& board) const {
     for (auto xdirection: directions){
         for (auto ydirection:directions){
             if (abs(xdirection) + abs(ydirection) == 3){
-                int new_x = position_x + xdirection;
-                int new_y = position_y + ydirection;
+                int new_x = positionX + xdirection;
+                int new_y = positionY + ydirection;
                 if (new_x == x && new_y == y){
                     return true;
                 }

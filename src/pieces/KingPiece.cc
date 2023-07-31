@@ -17,8 +17,8 @@ KingPiece::~KingPiece() {
 vector<Move> KingPiece::getPieceMoves(BoardState& board) const {
     int directions[3]= {1,0,-1};
     vector<Move> moves;
-    int x = position_x;
-    int y = position_y;
+    int x = positionX;
+    int y = positionY;
     for (auto xdirection: directions){
         for (auto ydirection:directions){
             if (xdirection != 0 || ydirection != 0){
@@ -85,8 +85,8 @@ bool KingPiece::isAttacking(int x, int y, BoardState& board) const {
     for (auto xdirection: directions){
         for (auto ydirection:directions){
             if (xdirection != 0 || ydirection != 0){
-                int new_x = position_x + xdirection;
-                int new_y = position_y + ydirection;
+                int new_x = positionX + xdirection;
+                int new_y = positionY + ydirection;
                 if (new_x == x && new_y == y){
                     return true;
                 }

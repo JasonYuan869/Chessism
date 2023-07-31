@@ -9,13 +9,13 @@ bool Piece::withinBounds(int x, int y) {
 }
 
 std::pair<int, int> Piece::getPosition() const {
-    return pair<int, int>{position_x, position_y};
+    return pair<int, int>{positionX, positionY};
 }
 void Piece::setPosition(int x,int y){
-    position_x = x;
-    position_y = y;
+    positionX = x;
+    positionY = y;
     return;
 }
 
-Piece::Piece(int x, int y, bool isWhite, bool canCastle) : position_x{x}, position_y{y}, isWhite{isWhite},
+Piece::Piece(int x, int y, bool isWhite, bool canCastle) : positionX{x}, positionY{y}, isWhite{isWhite},
                                                            isAlive{true}, canCastle{canCastle} {}

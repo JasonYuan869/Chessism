@@ -33,29 +33,26 @@ setup
 - g8
 - h8
 + r a8
-+ r f8
-+ k g8
-+ p a7
++ r e8
++ k f8
++ p b7
++ p c7
++ N e7
 + p f7
-+ p b6
-+ n c6
-+ q d6
-+ p e6
++ p h7
++ p a6
 + p g6
-+ N g5
-+ P d4
-+ P a3
-+ Q d3
-+ P b2
-+ P f2
++ B g5
++ q d4
++ P g4
++ P h3
++ P a2
 + P g2
-+ P h2
-+ R a1
-+ R f1
-+ K g1
++ K h2
++ R e1
++ R h1
 done
 
-Solution (forced knight fork on queen):
-Qh3  Kg7
-Qh7+ Kf6
-Ke4+
+Solution (bishop trade for queen):
+Bh6+ Qg7
+Bxg7+

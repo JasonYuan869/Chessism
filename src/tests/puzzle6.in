@@ -32,30 +32,27 @@ setup
 - f8
 - g8
 - h8
-+ r a8
-+ r f8
++ r e8
 + k g8
 + p a7
 + p f7
-+ p b6
-+ n c6
-+ q d6
-+ p e6
-+ p g6
-+ N g5
-+ P d4
-+ P a3
-+ Q d3
++ p g7
++ K a6
++ p c6
++ p d6
++ B g6
++ p h6
++ Q c4
++ r e3
++ P h3
++ P a2
 + P b2
-+ P f2
-+ P g2
-+ P h2
-+ R a1
++ q g2
 + R f1
-+ K g1
++ b g1
 done
 
-Solution (forced knight fork on queen):
-Qh3  Kg7
-Qh7+ Kf6
-Ke4+
+Solution (mate in 3):
+Qxf7+ Kh8
+Qf8+  Rxf8
+Rxf8#

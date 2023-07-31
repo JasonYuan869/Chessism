@@ -1,4 +1,4 @@
-game computer4 human
+game human computer4
 setup
 - a1
 - b1
@@ -32,30 +32,31 @@ setup
 - f8
 - g8
 - h8
-+ r a8
-+ r f8
-+ k g8
-+ p a7
-+ p f7
-+ p b6
-+ n c6
-+ q d6
-+ p e6
-+ p g6
-+ N g5
-+ P d4
-+ P a3
-+ Q d3
++ k c8
++ r d8
++ r h8
++ p b7
++ q e7
++ p g7
++ p a6
++ B b6
++ b d6
++ p h6
++ n e5
++ P a4
++ P c3
 + P b2
-+ P f2
++ B c2
 + P g2
 + P h2
 + R a1
++ Q d1
 + R f1
 + K g1
+= black
 done
 
-Solution (forced knight fork on queen):
-Qh3  Kg7
-Qh7+ Kf6
-Ke4+
+Solution (bishop trade for queen):
+...  Bc5+
+Bxc5 Qxc5+
+Kh1  Rxd1

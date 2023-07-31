@@ -54,8 +54,6 @@ MoveResult HumanPlayer::makeMove(BoardState& board) {
     }
 }
 
-
-
 char HumanPlayer::getPromotion(BoardState &board, pair<int,int> to, pair<int,int> from) {
     int to_x = to.first;
     int to_y = to.second;
@@ -71,4 +69,38 @@ char HumanPlayer::getPromotion(BoardState &board, pair<int,int> to, pair<int,int
     return promotionPiece;
 }
 
+void HumanPlayer::getHelp(BoardState &board){
+    string colour = isWhite ? "white" : "black";
+    cout<<"it is "<< colour << "\'s turn. Enter a tile and I can help further, or enter any other command to quit."<<endl;
+    string input;
+    cin>>input;
+    if (cin.eof()) {
+        throw -1;
+    }
 
+    if (input.size() != 2 ) {
+        return;
+    }
+
+    int x = input[0] - 'a';
+    int y = input[1] - '1';
+    if (Utility::withinBounds(x,y) && board.board[y][x] != nullptr){
+        Piece* piece = board.board[y][x];
+        int type = piece->getType();
+        string names[6] = {"pawn","rook","knight","bishop","queen","king"};
+        string color = piece->isWhite ? "white" : "black";
+        cout<<"this is a "<< color << " " << names[type] << "." <<endl;
+        vector<Move> moves = piece->validMoves;
+        if (moves.size() == 0){
+            cout<< "there are no moves for this piece."<<endl;
+        } else {
+            cout<<"It can move to : ";
+            for (auto& move : moves){
+                int to_x = move.to.first;
+                int to_y = move.to.second;
+                cout<<string(1,'a'+to_x) <<string(1,'1'+to_y)<<"  ";
+            }
+            cout<<endl;
+        }
+    }    
+}

@@ -2,6 +2,12 @@
 #include "pieces/Piece.h"
 #include "pieces/KingPiece.h"
 
+#include "players/HumanPlayer.h"
+#include "players/ComputerPlayer1.h"
+#include "players/ComputerPlayer2.h"
+#include "players/ComputerPlayer3.h"
+#include "players/ComputerPlayer4.h"
+
 #include <iostream>
 #include <string>
 using namespace std;
@@ -121,29 +127,64 @@ double Game::run() {
         } else if (command == "resign") {
             return board.isWhiteTurn ? 1 : 0;
         } else if (command == "enable"){
-            int featureNumber;
+            int featureNumber = 0;
             cin >> featureNumber;
-            if (!cin){
+            if (!cin || featureNumber > 3){
                 cout << "Invalid command" << endl;
                 continue;
             } 
-
             features  = features | (1 << featureNumber);
         } else if (command == "disable"){
             int featureNumber;
             cin >> featureNumber;
-            if (!cin){
+            if (!cin || featureNumber > 3){
                 cout << "Invalid command" << endl;
                 continue;
             } 
             features  = features & ~(1 << featureNumber);
-        } else if (command == "undo" && (features && 1)){
+        } else if (command == "undo" && (features & 1)){
             if (board.lastMoves.empty()){
                 cout << "Cannot undo from the start of the game!"<<endl;
                 continue;
             } 
             board.undo();
-        } else {
+            notifyObservers();
+        } else if (command == "help" && (features & (1 << 1))){
+            currentPlayer->getHelp(board);
+        } else if (command == "switch" && (features & (1 << 2))){
+            cout<<"select what player you would like to switch for the "<<colour<<" player:"<<endl;
+            string playerType;
+            Player* newPlayer;
+
+            cin >> playerType;
+
+            if (!cin){
+                cout << "Invalid player type" << endl;
+                continue;
+            }
+            if (playerType == "human") {
+                newPlayer = new HumanPlayer(board.isWhiteTurn);
+            } else if (playerType == "computer1") {
+                newPlayer = new ComputerPlayer1(board.isWhiteTurn);
+            } else if (playerType == "computer2") {
+                newPlayer = new ComputerPlayer2(board.isWhiteTurn);
+            } else if (playerType == "computer3") {
+                newPlayer = new ComputerPlayer3(board.isWhiteTurn);
+            } else if (playerType == "computer4") {
+                newPlayer = new ComputerPlayer4(board.isWhiteTurn);
+            } else {
+                cout << "Invalid player type" << endl;
+                continue;
+            }
+            delete currentPlayer;
+            if (board.isWhiteTurn){
+                white = newPlayer;
+            } else {
+                black = newPlayer;
+            }
+            cout<<"switched in "<<playerType<<endl;
+        }
+        else {
             cout << "Invalid command" << endl;
         }
     }

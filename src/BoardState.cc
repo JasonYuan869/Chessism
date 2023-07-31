@@ -344,6 +344,14 @@ bool BoardState::canStartGame() {
     int whiteKingCount = 0;
     int blackKingCount = 0;
     for (const auto& piece : whitePieces) {
+        // Check that no pawns are on the first or last row
+        if (piece->isAlive && piece->getType() == PAWN) {
+            if (piece->positionY == 0 || piece->positionY == 7) {
+                return false;
+            }
+        }
+
+        // Count kings
         if (piece->isAlive && piece->getType() == PieceType::KING) {
             whiteKingCount++;
         }
@@ -352,29 +360,20 @@ bool BoardState::canStartGame() {
         if (piece->isAlive && piece->getType() == PieceType::KING) {
             blackKingCount++;
         }
+        if (piece->isAlive && piece->getType() == PAWN) {
+            if (piece->positionY == 0 || piece->positionY == 7) {
+                return false;
+            }
+        }
     }
+
+    // Check that there is exactly one king of each color
     if (whiteKingCount != 1 || blackKingCount != 1) {
         return false;
     }
 
-    // Ensure no pawns are on the first or last row
-    for (auto& piece : whitePieces) {
-        if (piece->isAlive && piece->getType() == PAWN) {
-            if (piece->positionY == 0 || piece->positionY == 7) {
-                return false;
-            }
-        }
-    }
-    for (auto& piece : blackPieces) {
-        if (piece->isAlive && piece->getType() == PAWN) {
-            if (piece->positionY == 0 || piece->positionY == 7) {
-                return false;
-            }
-        }
-    }
-
     // Ensure that the kings are not in check
-    KingPiece* king = isWhiteTurn ? whiteKing : blackKing;
+    KingPiece* king = isWhiteTurn ? blackKing : whiteKing;
     if (getAttacked(king->positionX, king->positionY, isWhiteTurn)) {
         return false;
     }

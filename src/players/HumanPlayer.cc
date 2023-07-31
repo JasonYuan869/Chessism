@@ -5,7 +5,7 @@
 
 using namespace std;
 
-HumanPlayer::HumanPlayer(bool isWhite): Player{isWhite} {}
+HumanPlayer::HumanPlayer(bool isWhite) : Player{isWhite} {}
 
 MoveResult HumanPlayer::makeMove(BoardState& board) {
     vector<Move> moves = board.allValidMoves(); // get valid moves from player
@@ -37,11 +37,11 @@ MoveResult HumanPlayer::makeMove(BoardState& board) {
     pair<int, int> to_pair = {to_x, to_y};
 
     // check bounds
-    if (!Utility::withinBounds(from_x,from_y) || !Utility::withinBounds(to_x,to_y)) {
+    if (!Utility::withinBounds(from_x, from_y) || !Utility::withinBounds(to_x, to_y)) {
         cout << "Invalid location" << endl;
         return MoveResult::INVALID_MOVE;
     }
-    char promotionPiece = getPromotion(board,to_pair,from_pair);
+    char promotionPiece = getPromotion(board, to_pair, from_pair);
 
     Move m{to_pair, from_pair, promotionPiece};
     bool success = board.movePieceIfLegal(m);
@@ -54,7 +54,7 @@ MoveResult HumanPlayer::makeMove(BoardState& board) {
     }
 }
 
-char HumanPlayer::getPromotion(BoardState &board, pair<int,int> to, pair<int,int> from) {
+char HumanPlayer::getPromotion(BoardState& board, pair<int, int> to, pair<int, int> from) {
     int to_x = to.first;
     int to_y = to.second;
     int from_x = from.first;
@@ -63,44 +63,45 @@ char HumanPlayer::getPromotion(BoardState &board, pair<int,int> to, pair<int,int
 
     if (board.board[from_y][from_x] != nullptr
         && board.board[from_y][from_x]->getType() == PAWN
-        && (to_y == 7 || to_y == 0)){
+        && (to_y == 7 || to_y == 0)) {
         cin >> promotionPiece;
     }
     return promotionPiece;
 }
 
-void HumanPlayer::getHelp(BoardState &board){
+void HumanPlayer::getHelp(BoardState& board) {
     string colour = isWhite ? "white" : "black";
-    cout<<"It is "<< colour << "\'s turn. Enter a tile and I can help further, or enter any other command to quit."<<endl;
+    cout << "It is " << colour << "\'s turn. Enter a tile and I can help further, or enter any other command to quit."
+         << endl;
     string input;
-    cin>>input;
+    cin >> input;
     if (cin.eof()) {
         throw -1;
     }
 
-    if (input.size() != 2 ) {
+    if (input.size() != 2) {
         return;
     }
 
     int x = input[0] - 'a';
     int y = input[1] - '1';
-    if (Utility::withinBounds(x,y) && board.board[y][x] != nullptr){
+    if (Utility::withinBounds(x, y) && board.board[y][x] != nullptr) {
         Piece* piece = board.board[y][x];
         int type = piece->getType();
-        string names[6] = {"pawn","rook","knight","bishop","queen","king"};
+        string names[6] = {"pawn", "rook", "knight", "bishop", "queen", "king"};
         string color = piece->isWhite ? "white" : "black";
-        cout<<"this is a "<< color << " " << names[type] << "." <<endl;
+        cout << "This is a " << color << " " << names[type] << "." << endl;
         vector<Move> moves = piece->validMoves;
-        if (moves.size() == 0){
-            cout<< "there are no moves for this piece."<<endl;
+        if (moves.size() == 0) {
+            cout << "There are no moves for this piece." << endl;
         } else {
-            cout<<"It can move to : ";
-            for (auto& move : moves){
+            cout << "It can move to: ";
+            for (auto& move : moves) {
                 int to_x = move.to.first;
                 int to_y = move.to.second;
-                cout<<string(1,'a'+to_x) <<string(1,'1'+to_y)<<"  ";
+                cout << (char) ('a' + to_x) << (char) ('1' + to_y) << "  ";
             }
-            cout<<endl;
+            cout << endl;
         }
     }
 }

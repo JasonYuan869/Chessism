@@ -3,14 +3,14 @@
 using namespace std;
 
 std::pair<int, int> Piece::getPosition() const {
-    return pair<int, int>{positionX, positionY};
+    return pair<int, int>{x, y};
 }
 
 void Piece::setPosition(int x, int y) {
-    positionX = x;
-    positionY = y;
+    x = x;
+    y = y;
     return;
 }
 
-Piece::Piece(int x, int y, bool isWhite, bool canCastle) : positionX{x}, positionY{y}, isWhite{isWhite},
+Piece::Piece(int x, int y, bool isWhite, bool canCastle) : x{x}, y{y}, isWhite{isWhite},
                                                            isAlive{true}, canCastle{canCastle} {}

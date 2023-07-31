@@ -6,13 +6,12 @@ double KingPiece::value = 1000;
 
 KingPiece::KingPiece(int x, int y, bool isWhite) : Piece{x, y, isWhite, true}, checked{false} {}
 
-vector<Move> KingPiece::getPieceMoves(BoardState &board) const {
+vector<Move> KingPiece::getPieceMoves(BoardState& board) const {
     int directions[3] = {1, 0, -1};
     vector<Move> moves;
-    int x = positionX;
-    int y = positionY;
-    for (auto xdirection: directions) {
-        for (auto ydirection: directions) {
+
+    for (auto xdirection : directions) {
+        for (auto ydirection : directions) {
             if (xdirection != 0 || ydirection != 0) {
                 int new_x = x + xdirection;
                 int new_y = y + ydirection;
@@ -71,15 +70,15 @@ vector<Move> KingPiece::getPieceMoves(BoardState &board) const {
     return moves;
 }
 
-bool KingPiece::isAttacking(int x, int y, BoardState &board) const {
+bool KingPiece::isAttacking(int x, int y, BoardState& board) const {
 
     int directions[3] = {1, 0, -1};
 
-    for (auto xdirection: directions) {
-        for (auto ydirection: directions) {
+    for (auto xdirection : directions) {
+        for (auto ydirection : directions) {
             if (xdirection != 0 || ydirection != 0) {
-                int new_x = positionX + xdirection;
-                int new_y = positionY + ydirection;
+                int new_x = x + xdirection;
+                int new_y = y + ydirection;
                 if (new_x == x && new_y == y) {
                     return true;
                 }

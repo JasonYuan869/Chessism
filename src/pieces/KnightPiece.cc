@@ -6,13 +6,12 @@ double KnightPiece::value = 2.7;
 
 KnightPiece::KnightPiece(int x, int y, bool isWhite) : Piece{x, y, isWhite} {}
 
-vector<Move> KnightPiece::getPieceMoves(BoardState &board) const {
+vector<Move> KnightPiece::getPieceMoves(BoardState& board) const {
     int directions[4] = {2, 1, -1, -2};
     vector<Move> moves;
-    int x = positionX;
-    int y = positionY;
-    for (auto &xdirection : directions) {
-        for (auto &ydirection : directions) {
+
+    for (auto& xdirection : directions) {
+        for (auto& ydirection : directions) {
             if (abs(xdirection) + abs(ydirection) == 3) {
                 int new_x = x + xdirection;
                 int new_y = y + ydirection;
@@ -26,14 +25,14 @@ vector<Move> KnightPiece::getPieceMoves(BoardState &board) const {
     return moves;
 }
 
-bool KnightPiece::isAttacking(int x, int y, BoardState &board) const {
+bool KnightPiece::isAttacking(int x, int y, BoardState& board) const {
     int directions[4] = {2, 1, -1, -2};
 
-    for (auto &xdirection : directions) {
-        for (auto &ydirection : directions) {
+    for (auto& xdirection : directions) {
+        for (auto& ydirection : directions) {
             if (abs(xdirection) + abs(ydirection) == 3) {
-                int new_x = positionX + xdirection;
-                int new_y = positionY + ydirection;
+                int new_x = x + xdirection;
+                int new_y = y + ydirection;
                 if (new_x == x && new_y == y) {
                     return true;
                 }

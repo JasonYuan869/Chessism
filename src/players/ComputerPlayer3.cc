@@ -30,7 +30,7 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
             // Check if the move puts the opponent in check
             KingPiece* enemyKing = isWhite ? board.blackKing : board.whiteKing;
             board.movePiece(m);
-            if (board.getAttacked(enemyKing->positionX, enemyKing->positionY, !isWhite)) {
+            if (board.getAttacked(enemyKing->x, enemyKing->y, !isWhite)) {
                 scoredMove.second += 0.5;
             }
 

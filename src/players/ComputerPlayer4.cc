@@ -1,4 +1,5 @@
 #include "ComputerPlayer4.h"
+#include "../pieces/KingPiece.h"
 
 using namespace std;
 
@@ -52,6 +53,18 @@ double ComputerPlayer4::evaluateBoard(BoardState& board) {
             }
         }
     }
+
+    // Add points for being in check
+    if (board.isWhiteTurn) {
+        if (board.getAttacked(board.whiteKing->x, board.whiteKing->y, true)) {
+            eval += isWhite ? -2 : 2;
+        }
+    } else {
+        if (board.getAttacked(board.blackKing->x, board.blackKing->y, false)) {
+            eval += isWhite ? 2 : -2;
+        }
+    }
+
     return eval;
 }
 
@@ -83,6 +96,8 @@ double ComputerPlayer4::minimax(int depth, BoardState& board, bool isMaximizingP
 
 void ComputerPlayer4::getHelp(BoardState& board) {
     cout
-            << "Hi! I'm a Level 4 computer bot and it's my turn to move. I search for every possible move up to 4 moves ahead, and choose the best one to play. Type in \"move\" when you want me to play my turn."
+            << "Hi! I'm a Level 4 computer bot and it's my turn to move. I search for every possible move up to "
+            << DEPTH
+            << " moves ahead, and choose the best one to play. Type in \"move\" when you want me to play my turn."
             << endl;
 }

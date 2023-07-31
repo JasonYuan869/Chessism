@@ -6,15 +6,13 @@ double BishopPiece::value = 3.0;
 
 BishopPiece::BishopPiece(int x, int y, bool isWhite) : Piece{x, y, isWhite} {}
 
-vector<Move> BishopPiece::getPieceMoves(BoardState &board) const {
+vector<Move> BishopPiece::getPieceMoves(BoardState& board) const {
     vector<Move> moves;
-    int x = positionX;
-    int y = positionY;
+
     int directions[2][2] = {{1, 1},
                             {1, -1}};
 
-
-    for (auto &direction : directions) {
+    for (auto& direction : directions) {
 
         int tempx = x + direction[0];
         int tempy = y + direction[1];
@@ -57,15 +55,15 @@ vector<Move> BishopPiece::getPieceMoves(BoardState &board) const {
     return moves;
 }
 
-bool BishopPiece::isAttacking(int x, int y, BoardState &board) const {
+bool BishopPiece::isAttacking(int x, int y, BoardState& board) const {
     int directions[2][2] = {{1, 1},
                             {1, -1}};
 
 
-    for (auto &direction : directions) {
+    for (auto& direction : directions) {
 
-        int tempx = positionX + direction[0];
-        int tempy = positionY + direction[1];
+        int tempx = x + direction[0];
+        int tempy = y + direction[1];
         while (Utility::withinBounds(tempx, tempy)) {
             if (board.board[tempy][tempx] != nullptr) {
                 if (board.board[tempy][tempx]->isWhite != isWhite) {
@@ -83,8 +81,8 @@ bool BishopPiece::isAttacking(int x, int y, BoardState &board) const {
             }
         }
 
-        tempx = positionX - direction[0];
-        tempy = positionY - direction[1];
+        tempx = x - direction[0];
+        tempy = y - direction[1];
         while (Utility::withinBounds(tempx, tempy)) {
             if (board.board[tempy][tempx] != nullptr) {
                 if (board.board[tempy][tempx]->isWhite != isWhite) {

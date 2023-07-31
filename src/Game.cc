@@ -6,7 +6,7 @@
 #include <string>
 using namespace std;
 
-Game::Game(Player* whitePlayer, Player* blackPlayer) :  board{true}, white{whitePlayer}, black{blackPlayer} {}
+Game::Game(Player* whitePlayer, Player* blackPlayer) :  board{true}, white{whitePlayer}, black{blackPlayer}, features{0} {}
 
 Game::~Game() {
     delete white;
@@ -120,6 +120,30 @@ double Game::run() {
             }
         } else if (command == "resign") {
             return board.isWhiteTurn ? 1 : 0;
+        } else if (command == "enable"){
+            int featureNumber;
+            cin >> featureNumber;
+            if (!cin){
+                cout << "Invalid command" << endl;
+                continue;
+            } 
+
+            features  = features | (1 << featureNumber);
+        } else if (command == "disable"){
+            int featureNumber;
+            cin >> featureNumber;
+            if (!cin){
+                cout << "Invalid command" << endl;
+                continue;
+            } 
+
+            features  = features & ~(1 << featureNumber);
+        } else if (command == "undo" && (features && 1)){
+            if (board.lastMoves.empty()){
+                cout << "Cannot undo from the start of the game!"<<endl;
+                continue;
+            } 
+            board.undo();
         } else {
             cout << "Invalid command" << endl;
         }

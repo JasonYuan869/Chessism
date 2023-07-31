@@ -15,7 +15,6 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
     vector<pair<Move, double>> positions;
     vector<Piece*> pieces = isWhite ? board.whitePieces : board.blackPieces;
 
-    // Same logic as ComputerPlayer2
     for (Piece* p : pieces) {
         if (!p->isAlive) {
             continue;

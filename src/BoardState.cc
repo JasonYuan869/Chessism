@@ -140,21 +140,21 @@ void BoardState::removePiece(int x, int y) {
 
 void BoardState::updateValidMoves(bool white) {
     KingPiece* king = white ? whiteKing : blackKing;
-    for (auto& piece : white ? whitePieces : blackPieces) {
+    vector<unique_ptr<Piece>>& pieces = white ? whitePieces : blackPieces;
+
+    // Don't use a range based loop here because we might mutate the vector during move simulation (promotion)
+    // This leads to an occasional bug where the iterator and unique_ptr are invalidated if the vector is resized
+    for (int i = 0; i < pieces.size(); i++) {
         vector<Move> moves;
 
-        if (!piece->isAlive){
-            piece->validMoves = moves;
+        if (!pieces[i]->isAlive){
+            pieces[i]->validMoves = moves;
             continue;
         }
 
-        for (const auto& move : piece->getPieceMoves(*this)) {
+        for (const auto& move : pieces[i]->getPieceMoves(*this)) {
             // Simulate the move
             if (movePiece(move)) {
-                // TODO: Bug where move is a promotion that pushes to the pieces vector,
-                //  causing a resize operation and invalidating the unique_ptr to piece.
-                //  This causes a segfault when writing to piece->validMoves
-
                 // Is our king checked?
                 if (!getAttacked(king->positionX, king->positionY, white)) {
                     // Add the move to the vector of moves
@@ -167,7 +167,7 @@ void BoardState::updateValidMoves(bool white) {
         }
 
         // Update the validMoves vector
-        piece->validMoves = moves;
+        pieces[i]->validMoves = moves;
     }
 }
 

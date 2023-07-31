@@ -30,6 +30,7 @@ public:
     std::vector<Move> validMoves;
 
     Piece(int x ,int y,bool isWhite,bool canCastle = false);
+    virtual ~Piece() = default;
 
     virtual std::vector<Move> getPieceMoves(BoardState &board) const = 0;
 

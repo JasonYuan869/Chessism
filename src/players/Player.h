@@ -15,6 +15,7 @@ protected:
     bool isWhite;
 public:
     explicit Player(bool isWhite);
+    virtual ~Player() = default;
     virtual MoveResult makeMove(BoardState &board) = 0;
     virtual void getHelp(BoardState &board) = 0;
 };

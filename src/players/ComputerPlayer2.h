@@ -11,6 +11,8 @@ public:
     ~ComputerPlayer2() override;
 
     MoveResult makeMove(BoardState &board) override;
+    void getHelp(BoardState &board) override;
+
 };
 
 #endif

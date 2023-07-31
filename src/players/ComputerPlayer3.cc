@@ -92,3 +92,9 @@ double ComputerPlayer3::mostValuableAttacked(BoardState& board) {
 
     return maxScore;
 }
+
+
+
+void ComputerPlayer3::getHelp(BoardState& board){
+    cout<<"Hi! I'm a Level 3 computer bot and it's my turn to move. Type in \"move\" when you want me to play my turn." <<endl;
+}

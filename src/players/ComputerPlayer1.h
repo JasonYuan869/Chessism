@@ -9,6 +9,8 @@ class ComputerPlayer1 : public Player {
         explicit ComputerPlayer1(bool isWhite);
         ~ComputerPlayer1() override;
         MoveResult makeMove(BoardState& board) override;
+        void getHelp(BoardState &board) override;
+
 };
 
 #endif

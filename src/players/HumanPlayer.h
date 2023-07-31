@@ -10,6 +10,8 @@ public:
     explicit HumanPlayer(bool isWhite);
 
     MoveResult makeMove(BoardState &board) override;
+    void getHelp(BoardState &board) override;
+
 };
 
 #endif

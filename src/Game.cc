@@ -136,7 +136,6 @@ double Game::run() {
                 cout << "Invalid command" << endl;
                 continue;
             } 
-
             features  = features & ~(1 << featureNumber);
         } else if (command == "undo" && (features && 1)){
             if (board.lastMoves.empty()){

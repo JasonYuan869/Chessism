@@ -14,6 +14,8 @@ public:
 
     // Returns the most valuable piece that is under attack by the opponent, given the board state.
     double mostValuableAttacked(BoardState &board);
+    void getHelp(BoardState &board) override;
+
 };
 
 #endif

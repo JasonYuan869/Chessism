@@ -15,6 +15,7 @@ public:
     double evaluateBoard(BoardState &board);
 
     double minimax(int depth, BoardState &board, bool isMaximizingPlayer);
+    void getHelp(BoardState &board) override;
 };
 
 #endif

@@ -19,3 +19,9 @@ MoveResult ComputerPlayer1::makeMove(BoardState& board) {
     board.movePiece(m);
     return MoveResult::SUCCESS;
 }
+
+
+
+void ComputerPlayer1::getHelp(BoardState& board){
+    cout<<"Hi! I'm a Level 1 computer bot and it's my turn to move. I make moves randomly! Type in \"move\" when you want me to play my turn." <<endl;
+}

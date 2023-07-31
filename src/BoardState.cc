@@ -148,9 +148,13 @@ void BoardState::updateValidMoves(bool white) {
             continue;
         }
 
-        for (auto& move : piece->getPieceMoves(*this)) {
+        for (const auto& move : piece->getPieceMoves(*this)) {
             // Simulate the move
             if (movePiece(move)) {
+                // TODO: Bug where move is a promotion that pushes to the pieces vector,
+                //  causing a resize operation and invalidating the unique_ptr to piece.
+                //  This causes a segfault when writing to piece->validMoves
+
                 // Is our king checked?
                 if (!getAttacked(king->positionX, king->positionY, white)) {
                     // Add the move to the vector of moves
@@ -294,8 +298,7 @@ void BoardState::undo() {
         pieces.pop_back();
 
         // Find the pawn used to promote
-        Piece* pawn = nullptr;
-        for (auto& piece : pieces){
+        for (auto& piece : pieces) {
             if (!piece->isAlive && piece->getPosition() == lastMove.from) {
                 piece->isAlive = true;
                 board[starty][startx] = piece.get();

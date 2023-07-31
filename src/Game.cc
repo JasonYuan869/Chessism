@@ -176,7 +176,7 @@ double Game::run() {
                 continue;
             }
             std::swap(currentPlayer, newPlayer);
-            cout << "switched in " << playerType << endl;
+            cout << "Switched in " << playerType << endl;
         } else {
             cout << "Invalid command" << endl;
         }

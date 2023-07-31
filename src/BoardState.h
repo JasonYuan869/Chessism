@@ -14,21 +14,24 @@ class Move;
 
 class BoardState {
 public:
-    // Does not own the pieces, only stores pointers
-    std::vector<std::vector<Piece*>> board;
+    bool isWhiteTurn;
 
     // Source of truth for pieces, full ownership and responsible for deletion
     std::vector<std::unique_ptr<Piece>> whitePieces;
     std::vector<std::unique_ptr<Piece>> blackPieces;
 
+    // Does not own the pieces, only stores pointers
+    std::vector<std::vector<Piece*>> board;
+
     // Does not own the king pieces, only stores pointers
     KingPiece* whiteKing;
     KingPiece* blackKing;
 
+    // Stack of moves, used for undoing
     std::vector<Move> lastMoves;
-    bool isWhiteTurn;
 
 public:
+    // Default constructor, initializes the board and sets it to white's turn
     BoardState();
 
     // Do not allow copying
@@ -77,8 +80,8 @@ public:
     // Concatenates all validMoves vectors for the current player
     std::vector<Move> allValidMoves() const;
 
-    static std::unique_ptr<Piece> makePiece(char, int, int);
-
+    // Makes a piece based on the given character
+    static std::unique_ptr<Piece> makePiece(char piece, int y, int x);
 };
 
 #endif 

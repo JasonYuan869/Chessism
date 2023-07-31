@@ -61,7 +61,7 @@ char HumanPlayer::getPromotion(BoardState &board, pair<int,int> to, pair<int,int
     int from_y = from.second;
     char promotionPiece = '-';
 
-    if (board.board[from_y][from_x] != nullptr 
+    if (board.board[from_y][from_x] != nullptr
         && board.board[from_y][from_x]->getType() == PAWN
         && (to_y == 7 || to_y == 0)){
         cin >> promotionPiece;
@@ -71,7 +71,7 @@ char HumanPlayer::getPromotion(BoardState &board, pair<int,int> to, pair<int,int
 
 void HumanPlayer::getHelp(BoardState &board){
     string colour = isWhite ? "white" : "black";
-    cout<<"it is "<< colour << "\'s turn. Enter a tile and I can help further, or enter any other command to quit."<<endl;
+    cout<<"It is "<< colour << "\'s turn. Enter a tile and I can help further, or enter any other command to quit."<<endl;
     string input;
     cin>>input;
     if (cin.eof()) {
@@ -102,5 +102,5 @@ void HumanPlayer::getHelp(BoardState &board){
             }
             cout<<endl;
         }
-    }    
+    }
 }

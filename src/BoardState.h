@@ -23,6 +23,9 @@ public:
 public:
     explicit BoardState(bool);
 
+    // Do not allow copying
+    BoardState(const BoardState& other) = delete;
+
     ~BoardState();
 
     // Gets whether there is a checkmate for the given color
@@ -64,8 +67,11 @@ public:
     // so the game can start
     bool canStartGame() const;
 
-    static Piece* makePiece(char, int, int);
+    // Returns all valid moves for the current player
+    // Concatenates all validMoves vectors for the current player
+    std::vector<Move> allValidMoves() const;
 
+    static Piece* makePiece(char, int, int);
 
 };
 

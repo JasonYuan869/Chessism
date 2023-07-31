@@ -61,6 +61,7 @@ BoardState::BoardState(bool isWhiteTurn) : isWhiteTurn{isWhiteTurn} {
 
 }
 
+
 BoardState::~BoardState() {
     // Delete pieces
     for (auto& piece : whitePieces) {
@@ -165,7 +166,7 @@ void BoardState::updateValidMoves(bool white) {
 
         for (auto& move : piece->getPieceMoves(*this)) {
             // Simulate the move
-            if (movePiece(move)){
+            if (movePiece(move)) {
                 // Is our king checked?
                 if (!getAttacked(king->position_x, king->position_y, white)) {
                     // Add the move to the vector of moves
@@ -174,7 +175,7 @@ void BoardState::updateValidMoves(bool white) {
 
                 // Undo the move
                 undo();
-            }            
+            }
         }
 
         // Update the validMoves vector
@@ -188,7 +189,7 @@ bool BoardState::movePieceIfLegal(const Move& move){
     int y = move.from.second;
     Piece* pieceToMove = board[y][x];
 
-    if (pieceToMove == nullptr || (pieceToMove->isWhite != isWhiteTurn)){
+    if (pieceToMove == nullptr || pieceToMove->isWhite != isWhiteTurn) {
         return false;
     }
 
@@ -241,6 +242,7 @@ bool BoardState::movePiece(const Move& move) {
     }
 
     board[y][x] = nullptr;
+
     //castling
     if (move.isCastle && move.capturedOrMovedPiece != nullptr){
 
@@ -269,10 +271,10 @@ void BoardState::undo() {
     }
     //toggle the turn so that the logic is more similar to movePiece
     //we will undo movePiece in the opposite order compared to the order that
-    //the last movePiece was done in 
+    //the last movePiece was done in
     isWhiteTurn = !isWhiteTurn;
     bool lastTurnIsWhite = isWhiteTurn;
-    Move lastMove = lastMoves.back(); 
+    Move lastMove = lastMoves.back();
     lastMoves.pop_back();
 
     int startx = lastMove.from.first;
@@ -281,7 +283,7 @@ void BoardState::undo() {
     int endx = lastMove.to.first;
     int endy = lastMove.to.second;
 
-    //castling logic 
+    //castling logic
     if (lastMove.isCastle && lastMove.capturedOrMovedPiece != nullptr){
 
         int rookStartx = lastMove.rookFrom.first;
@@ -318,7 +320,7 @@ void BoardState::undo() {
         Piece* pieceThatMoved = board[endy][endx];
         board[starty][startx] = pieceThatMoved;
         pieceThatMoved->setPosition(startx,starty);
-        
+
         if (lastMove.disabledCastle) {
             pieceThatMoved->canCastle = true;
         }
@@ -384,5 +386,14 @@ Piece *BoardState::makePiece(char piece, int y, int x) {
         default:
             return nullptr;
     }
+}
+
+std::vector<Move> BoardState::allValidMoves() const {
+    const vector<Piece*>& pieces = isWhiteTurn ? whitePieces : blackPieces;
+    vector<Move> moves;
+    for (auto& piece : pieces) {
+        moves.insert(moves.end(), piece->validMoves.begin(), piece->validMoves.end());
+    }
+    return moves;
 }
 

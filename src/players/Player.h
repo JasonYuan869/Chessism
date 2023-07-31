@@ -8,20 +8,17 @@ enum MoveResult {
     INVALID_MOVE,
     SUCCESS,
     STALEMATE,
-    RESIGNED,
-    SETUP
 };
 
 class Player {
-    protected:
-        bool isWhite;
-    public:
-        explicit Player(bool isWhite);
-        virtual ~Player();
-        virtual MoveResult makeMove(BoardState& board)=0;
+protected:
+    bool isWhite;
+public:
+    explicit Player(bool isWhite);
 
-        // Returns a vector of all valid moves for the player
-        std::vector<Move> allValidMoves(BoardState& board);
+    virtual ~Player();
+
+    virtual MoveResult makeMove(BoardState &board) = 0;
 };
 
 #endif

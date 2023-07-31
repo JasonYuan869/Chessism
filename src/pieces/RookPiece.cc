@@ -74,8 +74,8 @@ bool RookPiece::isAttacking(int x, int y, BoardState& board) const {
                             {1, 0}};
 
     for (auto& direction : directions) {
-        int tempx = x + direction[0];
-        int tempy = y + direction[1];
+        int tempx = this->x + direction[0];
+        int tempy = this->y + direction[1];
         while (Utility::withinBounds(tempx, tempy)) {
             if (board.board[tempy][tempx] != nullptr) {
                 if (board.board[tempy][tempx]->isWhite != isWhite) {
@@ -93,8 +93,8 @@ bool RookPiece::isAttacking(int x, int y, BoardState& board) const {
             }
         }
 
-        tempx = x - direction[0];
-        tempy = y - direction[1];
+        tempx = this->x - direction[0];
+        tempy = this->y - direction[1];
         while (Utility::withinBounds(tempx, tempy)) {
             if (board.board[tempy][tempx] != nullptr) {
                 if (board.board[tempy][tempx]->isWhite != isWhite) {

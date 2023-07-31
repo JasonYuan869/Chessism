@@ -78,8 +78,8 @@ bool KingPiece::isAttacking(int x, int y, BoardState& board) const {
     for (auto xdirection : directions) {
         for (auto ydirection : directions) {
             if (xdirection != 0 || ydirection != 0) {
-                int new_x = x + xdirection;
-                int new_y = y + ydirection;
+                int new_x = this->x + xdirection;
+                int new_y = this->y + ydirection;
                 if (new_x == x && new_y == y) {
                     return true;
                 }

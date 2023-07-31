@@ -3,13 +3,11 @@
 #include <vector>
 #include <algorithm>
 #include "../pieces/KingPiece.h"
-#include "../utility.h"
+#include "../Utility.h"
 
 using namespace std;
 
 ComputerPlayer2::ComputerPlayer2(bool isWhite): Player{isWhite} {}
-
-ComputerPlayer2::~ComputerPlayer2() {}
 
 MoveResult ComputerPlayer2::makeMove(BoardState& board) {
     double highestScore = -9999;

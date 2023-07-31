@@ -1,9 +1,8 @@
 #include "ComputerPlayer1.h"
-#include "../utility.h"
+#include "../Utility.h"
 
 using namespace std;
 ComputerPlayer1::ComputerPlayer1(bool isWhite): Player{isWhite} {}
-ComputerPlayer1::~ComputerPlayer1() {}
 
 MoveResult ComputerPlayer1::makeMove(BoardState& board) {
     vector<Move> moves = board.allValidMoves(); // get valid moves from player

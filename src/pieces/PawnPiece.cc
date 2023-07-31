@@ -1,20 +1,15 @@
 
 #include "PawnPiece.h"
+
 using namespace std;
 
 double PawnPiece::value = 1;
 
-PawnPiece::PawnPiece(int x, int y,bool isWhite) : Piece{x,y,isWhite} {
+PawnPiece::PawnPiece(int x, int y, bool isWhite) : Piece{x, y, isWhite} {}
 
-}
+vector<Move> PawnPiece::getPieceMoves(BoardState &board) const {
 
-PawnPiece::~PawnPiece() {
-
-}
-
-vector<Move> PawnPiece::getPieceMoves(BoardState& board) const { 
-    
-    vector<Move> moves; 
+    vector<Move> moves;
 
 
     int x = positionX;
@@ -22,65 +17,68 @@ vector<Move> PawnPiece::getPieceMoves(BoardState& board) const {
     int direction = isWhite ? 1 : -1;
     int new_y = y + direction;
 
-    if (withinBounds(x,new_y) && board.board[new_y][x] == nullptr){
-        addToMoveList(x,new_y,nullptr,moves);
-        if ((isWhite && y == 1) || (!isWhite && y == 6)){
+    if (Utility::withinBounds(x, new_y) && board.board[new_y][x] == nullptr) {
+        addToMoveList(x, new_y, nullptr, moves);
+        if ((isWhite && y == 1) || (!isWhite && y == 6)) {
             int doubleMove = direction * 2;
-            if (withinBounds(x,y + doubleMove) && board.board[y+doubleMove][x] == nullptr){
-                addToMoveList(x,y+doubleMove,nullptr,moves);
+            if (Utility::withinBounds(x, y + doubleMove) && board.board[y + doubleMove][x] == nullptr) {
+                addToMoveList(x, y + doubleMove, nullptr, moves);
             }
         }
     }
-    int new_x = x+1;
+    int new_x = x + 1;
 
-    if (withinBounds(new_x,new_y) && board.board[new_y][new_x] != nullptr && (board.board[new_y][new_x]->isWhite != isWhite) ){
-        addToMoveList(new_x,new_y,board.board[new_y][new_x],moves);
+    if (Utility::withinBounds(new_x, new_y) && board.board[new_y][new_x] != nullptr &&
+        (board.board[new_y][new_x]->isWhite != isWhite)) {
+        addToMoveList(new_x, new_y, board.board[new_y][new_x], moves);
     }
 
-    new_x = x-1;
-    if (withinBounds(new_x,new_y) && board.board[new_y][new_x] != nullptr && (board.board[new_y][new_x]->isWhite != isWhite) ){
-        addToMoveList(new_x,new_y,board.board[new_y][new_x],moves);
+    new_x = x - 1;
+    if (Utility::withinBounds(new_x, new_y) && board.board[new_y][new_x] != nullptr &&
+        (board.board[new_y][new_x]->isWhite != isWhite)) {
+        addToMoveList(new_x, new_y, board.board[new_y][new_x], moves);
     }
-    
-    enPassant(board,moves);
+
+    enPassant(board, moves);
     return moves;
 
 }
 
-bool PawnPiece::isAttacking(int x, int y, BoardState& board) const {
+bool PawnPiece::isAttacking(int x, int y, BoardState &board) const {
     int direction = isWhite ? 1 : -1;
 
-    if (y == positionY + direction && (x == positionX + 1 || x == positionX - 1)){
+    if (y == positionY + direction && (x == positionX + 1 || x == positionX - 1)) {
         return true;
     }
-    if (enPassantAttacking(x,y,board)){
+    if (enPassantAttacking(x, y, board)) {
         return true;
     }
     return false;
 }
 
-bool PawnPiece::enPassantAttacking(int target_x, int target_y, BoardState &board) const{
-    if (board.lastMoves.empty()){
+bool PawnPiece::enPassantAttacking(int target_x, int target_y, BoardState &board) const {
+    if (board.lastMoves.empty()) {
         return false;
     }
-    
+
     int x = positionX;
     int y = positionY;
     int lastMoveStarty = board.lastMoves.back().getFrom().second;
 
     int lastMoveEndx = board.lastMoves.back().getTo().first;
     int lastMoveEndy = board.lastMoves.back().getTo().second;
-    
+
     return (
-        target_x == lastMoveEndx && target_y == lastMoveEndy &&
-        y == lastMoveEndy && abs(lastMoveEndx - x) == 1
-        && board.board[y][lastMoveEndx] != nullptr 
-        && board.board[y][lastMoveEndx]->getType() == PAWN
-        && abs(lastMoveEndy - lastMoveStarty) == 2
+            target_x == lastMoveEndx && target_y == lastMoveEndy &&
+            y == lastMoveEndy && abs(lastMoveEndx - x) == 1
+            && board.board[y][lastMoveEndx] != nullptr
+            && board.board[y][lastMoveEndx]->getType() == PAWN
+            && abs(lastMoveEndy - lastMoveStarty) == 2
     );
 }
-void PawnPiece::enPassant(BoardState& board, vector<Move>& moves) const {
-    if (board.lastMoves.empty()){
+
+void PawnPiece::enPassant(BoardState &board, vector<Move> &moves) const {
+    if (board.lastMoves.empty()) {
         return;
     }
     int x = positionX;
@@ -89,36 +87,50 @@ void PawnPiece::enPassant(BoardState& board, vector<Move>& moves) const {
 
     int lastMoveEndx = board.lastMoves.back().getTo().first;
     int lastMoveEndy = board.lastMoves.back().getTo().second;
-    
+
     if (
-        y == lastMoveEndy && abs(lastMoveEndx - x) == 1
-        && board.board[y][lastMoveEndx] != nullptr 
-        && board.board[y][lastMoveEndx]->getType() == PAWN
-        && abs(lastMoveEndy - lastMoveStarty) == 2
-    ) {
-        moves.push_back(Move{
-            {lastMoveEndx,(lastMoveStarty + lastMoveEndy)/2},
-            {x,y},
-            board.board[lastMoveEndy][lastMoveEndx]
-        });
+            y == lastMoveEndy && abs(lastMoveEndx - x) == 1
+            && board.board[y][lastMoveEndx] != nullptr
+            && board.board[y][lastMoveEndx]->getType() == PAWN
+            && abs(lastMoveEndy - lastMoveStarty) == 2
+            ) {
+        moves.emplace_back(
+                make_pair(lastMoveEndx, (lastMoveStarty + lastMoveEndy) / 2),
+                make_pair(x, y),
+                board.board[lastMoveEndy][lastMoveEndx]
+        );
     }
 }
 
-void PawnPiece::addToMoveList(int new_x, int new_y, Piece* pieceCaptured, vector<Move>& moves) const {
+void PawnPiece::addToMoveList(int new_x, int new_y, Piece *pieceCaptured, vector<Move> &moves) const {
     int x = positionX;
     int y = positionY;
-    char blackPromotions[4] = {'q','r','b','n'};
-    char whitePromotions[4] = {'Q','R','B','N'};
-    if (isWhite && new_y == 7){
-        for (auto promotion : whitePromotions){
-            moves.push_back(Move{{new_x,new_y},{x,y},pieceCaptured, promotion});
+    char blackPromotions[4] = {'q', 'r', 'b', 'n'};
+    char whitePromotions[4] = {'Q', 'R', 'B', 'N'};
+    if (isWhite && new_y == 7) {
+        for (auto &promotion : whitePromotions) {
+            moves.emplace_back(
+                    make_pair(new_x, new_y),
+                    make_pair(x, y),
+                    pieceCaptured,
+                    promotion
+            );
         }
-    } else if (!isWhite && new_y == 0){
-        for (auto promotion : blackPromotions){
-            moves.push_back(Move{{new_x,new_y},{x,y},pieceCaptured,promotion});
+    } else if (!isWhite && new_y == 0) {
+        for (auto &promotion : blackPromotions) {
+            moves.emplace_back(
+                    make_pair(new_x, new_y),
+                    make_pair(x, y),
+                    pieceCaptured,
+                    promotion
+            );
         }
     } else {
-        moves.push_back(Move{{new_x,new_y},{x,y}, pieceCaptured});
+        moves.emplace_back(
+                make_pair(new_x, new_y),
+                make_pair(x, y),
+                pieceCaptured
+        );
     }
 }
 

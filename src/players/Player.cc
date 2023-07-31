@@ -3,5 +3,3 @@ using namespace std;
 
 Player::Player(bool isWhite) : isWhite{isWhite} {}
 
-Player::~Player() {}
-

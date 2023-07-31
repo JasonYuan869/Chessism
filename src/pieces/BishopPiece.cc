@@ -4,99 +4,103 @@ using namespace std;
 
 double BishopPiece::value = 3.0;
 
-BishopPiece::BishopPiece(int x, int y,bool isWhite) : Piece{x,y,isWhite} {
+BishopPiece::BishopPiece(int x, int y, bool isWhite) : Piece{x, y, isWhite} {}
 
-}
-
-BishopPiece::~BishopPiece() {
-
-}
-
-vector<Move> BishopPiece::getPieceMoves(BoardState& board) const {
+vector<Move> BishopPiece::getPieceMoves(BoardState &board) const {
     vector<Move> moves;
     int x = positionX;
     int y = positionY;
-    int directions[2][2] = {{1,1},{1,-1}};
+    int directions[2][2] = {{1, 1},
+                            {1, -1}};
 
 
-    for (auto& direction : directions){
+    for (auto &direction : directions) {
 
         int tempx = x + direction[0];
         int tempy = y + direction[1];
-        while (withinBounds(tempx, tempy)){
-            if (board.board[tempy][tempx] != nullptr ) {
-                if  (board.board[tempy][tempx]->isWhite != isWhite){
-                    moves.push_back(Move{{tempx,tempy},{x,y},board.board[tempy][tempx]});
-                } 
+        while (Utility::withinBounds(tempx, tempy)) {
+            if (board.board[tempy][tempx] != nullptr) {
+                if (board.board[tempy][tempx]->isWhite != isWhite) {
+                    moves.emplace_back(
+                            make_pair(tempx, tempy),
+                            make_pair(x, y),
+                            board.board[tempy][tempx]
+                    );
+                }
                 break;
             } else {
-                moves.push_back(Move{{tempx,tempy},{x,y}});
+                moves.emplace_back(make_pair(tempx, tempy), make_pair(x, y));
                 tempx += direction[0];
                 tempy += direction[1];
             }
-        } 
+        }
 
         tempx = x - direction[0];
         tempy = y - direction[1];
-       while (withinBounds(tempx, tempy)){
-            if (board.board[tempy][tempx] != nullptr ) {
-                if  (board.board[tempy][tempx]->isWhite != isWhite){
-                    moves.push_back(Move{{tempx,tempy},{x,y},board.board[tempy][tempx]});
-                } 
+        while (Utility::withinBounds(tempx, tempy)) {
+            if (board.board[tempy][tempx] != nullptr) {
+                if (board.board[tempy][tempx]->isWhite != isWhite) {
+                    moves.emplace_back(
+                            make_pair(tempx, tempy),
+                            make_pair(x, y),
+                            board.board[tempy][tempx]
+                    );
+                }
                 break;
             } else {
-                moves.push_back(Move{{tempx,tempy},{x,y}});
+                moves.emplace_back(make_pair(tempx, tempy), make_pair(x, y));
                 tempx -= direction[0];
                 tempy -= direction[1];
             }
-        } 
+        }
     }
     return moves;
 }
 
-bool BishopPiece::isAttacking(int x, int y, BoardState& board) const {
-        int directions[2][2] = {{1,1},{1,-1}};
+bool BishopPiece::isAttacking(int x, int y, BoardState &board) const {
+    int directions[2][2] = {{1, 1},
+                            {1, -1}};
 
 
-        for (auto& direction : directions){
+    for (auto &direction : directions) {
 
         int tempx = positionX + direction[0];
         int tempy = positionY + direction[1];
-        while (withinBounds(tempx, tempy)){
-            if (board.board[tempy][tempx] != nullptr ) {
-                if  (board.board[tempy][tempx]->isWhite != isWhite){
-                    if (tempx == x && tempy == y){
+        while (Utility::withinBounds(tempx, tempy)) {
+            if (board.board[tempy][tempx] != nullptr) {
+                if (board.board[tempy][tempx]->isWhite != isWhite) {
+                    if (tempx == x && tempy == y) {
                         return true;
-                    }                
-                } 
+                    }
+                }
                 break;
             } else {
-                if (tempx == x && tempy == y){
+                if (tempx == x && tempy == y) {
                     return true;
                 }
                 tempx += direction[0];
                 tempy += direction[1];
             }
-        } 
+        }
 
         tempx = positionX - direction[0];
         tempy = positionY - direction[1];
-        while (withinBounds(tempx, tempy)){
-            if (board.board[tempy][tempx] != nullptr ) {
-                if  (board.board[tempy][tempx]->isWhite != isWhite){
-                    if (tempx == x && tempy == y){
+        while (Utility::withinBounds(tempx, tempy)) {
+            if (board.board[tempy][tempx] != nullptr) {
+                if (board.board[tempy][tempx]->isWhite != isWhite) {
+                    if (tempx == x && tempy == y) {
                         return true;
-                    }                
-                } 
+                    }
+                }
                 break;
             } else {
-                if (tempx == x && tempy == y){
+                if (tempx == x && tempy == y) {
                     return true;
                 }
                 tempx -= direction[0];
                 tempy -= direction[1];
             }
-        } 
+        }
     }
     return false;
 }

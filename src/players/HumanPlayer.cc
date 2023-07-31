@@ -1,5 +1,5 @@
 #include "HumanPlayer.h"
-#include "../utility.h"
+#include "../Utility.h"
 #include <iostream>
 #include <vector>
 

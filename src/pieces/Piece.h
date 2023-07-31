@@ -4,6 +4,7 @@
 #include <vector>
 #include "../Move.h"
 #include "../BoardState.h"
+#include "../Utility.h"
 
 enum PieceType {
     PAWN = 0,
@@ -28,9 +29,7 @@ public:
     bool canCastle;
     std::vector<Move> validMoves;
 
-    static bool withinBounds(int x, int y); //returns true if the position is inside the board
     Piece(int x ,int y,bool isWhite,bool canCastle = false);
-    virtual ~Piece();
 
     virtual std::vector<Move> getPieceMoves(BoardState &board) const = 0;
 

@@ -9,14 +9,14 @@ class BishopPiece : public Piece {
 public:
     static double value;
 
-    BishopPiece(int,int,bool);
-
-    ~BishopPiece() override;
+    BishopPiece(int, int, bool);
 
     std::vector<Move> getPieceMoves(BoardState &board) const override;
 
     bool isAttacking(int x, int y, BoardState &board) const override;
+
     double getValue() override;
+
     PieceType getType() override;
 };
 

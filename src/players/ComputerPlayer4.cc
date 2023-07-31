@@ -1,12 +1,10 @@
 #include "ComputerPlayer4.h"
-#include "../utility.h"
-#include <cmath>
+
 using namespace std;
 
-#define DEPTH 3
+#define DEPTH 4
 
-ComputerPlayer4::ComputerPlayer4(bool isWhite): Player{isWhite} {}
-ComputerPlayer4::~ComputerPlayer4() {}
+ComputerPlayer4::ComputerPlayer4(bool isWhite) : Player{isWhite} {}
 
 MoveResult ComputerPlayer4::makeMove(BoardState& board) {
     double best = -9999;
@@ -15,7 +13,7 @@ MoveResult ComputerPlayer4::makeMove(BoardState& board) {
     vector<Move> validMoves = board.allValidMoves();
     for (const Move& m : validMoves) {
         board.movePiece(m);
-        double value = minimax(DEPTH, board, false);
+        double value = minimax(DEPTH - 1, board, false);
         board.undo();
 
         positions.emplace_back(m, value);
@@ -83,6 +81,8 @@ double ComputerPlayer4::minimax(int depth, BoardState& board, bool isMaximizingP
 }
 
 
-void ComputerPlayer4::getHelp(BoardState& board){
-    cout<<"Hi! I'm a Level 4 computer bot and it's my turn to move. I search for every possible move up to 4 moves ahead, and choose the best one to play. Type in \"move\" when you want me to play my turn." <<endl;
+void ComputerPlayer4::getHelp(BoardState& board) {
+    cout
+            << "Hi! I'm a Level 4 computer bot and it's my turn to move. I search for every possible move up to 4 moves ahead, and choose the best one to play. Type in \"move\" when you want me to play my turn."
+            << endl;
 }

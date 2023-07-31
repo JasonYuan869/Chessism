@@ -2,12 +2,11 @@
 #include <algorithm>
 #include <cmath>
 #include "../pieces/KingPiece.h"
-#include "../utility.h"
+#include "../Utility.h"
 
 using namespace std;
 
 ComputerPlayer3::ComputerPlayer3(bool isWhite): Player{isWhite} {}
-ComputerPlayer3::~ComputerPlayer3() {}
 
 MoveResult ComputerPlayer3::makeMove(BoardState& board) {
     double highestScore = -9999;

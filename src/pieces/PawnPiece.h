@@ -15,6 +15,7 @@ class PawnPiece : public Piece {
 
 public:
     static double value;
+    static PieceType type;
 
     PawnPiece(int, int, bool);
 

@@ -4,6 +4,7 @@
 using namespace std;
 
 double PawnPiece::value = 1;
+PieceType PawnPiece::type = PieceType::PAWN;
 
 PawnPiece::PawnPiece(int x, int y, bool isWhite) : Piece{x, y, isWhite} {}
 
@@ -133,5 +134,5 @@ double PawnPiece::getValue() {
 }
 
 PieceType PawnPiece::getType() {
-    return PAWN;
+    return type;
 }

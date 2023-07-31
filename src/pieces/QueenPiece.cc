@@ -3,6 +3,7 @@
 using namespace std;
 
 double QueenPiece::value = 9;
+PieceType QueenPiece::type = PieceType::QUEEN;
 
 QueenPiece::QueenPiece(int x, int y, bool isWhite) : Piece{x, y, isWhite} {}
 
@@ -117,5 +118,5 @@ double QueenPiece::getValue() {
 }
 
 PieceType QueenPiece::getType() {
-    return QUEEN;
+    return type;
 }

@@ -8,6 +8,7 @@
 class KnightPiece : public Piece {
 public:
     static double value;
+    static PieceType type;
 
     KnightPiece(int, int, bool);
 

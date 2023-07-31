@@ -8,6 +8,7 @@
 class BishopPiece : public Piece {
 public:
     static double value;
+    static PieceType type;
 
     BishopPiece(int, int, bool);
 

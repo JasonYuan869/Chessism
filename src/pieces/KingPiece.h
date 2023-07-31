@@ -12,6 +12,7 @@ class BoardState;
 class KingPiece : public Piece {
 public:
     static double value;
+    static PieceType type;
     bool checked;
 
     KingPiece(int, int, bool);

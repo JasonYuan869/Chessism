@@ -9,6 +9,7 @@
 class QueenPiece : public Piece {
 public:
     static double value;
+    static PieceType type;
 
     QueenPiece(int, int, bool);
 

@@ -3,6 +3,7 @@
 using namespace std;
 
 double RookPiece::value = 5;
+PieceType RookPiece::type = PieceType::ROOK;
 
 RookPiece::RookPiece(int x, int y, bool isWhite) : Piece{x, y, isWhite, true} {}
 
@@ -119,5 +120,5 @@ double RookPiece::getValue() {
 }
 
 PieceType RookPiece::getType() {
-    return ROOK;
+    return type;
 }

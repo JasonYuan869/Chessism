@@ -3,6 +3,7 @@
 using namespace std;
 
 double BishopPiece::value = 3.0;
+PieceType BishopPiece::type = PieceType::BISHOP;
 
 BishopPiece::BishopPiece(int x, int y, bool isWhite) : Piece{x, y, isWhite} {}
 
@@ -108,5 +109,5 @@ double BishopPiece::getValue() {
 }
 
 PieceType BishopPiece::getType() {
-    return BISHOP;
+    return type;
 }

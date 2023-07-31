@@ -8,6 +8,7 @@
 class RookPiece : public Piece {
 public:
     static double value;
+    static PieceType type;
 
     RookPiece(int, int, bool);
 

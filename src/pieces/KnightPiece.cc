@@ -3,6 +3,7 @@
 using namespace std;
 
 double KnightPiece::value = 2.7;
+PieceType KnightPiece::type = PieceType::KNIGHT;
 
 KnightPiece::KnightPiece(int x, int y, bool isWhite) : Piece{x, y, isWhite} {}
 
@@ -47,5 +48,5 @@ double KnightPiece::getValue() {
 }
 
 PieceType KnightPiece::getType() {
-    return KNIGHT;
+    return type;
 }

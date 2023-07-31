@@ -3,6 +3,7 @@
 using namespace std;
 
 double KingPiece::value = 1000;
+PieceType KingPiece::type = PieceType::KING;
 
 KingPiece::KingPiece(int x, int y, bool isWhite) : Piece{x, y, isWhite, true}, checked{false} {}
 
@@ -93,5 +94,5 @@ double KingPiece::getValue() {
 }
 
 PieceType KingPiece::getType() {
-    return KING;
+    return type;
 }

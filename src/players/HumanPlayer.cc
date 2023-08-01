@@ -84,6 +84,9 @@ void HumanPlayer::getHelp(BoardState& board) {
         string names[6] = {"pawn", "rook", "knight", "bishop", "queen", "king"};
         string color = piece->isWhite ? "white" : "black";
         cout << "This is a " << color << " " << names[type] << "." << endl;
+        if (piece->isWhite != board.isWhiteTurn){
+            return;
+        }
         vector<Move> moves = piece->validMoves;
         if (moves.size() == 0) {
             cout << "There are no moves for this piece." << endl;
@@ -97,15 +100,15 @@ void HumanPlayer::getHelp(BoardState& board) {
                 } else {
                     string promotedPiece = "";
                     if (move.promotion == 'r' || move.promotion == 'R' ){
-                        promotedPiece == "rook";
+                        promotedPiece = "rook";
                     } else if (move.promotion == 'q' || move.promotion == 'Q' ){
-                        promotedPiece == "queen";
+                        promotedPiece = "queen";
                     } else if (move.promotion == 'b' || move.promotion == 'B' ){
-                        promotedPiece == "bishop";
+                        promotedPiece = "bishop";
                     } else if (move.promotion == 'n' || move.promotion == 'N' ){
-                        promotedPiece == "knight";
+                        promotedPiece = "knight";
                     }
-                    cout << (char) ('a' + to_x) << (char) ('1' + to_y) << "  promoting to a ";
+                    cout << (char) ('a' + to_x) << (char) ('1' + to_y) << " promoting to a " << promotedPiece << "|";
                 }
             }
             cout << endl;

@@ -10,7 +10,7 @@
 using namespace std;
 
 BoardState::BoardState() : isWhiteTurn{true}, fiftyMoveCounter{0} {
-    board = vector<vector<Piece*>>(8,vector<Piece*>(8,nullptr));
+    board = vector<vector<Piece*>>(8, vector<Piece*>(8, nullptr));
 
     // Rank 1
     whitePieces.emplace_back(makePiece('R', 0, 0));
@@ -51,8 +51,8 @@ BoardState::BoardState() : isWhiteTurn{true}, fiftyMoveCounter{0} {
     }
 
     // Initialize the king pointers
-    whiteKing = dynamic_cast<KingPiece *>(board[0][4]);
-    blackKing = dynamic_cast<KingPiece *>(board[7][4]);
+    whiteKing = dynamic_cast<KingPiece*>(board[0][4]);
+    blackKing = dynamic_cast<KingPiece*>(board[7][4]);
 }
 
 bool BoardState::getCheckmate(bool white) {
@@ -101,9 +101,9 @@ void BoardState::setPiece(unique_ptr<Piece>&& piece, int x, int y) {
     bool isWhite = piece->isWhite;
     if (piece->getType() == PieceType::KING) {
         if (isWhite) {
-            whiteKing = dynamic_cast<KingPiece *>(piece.get());
+            whiteKing = dynamic_cast<KingPiece*>(piece.get());
         } else {
-            blackKing = dynamic_cast<KingPiece *>(piece.get());
+            blackKing = dynamic_cast<KingPiece*>(piece.get());
         }
     }
 
@@ -138,7 +138,7 @@ void BoardState::updateValidMoves() {
     for (int i = 0; i < pieces.size(); i++) {
         vector<Move> moves;
 
-        if (!pieces[i]->isAlive){
+        if (!pieces[i]->isAlive) {
             pieces[i]->validMoves = moves;
             continue;
         }
@@ -163,7 +163,7 @@ void BoardState::updateValidMoves() {
 }
 
 
-bool BoardState::movePieceIfLegal(const Move& move){
+bool BoardState::movePieceIfLegal(const Move& move) {
     int x = move.from.first;
     int y = move.from.second;
     Piece* pieceToMove = board[y][x];
@@ -172,13 +172,13 @@ bool BoardState::movePieceIfLegal(const Move& move){
         return false;
     }
 
-    for (auto validMove : pieceToMove->validMoves){
-        if (move.sameMoveAs(validMove)){
+    for (auto validMove : pieceToMove->validMoves) {
+        if (move.sameMoveAs(validMove)) {
             return movePiece(validMove);
         }
     }
 
-   return false;
+    return false;
 }
 
 bool BoardState::movePiece(const Move& move) {
@@ -198,44 +198,44 @@ bool BoardState::movePiece(const Move& move) {
     int to_y = move.to.second;
 
     //handle the capture
-    if (!move.isCastle() && move.capturedOrMovedPiece != nullptr){
-       move.capturedOrMovedPiece->isAlive = false;
-       int captured_x = move.capturedOrMovedPiece->x;
-       int captured_y = move.capturedOrMovedPiece->y;
-       board[captured_y][captured_x] = nullptr;
+    if (!move.isCastle() && move.capturedOrMovedPiece != nullptr) {
+        move.capturedOrMovedPiece->isAlive = false;
+        int captured_x = move.capturedOrMovedPiece->x;
+        int captured_y = move.capturedOrMovedPiece->y;
+        board[captured_y][captured_x] = nullptr;
     }
 
     // either pawn promotion, or we actually move the piece
-    if (move.promotion != '-'){
+    if (move.promotion != '-') {
         pieceToMove->isAlive = false;
         unique_ptr<Piece> newPiece = makePiece(move.promotion, to_y, to_x);
 
         board[to_y][to_x] = newPiece.get();
-        if (isWhiteTurn){
+        if (isWhiteTurn) {
             whitePieces.push_back(std::move(newPiece));
         } else {
             blackPieces.push_back(std::move(newPiece));
         }
     } else {
         board[to_y][to_x] = pieceToMove;
-        pieceToMove->setPosition(to_x,to_y);
+        pieceToMove->setPosition(to_x, to_y);
     }
 
     board[y][x] = nullptr;
 
     //castling
-    if (move.isCastle() && move.capturedOrMovedPiece != nullptr){
+    if (move.isCastle() && move.capturedOrMovedPiece != nullptr) {
 
         int rookStartx = move.rookFrom.first;
         int rookStarty = move.rookFrom.second;
         int rookEndx = move.rookTo.first;
         int rookEndy = move.rookTo.second;
 
-        Piece* rook =  board[rookStarty][rookStartx];
+        Piece* rook = board[rookStarty][rookStartx];
 
         board[rookEndy][rookEndx] = rook;
         board[rookStarty][rookStartx] = nullptr;
-        rook->setPosition(rookEndx,rookEndy);
+        rook->setPosition(rookEndx, rookEndy);
 
         // Disable castling for the rook
         rook->canCastle = false;
@@ -243,11 +243,11 @@ bool BoardState::movePiece(const Move& move) {
 
     lastMoves.push_back(move);
     isWhiteTurn = !isWhiteTurn;
-    
+
     //check if this is not a pawn move or a capture, then we increment fiftyMoveCounter.
-    if (pieceToMove->getType() != PAWN && (move.capturedOrMovedPiece == nullptr || move.isCastle() )){
+    if (pieceToMove->getType() != PAWN && (move.capturedOrMovedPiece == nullptr || move.isCastle())) {
         int lastMoveCounter = fiftyMoveCounter.back();
-        fiftyMoveCounter.push_back(lastMoveCounter+1);
+        fiftyMoveCounter.push_back(lastMoveCounter + 1);
     } else {
         fiftyMoveCounter.push_back(0);
     }
@@ -256,7 +256,7 @@ bool BoardState::movePiece(const Move& move) {
 }
 
 void BoardState::undo() {
-    if (lastMoves.empty()){
+    if (lastMoves.empty()) {
         return;
     }
 
@@ -279,18 +279,18 @@ void BoardState::undo() {
     int endy = lastMove.to.second;
 
     //castling logic
-    if (lastMove.isCastle() && lastMove.capturedOrMovedPiece != nullptr){
+    if (lastMove.isCastle() && lastMove.capturedOrMovedPiece != nullptr) {
 
         int rookStartx = lastMove.rookFrom.first;
         int rookStarty = lastMove.rookFrom.second;
         int rookEndx = lastMove.rookTo.first;
         int rookEndy = lastMove.rookTo.second;
 
-        Piece* rook =  board[rookEndy][rookEndx];
+        Piece* rook = board[rookEndy][rookEndx];
 
         board[rookStarty][rookStartx] = rook;
         board[rookEndy][rookEndx] = nullptr;
-        rook->setPosition(rookStartx,rookStarty);
+        rook->setPosition(rookStartx, rookStarty);
         rook->canCastle = true;
     }
 
@@ -313,7 +313,7 @@ void BoardState::undo() {
     } else {
         Piece* pieceThatMoved = board[endy][endx];
         board[starty][startx] = pieceThatMoved;
-        pieceThatMoved->setPosition(startx,starty);
+        pieceThatMoved->setPosition(startx, starty);
 
         if (lastMove.disabledCastle) {
             pieceThatMoved->canCastle = true;
@@ -323,7 +323,7 @@ void BoardState::undo() {
     board[endy][endx] = nullptr;
 
     //capturing piece
-    if (!lastMove.isCastle() && lastMove.capturedOrMovedPiece != nullptr){
+    if (!lastMove.isCastle() && lastMove.capturedOrMovedPiece != nullptr) {
         lastMove.capturedOrMovedPiece->isAlive = true;
         int aliveX = lastMove.capturedOrMovedPiece->x;
         int aliveY = lastMove.capturedOrMovedPiece->y;
@@ -426,19 +426,19 @@ bool BoardState::getStalemate(bool white) {
     return true;
 }
 
-bool BoardState::checkFiftyMoves(){
+bool BoardState::checkFiftyMoves() {
     return (fiftyMoveCounter.empty() || fiftyMoveCounter.back() >= 50);
 }
 
-bool BoardState::checkInsufficientMaterial(){
+bool BoardState::checkInsufficientMaterial() {
     int pieceCount = 0;
-    for (auto& piece : whitePieces ){
-        if (piece->isAlive && piece->getType() != KING){
-            if (piece->getType() != KNIGHT && piece->getType() != BISHOP){
+    for (auto& piece : whitePieces) {
+        if (piece->isAlive && piece->getType() != KING) {
+            if (piece->getType() != KNIGHT && piece->getType() != BISHOP) {
                 return false;
             } else {
                 pieceCount++;
-                if (pieceCount >= 2){
+                if (pieceCount >= 2) {
                     return false;
                 }
             }
@@ -447,13 +447,13 @@ bool BoardState::checkInsufficientMaterial(){
 
     pieceCount = 0;
 
-    for (auto& piece : blackPieces ){
-        if (piece->isAlive && piece->getType() != KING){
-            if (piece->getType() != KNIGHT && piece->getType() != BISHOP){
+    for (auto& piece : blackPieces) {
+        if (piece->isAlive && piece->getType() != KING) {
+            if (piece->getType() != KNIGHT && piece->getType() != BISHOP) {
                 return false;
             } else {
                 pieceCount++;
-                if (pieceCount >= 2){
+                if (pieceCount >= 2) {
                     return false;
                 }
             }

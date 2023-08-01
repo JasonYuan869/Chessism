@@ -99,9 +99,10 @@ double Game::run() {
             cout << "Stalemate!" << endl;
             return 0.5;
         }
+
         // check for special draws like 50 move rule or insufficient material
         // the draw message is printed within checkDraws.
-        if (checkDraws()){ // 
+        if (checkDraws()) {
             return 0.5;
         }
         // Is the player in check?
@@ -137,8 +138,8 @@ double Game::run() {
                 cout << "Invalid command" << endl;
                 continue;
             }
-            if (featureNumber == -1){ // enable -1 enables all features
-                features =  (1 << NUM_FEATURES) - 1;
+            if (featureNumber == -1) { // enable -1 enables all features
+                features = (1 << NUM_FEATURES) - 1;
             } else {
                 features = features | (1 << featureNumber);
             }
@@ -149,7 +150,7 @@ double Game::run() {
                 cout << "Invalid command" << endl;
                 continue;
             }
-            if (featureNumber == -1){
+            if (featureNumber == -1) {
                 features = 0;
             } else {
                 features = features & ~(1 << featureNumber);
@@ -213,14 +214,14 @@ std::unique_ptr<Player> Game::makePlayer(bool white, const std::string& playerTy
 }
 
 
-bool Game::checkDraws(){
+bool Game::checkDraws() {
     //has there been 50 moves with no pawn movement or captures?
-    if ((features & (1 << FIFTY)) && board.checkFiftyMoves()){
+    if ((features & (1 << FIFTY)) && board.checkFiftyMoves()) {
         cout << "Draw due to 50 move rule." << endl;
         return true;
     }
-    if ((features & (1 << INSUFFICIENT)) && board.checkInsufficientMaterial()){
-        cout<< "Draw due to insufficient material." << endl;
+    if ((features & (1 << INSUFFICIENT)) && board.checkInsufficientMaterial()) {
+        cout << "Draw due to insufficient material." << endl;
         return true;
     }
     return false;

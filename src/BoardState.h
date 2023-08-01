@@ -21,16 +21,18 @@ public:
     std::vector<std::unique_ptr<Piece>> blackPieces;
 
     // Does not own the pieces, only stores pointers
+    // Safety: The pointers are valid and owned by the vectors above
     std::vector<std::vector<Piece*>> board;
 
     // Does not own the king pieces, only stores pointers
+    // Safety: The pointers are valid and owned by the vectors above
     KingPiece* whiteKing;
     KingPiece* blackKing;
 
     // Stack of moves, used for undoing
     std::vector<Move> lastMoves;
 
-    //stack of number of moves since moving a pawn or capturing a piece
+    // Stack of number of moves since moving a pawn or capturing a piece
     std::vector<int> fiftyMoveCounter;
 
 public:

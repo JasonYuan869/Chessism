@@ -8,12 +8,15 @@
 #include "Subject.h"
 
 #define NUM_FEATURES 6
-#define UNDO 0
-#define HELP 1
-#define SWITCH 2
-#define HINT 3
-#define FIFTY 4
-#define INSUFFICIENT 5
+enum Features {
+    UNDO = 0,
+    HELP = 1,
+    SWITCH = 2,
+    HINT = 3,
+    FIFTY = 4,
+    INSUFFICIENT = 5
+};
+
 
 class Game : public Subject {
     BoardState board;

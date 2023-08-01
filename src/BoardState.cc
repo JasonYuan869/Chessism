@@ -368,7 +368,7 @@ bool BoardState::canStartGame() {
 
     // Ensure that the kings are not in check
     KingPiece* king = isWhiteTurn ? blackKing : whiteKing;
-    if (getAttacked(king->x, king->y, isWhiteTurn)) {
+    if (getAttacked(king->x, king->y, !isWhiteTurn)) {
         return false;
     }
 

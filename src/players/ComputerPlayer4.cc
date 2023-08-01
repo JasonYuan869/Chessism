@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#define COMPUTER4_DEPTH 4
+#define COMPUTER4_DEPTH 3
 
 ComputerPlayer4::ComputerPlayer4(bool isWhite) : Player{isWhite} {}
 

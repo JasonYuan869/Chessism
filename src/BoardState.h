@@ -53,9 +53,9 @@ public:
     // are black pieces which attack this tile
     bool getAttacked(int x, int y, bool white);
 
-    // Updates the validMoves vectors with the valid moves for the given color
+    // Updates the validMoves vectors with the valid moves for the current color
     // Will call Piece::getPieceMoves(board) which returns a vector of moves
-    void updateValidMoves(bool white);
+    void updateValidMoves();
 
     // Returns whether the given player has no valid moves
     bool getStalemate(bool white);

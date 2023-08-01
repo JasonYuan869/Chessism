@@ -57,7 +57,7 @@ BoardState::BoardState() : isWhiteTurn{true} {
 
 bool BoardState::getCheckmate(bool white) {
     // Update the valid moves for each piece
-    updateValidMoves(white);
+    updateValidMoves();
 
     if (!updateCheck(white)) {
         return false;
@@ -129,9 +129,9 @@ void BoardState::removePiece(int x, int y) {
     board[y][x] = nullptr;
 }
 
-void BoardState::updateValidMoves(bool white) {
-    KingPiece* king = white ? whiteKing : blackKing;
-    vector<unique_ptr<Piece>>& pieces = white ? whitePieces : blackPieces;
+void BoardState::updateValidMoves() {
+    KingPiece* king = isWhiteTurn ? whiteKing : blackKing;
+    vector<unique_ptr<Piece>>& pieces = isWhiteTurn ? whitePieces : blackPieces;
 
     // Don't use a range based loop here because we might mutate the vector during move simulation (promotion)
     // This leads to an occasional bug where the iterator and unique_ptr are invalidated if the vector is resized

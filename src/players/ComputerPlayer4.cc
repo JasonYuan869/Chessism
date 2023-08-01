@@ -61,7 +61,7 @@ double ComputerPlayer4::evaluateBoard(BoardState& board) {
 
 double ComputerPlayer4::minimax(int depth, BoardState& board, bool isMaximizingPlayer) {
     // Update valid moves for current turn
-    board.updateValidMoves(board.isWhiteTurn);
+    board.updateValidMoves();
 
     if (depth == 0) {
         return evaluateBoard(board);

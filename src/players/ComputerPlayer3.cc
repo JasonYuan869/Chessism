@@ -64,7 +64,7 @@ bool ComputerPlayer3::makeMove(BoardState& board) {
 
 double ComputerPlayer3::mostValuableAttacked(BoardState& board) {
     // Update valid moves for opponent
-    board.updateValidMoves(!isWhite);
+    board.updateValidMoves();
 
     double maxScore = 0;
     vector<unique_ptr<Piece>>& pieces = isWhite ? board.blackPieces : board.whitePieces;

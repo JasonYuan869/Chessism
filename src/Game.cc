@@ -7,6 +7,7 @@
 #include "players/ComputerPlayer2.h"
 #include "players/ComputerPlayer3.h"
 #include "players/ComputerPlayer4.h"
+#include "players/ComputerPlayer5.h"
 
 #include <iostream>
 #include <string>
@@ -169,10 +170,9 @@ double Game::run() {
             std::swap(currentPlayer, newPlayer);
             cout << "Switched in " << playerType << endl;
         } else if (command == "hint" && (features & (1 << HINT))) {
-            // Instantiate a ComputerPlayer4 to get a hint
-            unique_ptr<ComputerPlayer4> hintPlayer = make_unique<ComputerPlayer4>(board.isWhiteTurn);
-
-
+            // Instantiate a ComputerPlayer5 to get a hint
+            unique_ptr<ComputerPlayer5> hintPlayer = make_unique<ComputerPlayer5>(board.isWhiteTurn);
+            hintPlayer->getHint(board);
         } else {
             cout << "Invalid command" << endl;
         }
@@ -191,6 +191,8 @@ std::unique_ptr<Player> Game::makePlayer(bool white, const std::string& playerTy
         newPlayer = make_unique<ComputerPlayer3>(white);
     } else if (playerType == "computer4") {
         newPlayer = make_unique<ComputerPlayer4>(white);
+    } else if (playerType == "computer5") {
+        newPlayer = make_unique<ComputerPlayer5>(white);
     }
 
     // nullptr if playerType is invalid

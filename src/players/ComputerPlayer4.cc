@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#define DEPTH 4
+#define COMPUTER4_DEPTH 4
 
 ComputerPlayer4::ComputerPlayer4(bool isWhite) : Player{isWhite} {}
 
@@ -14,7 +14,7 @@ bool ComputerPlayer4::makeMove(BoardState& board) {
     vector<Move> validMoves = board.allValidMoves();
     for (const Move& m : validMoves) {
         board.movePiece(m);
-        double value = minimax(DEPTH - 1, board, false);
+        double value = minimax(COMPUTER4_DEPTH - 1, board, false);
         board.undo();
 
         positions.emplace_back(m, value);
@@ -60,12 +60,12 @@ double ComputerPlayer4::evaluateBoard(BoardState& board) {
 }
 
 double ComputerPlayer4::minimax(int depth, BoardState& board, bool isMaximizingPlayer) {
-    // Update valid moves for current turn
-    board.updateValidMoves();
-
     if (depth == 0) {
         return evaluateBoard(board);
     }
+
+    // Update valid moves for current turn
+    board.updateValidMoves();
 
     double best = isMaximizingPlayer ? -9999 : 9999;
 
@@ -88,12 +88,7 @@ double ComputerPlayer4::minimax(int depth, BoardState& board, bool isMaximizingP
 void ComputerPlayer4::getHelp(BoardState& board) {
     cout
             << "Hi! I'm a Level 4 computer bot and it's my turn to move. I search for every possible move up to "
-            << DEPTH
+            << COMPUTER4_DEPTH
             << " moves ahead, and choose the best one to play. Type in \"move\" when you want me to play my turn."
             << endl;
-}
-
-void ComputerPlayer4::getHint(BoardState& board) {
-    cout << "I'm thinking..." << endl;
-
 }

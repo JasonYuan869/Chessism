@@ -12,6 +12,8 @@ public:
     virtual ~Player() = default;
     virtual bool makeMove(BoardState &board) = 0;
     virtual void getHelp(BoardState &board) = 0;
+
+    double evaluateBoard(BoardState &board) const;
 };
 
 #endif

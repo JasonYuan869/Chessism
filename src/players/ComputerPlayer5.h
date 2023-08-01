@@ -10,8 +10,6 @@ public:
 
     bool makeMove(BoardState &board) override;
 
-    double evaluateBoard(BoardState &board);
-
     void getHelp(BoardState &board) override;
 
     void getHint(BoardState &board);

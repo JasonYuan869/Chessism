@@ -36,29 +36,6 @@ bool ComputerPlayer4::makeMove(BoardState& board) {
     return true;
 }
 
-double ComputerPlayer4::evaluateBoard(BoardState& board) {
-    double eval = 0;
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            if (board.board[i][j] != nullptr) {
-                double value = board.board[i][j]->getValue();
-                if (isWhite != board.board[i][j]->isWhite) {
-                    value *= -1;
-                }
-                eval += value;
-            }
-        }
-    }
-
-    // Add points for being in check
-    KingPiece* king = board.isWhiteTurn ? board.whiteKing : board.blackKing;
-    if (board.getAttacked(king->x, king->y, board.isWhiteTurn)) {
-        eval += isWhite == board.isWhiteTurn ? -2 : 2;
-    }
-
-    return eval;
-}
-
 double ComputerPlayer4::minimax(int depth, BoardState& board, bool isMaximizingPlayer) {
     if (depth == 0) {
         return evaluateBoard(board);

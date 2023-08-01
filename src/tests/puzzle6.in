@@ -1,4 +1,4 @@
-game computer4 human
+game computer5 human
 setup
 - a1
 - b1
@@ -52,7 +52,7 @@ setup
 + b g1
 done
 
-Solution (mate in 3):
+Solution (mate in 3, requires depth at least 5):
 Qxf7+ Kh8
 Qf8+  Rxf8
 Rxf8#

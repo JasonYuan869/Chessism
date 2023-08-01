@@ -1,0 +1,56 @@
+game computer5 human
+setup
+- a1
+- b1
+- c1
+- d1
+- e1
+- f1
+- g1
+- h1
+- a2
+- b2
+- c2
+- d2
+- e2
+- f2
+- g2
+- h2
+- a7
+- b7
+- c7
+- d7
+- e7
+- f7
+- g7
+- h7
+- a8
+- b8
+- c8
+- d8
+- e8
+- f8
+- g8
+- h8
++ r a8
++ b e8
++ k f8
++ b g7
++ p h7
++ p g6
++ p b5
++ B d5
++ N e5
++ p f5
++ n c4
++ B d4
++ P g3
++ P e2
++ P f2
++ P h2
++ K g1
+done
+
+Solution (mate in 2):
+Bc5+  Nd6
+Bd6#

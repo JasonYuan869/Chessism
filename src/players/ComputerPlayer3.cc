@@ -8,7 +8,7 @@ using namespace std;
 
 ComputerPlayer3::ComputerPlayer3(bool isWhite): Player{isWhite} {}
 
-MoveResult ComputerPlayer3::makeMove(BoardState& board) {
+bool ComputerPlayer3::makeMove(BoardState& board) {
     double highestScore = -9999;
 
     vector<pair<Move, double>> positions;
@@ -46,10 +46,6 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
         }
     }
 
-    if (positions.empty()) {
-        return MoveResult::STALEMATE;
-    }
-
     // Randomly choose a move with the highest score
     vector<Move> bestMoves;
     for (const pair<Move, double>& p : positions) {
@@ -63,7 +59,7 @@ MoveResult ComputerPlayer3::makeMove(BoardState& board) {
     Move m = bestMoves.at(randomIndex);
 
     board.movePiece(m);
-    return MoveResult::SUCCESS;
+    return true;
 }
 
 double ComputerPlayer3::mostValuableAttacked(BoardState& board) {

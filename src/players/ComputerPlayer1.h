@@ -7,7 +7,7 @@
 class ComputerPlayer1 : public Player {
     public: 
         explicit ComputerPlayer1(bool isWhite);
-        MoveResult makeMove(BoardState& board) override;
+        bool makeMove(BoardState& board) override;
         void getHelp(BoardState &board) override;
 
 };

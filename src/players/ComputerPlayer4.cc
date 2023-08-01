@@ -7,7 +7,7 @@ using namespace std;
 
 ComputerPlayer4::ComputerPlayer4(bool isWhite) : Player{isWhite} {}
 
-MoveResult ComputerPlayer4::makeMove(BoardState& board) {
+bool ComputerPlayer4::makeMove(BoardState& board) {
     double best = -9999;
     vector<pair<Move, double>> positions;
 
@@ -23,10 +23,6 @@ MoveResult ComputerPlayer4::makeMove(BoardState& board) {
         }
     }
 
-    if (positions.empty()) {
-        return MoveResult::STALEMATE;
-    }
-
     vector<Move> bestMoves;
     for (const pair<Move, double>& p : positions) {
         if (Utility::doubleEquality(p.second, best)) {
@@ -37,7 +33,7 @@ MoveResult ComputerPlayer4::makeMove(BoardState& board) {
     int randomIndex = Utility::randomInt(0, bestMoves.size() - 1);
     Move m = bestMoves.at(randomIndex);
     board.movePiece(m);
-    return MoveResult::SUCCESS;
+    return true;
 }
 
 double ComputerPlayer4::evaluateBoard(BoardState& board) {
@@ -55,14 +51,9 @@ double ComputerPlayer4::evaluateBoard(BoardState& board) {
     }
 
     // Add points for being in check
-    if (board.isWhiteTurn) {
-        if (board.getAttacked(board.whiteKing->x, board.whiteKing->y, true)) {
-            eval += isWhite ? -2 : 2;
-        }
-    } else {
-        if (board.getAttacked(board.blackKing->x, board.blackKing->y, false)) {
-            eval += isWhite ? 2 : -2;
-        }
+    KingPiece* king = board.isWhiteTurn ? board.whiteKing : board.blackKing;
+    if (board.getAttacked(king->x, king->y, board.isWhiteTurn)) {
+        eval += isWhite == board.isWhiteTurn ? -2 : 2;
     }
 
     return eval;
@@ -100,4 +91,9 @@ void ComputerPlayer4::getHelp(BoardState& board) {
             << DEPTH
             << " moves ahead, and choose the best one to play. Type in \"move\" when you want me to play my turn."
             << endl;
+}
+
+void ComputerPlayer4::getHint(BoardState& board) {
+    cout << "I'm thinking..." << endl;
+
 }

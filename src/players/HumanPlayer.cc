@@ -7,14 +7,7 @@ using namespace std;
 
 HumanPlayer::HumanPlayer(bool isWhite) : Player{isWhite} {}
 
-MoveResult HumanPlayer::makeMove(BoardState& board) {
-    vector<Move> moves = board.allValidMoves(); // get valid moves from player
-
-    int numMoves = moves.size();
-    if (numMoves == 0) {
-        return MoveResult::STALEMATE;
-    }
-
+bool HumanPlayer::makeMove(BoardState& board) {
     string from, to;
     cin >> from >> to;
 
@@ -24,7 +17,7 @@ MoveResult HumanPlayer::makeMove(BoardState& board) {
 
     if (from.size() != 2 || to.size() != 2) {
         cout << "Invalid input" << endl;
-        return MoveResult::INVALID_MOVE;
+        return false;
     }
     int from_x = from[0] - 'a';
     int from_y = from[1] - '1';
@@ -39,7 +32,7 @@ MoveResult HumanPlayer::makeMove(BoardState& board) {
     // check bounds
     if (!Utility::withinBounds(from_x, from_y) || !Utility::withinBounds(to_x, to_y)) {
         cout << "Invalid location" << endl;
-        return MoveResult::INVALID_MOVE;
+        return false;
     }
     char promotionPiece = getPromotion(board, to_pair, from_pair);
 
@@ -47,10 +40,10 @@ MoveResult HumanPlayer::makeMove(BoardState& board) {
     bool success = board.movePieceIfLegal(m);
 
     if (success) {
-        return MoveResult::SUCCESS;
+        return true;
     } else {
         cout << "Invalid move" << endl;
-        return MoveResult::INVALID_MOVE;
+        return false;
     }
 }
 

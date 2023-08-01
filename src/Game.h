@@ -8,6 +8,10 @@
 #include "Subject.h"
 
 #define NUM_FEATURES 4
+#define UNDO 0
+#define HELP 1
+#define SWITCH 2
+#define HINT 3
 
 class Game : public Subject {
     BoardState board;
@@ -35,6 +39,7 @@ public:
     double run();
 
     // Returns a unique_ptr to a player of the given type
+    // or nullptr if the type is invalid
     static std::unique_ptr<Player> makePlayer(bool white, const std::string& playerType);
 };
 

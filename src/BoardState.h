@@ -57,6 +57,9 @@ public:
     // Will call Piece::getPieceMoves(board) which returns a vector of moves
     void updateValidMoves(bool white);
 
+    // Returns whether the given player has no valid moves
+    bool getStalemate(bool white);
+
     // Moves the piece with the given move
     bool movePiece(const Move& move);
 

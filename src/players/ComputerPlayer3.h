@@ -8,7 +8,7 @@ class ComputerPlayer3 : public Player {
 public:
     explicit ComputerPlayer3(bool isWhite);
 
-    MoveResult makeMove(BoardState &board) override;
+    bool makeMove(BoardState &board) override;
 
     // Returns the most valuable piece that is under attack by the opponent, given the board state.
     double mostValuableAttacked(BoardState &board);

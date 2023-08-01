@@ -23,8 +23,6 @@ class BoardState;
 
 class Piece {
 public:
-    double value;
-    PieceType type;
     int x;
     int y;
     bool isWhite;

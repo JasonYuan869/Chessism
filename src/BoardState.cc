@@ -63,16 +63,7 @@ bool BoardState::getCheckmate(bool white) {
         return false;
     }
 
-    for (auto& piece : white ? whitePieces : blackPieces) {
-        if (!piece->isAlive) {
-            continue;
-        }
-
-        if (!piece->validMoves.empty()) {
-            return false;
-        }
-    }
-    return true;
+    return getStalemate(white);
 }
 
 bool BoardState::getCheck(bool white) {
@@ -156,7 +147,7 @@ void BoardState::updateValidMoves(bool white) {
             // Simulate the move
             if (movePiece(move)) {
                 // Is our king checked?
-                if (!getAttacked(king->x, king->y, white)) {
+                if (!getAttacked(king->x, king->y, !isWhiteTurn)) {
                     // Add the move to the vector of moves
                     moves.push_back(move);
                 }
@@ -408,5 +399,15 @@ std::vector<Move> BoardState::allValidMoves() const {
         moves.insert(moves.end(), piece->validMoves.begin(), piece->validMoves.end());
     }
     return moves;
+}
+
+bool BoardState::getStalemate(bool white) {
+    const vector<unique_ptr<Piece>>& pieces = isWhiteTurn ? whitePieces : blackPieces;
+    for (auto& piece : pieces) {
+        if (piece->isAlive && !piece->validMoves.empty()) {
+            return false;
+        }
+    }
+    return true;
 }
 

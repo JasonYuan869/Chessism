@@ -93,6 +93,12 @@ double Game::run() {
             return board.isWhiteTurn ? 1 : 0;
         }
 
+        // Is there a stalemate?
+        if (board.getStalemate(board.isWhiteTurn)) {
+            cout << "Stalemate!" << endl;
+            return 0.5;
+        }
+
         // Is the player in check?
         if (board.getCheck(board.isWhiteTurn)) {
             // Check if there is a checkmate for this player
@@ -112,17 +118,10 @@ double Game::run() {
                 cout << "Cannot enter setup mode after game has started" << endl;
             }
         } else if (command == "move") {
-            MoveResult moveResult = currentPlayer->makeMove(board);
-            switch (moveResult) {
-                case INVALID_MOVE:
-                    break;
-                case SUCCESS:
-                    notifyObservers();
-                    break;
-                case STALEMATE:
-                    cout << "Stalemate!" << endl;
-                    return 0.5;
+            if (!currentPlayer->makeMove(board)) {
+                continue;
             }
+            notifyObservers();
         } else if (command == "resign") {
             return board.isWhiteTurn ? 1 : 0;
         } else if (command == "enable") {
@@ -141,16 +140,16 @@ double Game::run() {
                 continue;
             }
             features = features & ~(1 << featureNumber);
-        } else if (command == "undo" && (features & 1)) {
+        } else if (command == "undo" && (features & UNDO)) {
             if (board.lastMoves.empty()) {
                 cout << "Cannot undo from the start of the game!" << endl;
                 continue;
             }
             board.undo();
             notifyObservers();
-        } else if (command == "help" && (features & (1 << 1))) {
+        } else if (command == "help" && (features & (1 << HELP))) {
             currentPlayer->getHelp(board);
-        } else if (command == "switch" && (features & (1 << 2))) {
+        } else if (command == "switch" && (features & (1 << SWITCH))) {
             cout << "Select what player you would like to switch for the " << colour << " player:" << endl;
             string playerType;
             cin >> playerType;
@@ -169,6 +168,11 @@ double Game::run() {
 
             std::swap(currentPlayer, newPlayer);
             cout << "Switched in " << playerType << endl;
+        } else if (command == "hint" && (features & (1 << HINT))) {
+            // Instantiate a ComputerPlayer4 to get a hint
+            unique_ptr<ComputerPlayer4> hintPlayer = make_unique<ComputerPlayer4>(board.isWhiteTurn);
+
+
         } else {
             cout << "Invalid command" << endl;
         }

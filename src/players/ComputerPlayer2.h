@@ -1,10 +1,10 @@
 #ifndef COMPUTERPLAYER2_H
 #define COMPUTERPLAYER2_H
 
-#include "Player.h"
+#include "ComputerPlayer.h"
 #include "../BoardState.h"
 
-class ComputerPlayer2 : public Player {
+class ComputerPlayer2 : public ComputerPlayer {
 public:
     explicit ComputerPlayer2(bool isWhite);
 

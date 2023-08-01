@@ -7,7 +7,7 @@
 
 using namespace std;
 
-ComputerPlayer2::ComputerPlayer2(bool isWhite): Player{isWhite} {}
+ComputerPlayer2::ComputerPlayer2(bool isWhite): ComputerPlayer{isWhite} {}
 
 bool ComputerPlayer2::makeMove(BoardState& board) {
     double highestScore = -9999;

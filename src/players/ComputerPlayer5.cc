@@ -5,7 +5,7 @@ using namespace std;
 
 #define COMPUTER5_DEPTH 4
 
-ComputerPlayer5::ComputerPlayer5(bool isWhite) : Player{isWhite} {}
+ComputerPlayer5::ComputerPlayer5(bool isWhite) : ComputerPlayer{isWhite} {}
 
 bool ComputerPlayer5::makeMove(BoardState& board) {
     Move m = determineBestMove(board);

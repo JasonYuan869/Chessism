@@ -113,5 +113,11 @@ void HumanPlayer::getHelp(BoardState& board) {
             }
             cout << endl;
         }
+    } else {
+        if (!Utility::withinBounds(x,y)){
+            cout << "that's not a tile on the board." << endl;
+        } else {
+            cout << "there is no piece on that tile." << endl;
+        }
     }
 }

@@ -7,11 +7,13 @@
 #include "players/Player.h"
 #include "Subject.h"
 
-#define NUM_FEATURES 4
+#define NUM_FEATURES 6
 #define UNDO 0
 #define HELP 1
 #define SWITCH 2
 #define HINT 3
+#define FIFTY 4
+#define INSUFFICIENT 5
 
 class Game : public Subject {
     BoardState board;
@@ -24,8 +26,11 @@ class Game : public Subject {
         1 << 1 is help 
         1 << 2 is switch player
         1 << 3 is computer hint
+        1 << 4 is checking for fifty move rule
+        1 << 5 is insufficient material checking
     */
     int features;
+    bool checkDraws();
 public:
     Game(std::unique_ptr<Player>&& whitePlayer, std::unique_ptr<Player>&& blackPlayer);
 

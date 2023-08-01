@@ -1,0 +1,6 @@
+bug2 
+bug3 
+castle 
+enPassant
+promotion
+random

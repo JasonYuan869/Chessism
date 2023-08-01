@@ -99,7 +99,11 @@ double Game::run() {
             cout << "Stalemate!" << endl;
             return 0.5;
         }
-
+        // check for special draws like 50 move rule or insufficient material
+        // the draw message is printed within checkDraws.
+        if (checkDraws()){ // 
+            return 0.5;
+        }
         // Is the player in check?
         if (board.getCheck(board.isWhiteTurn)) {
             // Check if there is a checkmate for this player
@@ -124,6 +128,7 @@ double Game::run() {
             }
             notifyObservers();
         } else if (command == "resign") {
+            cout << colour << " resigned." << endl;
             return board.isWhiteTurn ? 1 : 0;
         } else if (command == "enable") {
             int featureNumber = 0;
@@ -132,16 +137,24 @@ double Game::run() {
                 cout << "Invalid command" << endl;
                 continue;
             }
-            features = features | (1 << featureNumber);
+            if (featureNumber == -1){ // enable -1 enables all features
+                features =  (1 << NUM_FEATURES) - 1;
+            } else {
+                features = features | (1 << featureNumber);
+            }
         } else if (command == "disable") {
-            int featureNumber;
+            int featureNumber = 0;
             cin >> featureNumber;
             if (!cin || featureNumber >= NUM_FEATURES) {
                 cout << "Invalid command" << endl;
                 continue;
             }
-            features = features & ~(1 << featureNumber);
-        } else if (command == "undo" && (features & UNDO)) {
+            if (featureNumber == -1){
+                features = 0;
+            } else {
+                features = features & ~(1 << featureNumber);
+            }
+        } else if (command == "undo" && (features & (1 << UNDO))) {
             if (board.lastMoves.empty()) {
                 cout << "Cannot undo from the start of the game!" << endl;
                 continue;
@@ -197,4 +210,18 @@ std::unique_ptr<Player> Game::makePlayer(bool white, const std::string& playerTy
 
     // nullptr if playerType is invalid
     return newPlayer;
+}
+
+
+bool Game::checkDraws(){
+    //has there been 50 moves with no pawn movement or captures?
+    if ((features & (1 << FIFTY)) && board.checkFiftyMoves()){
+        cout << "Draw due to 50 move rule." << endl;
+        return true;
+    }
+    if ((features & (1 << INSUFFICIENT)) && board.checkInsufficientMaterial()){
+        cout<< "Draw due to insufficient material." << endl;
+        return true;
+    }
+    return false;
 }

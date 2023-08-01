@@ -9,7 +9,7 @@
 
 using namespace std;
 
-BoardState::BoardState() : isWhiteTurn{true} {
+BoardState::BoardState() : isWhiteTurn{true}, fiftyMoveCounter{0} {
     board = vector<vector<Piece*>>(8,vector<Piece*>(8,nullptr));
 
     // Rank 1
@@ -240,8 +240,18 @@ bool BoardState::movePiece(const Move& move) {
         // Disable castling for the rook
         rook->canCastle = false;
     }
+
     lastMoves.push_back(move);
     isWhiteTurn = !isWhiteTurn;
+    
+    //check if this is not a pawn move or a capture, then we increment fiftyMoveCounter.
+    if (pieceToMove->getType() != PAWN && (move.capturedOrMovedPiece == nullptr || move.isCastle() )){
+        int lastMoveCounter = fiftyMoveCounter.back();
+        fiftyMoveCounter.push_back(lastMoveCounter+1);
+    } else {
+        fiftyMoveCounter.push_back(0);
+    }
+
     return true;
 }
 
@@ -249,9 +259,14 @@ void BoardState::undo() {
     if (lastMoves.empty()){
         return;
     }
+
+    fiftyMoveCounter.pop_back();
+
     //toggle the turn so that the logic is more similar to movePiece
     //we will undo movePiece in the opposite order compared to the order that
     //the last movePiece was done in
+
+
     isWhiteTurn = !isWhiteTurn;
     bool lastTurnIsWhite = isWhiteTurn;
     Move lastMove = lastMoves.back();
@@ -411,3 +426,38 @@ bool BoardState::getStalemate(bool white) {
     return true;
 }
 
+bool BoardState::checkFiftyMoves(){
+    return (fiftyMoveCounter.empty() || fiftyMoveCounter.back() >= 50);
+}
+
+bool BoardState::checkInsufficientMaterial(){
+    int pieceCount = 0;
+    for (auto& piece : whitePieces ){
+        if (piece->isAlive && piece->getType() != KING){
+            if (piece->getType() != KNIGHT && piece->getType() != BISHOP){
+                return false;
+            } else {
+                pieceCount++;
+                if (pieceCount >= 2){
+                    return false;
+                }
+            }
+        }
+    }
+
+    pieceCount = 0;
+
+    for (auto& piece : blackPieces ){
+        if (piece->isAlive && piece->getType() != KING){
+            if (piece->getType() != KNIGHT && piece->getType() != BISHOP){
+                return false;
+            } else {
+                pieceCount++;
+                if (pieceCount >= 2){
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}

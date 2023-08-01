@@ -30,6 +30,9 @@ public:
     // Stack of moves, used for undoing
     std::vector<Move> lastMoves;
 
+    //stack of number of moves since moving a pawn or capturing a piece
+    std::vector<int> fiftyMoveCounter;
+
 public:
     // Default constructor, initializes the board and sets it to white's turn
     BoardState();
@@ -59,6 +62,12 @@ public:
 
     // Returns whether the given player has no valid moves
     bool getStalemate(bool white);
+
+    //check if fifty moves have been made with no pawn moves or piece captures.
+    bool checkFiftyMoves();
+
+    //check if there is sufficient material to checkmate with.
+    bool checkInsufficientMaterial();
 
     // Moves the piece with the given move
     bool movePiece(const Move& move);

@@ -92,7 +92,21 @@ void HumanPlayer::getHelp(BoardState& board) {
             for (auto& move : moves) {
                 int to_x = move.to.first;
                 int to_y = move.to.second;
-                cout << (char) ('a' + to_x) << (char) ('1' + to_y) << "  ";
+                if (move.promotion == '-'){
+                    cout << (char) ('a' + to_x) << (char) ('1' + to_y) << "  ";
+                } else {
+                    string promotedPiece = "";
+                    if (move.promotion == 'r' || move.promotion == 'R' ){
+                        promotedPiece == "rook";
+                    } else if (move.promotion == 'q' || move.promotion == 'Q' ){
+                        promotedPiece == "queen";
+                    } else if (move.promotion == 'b' || move.promotion == 'B' ){
+                        promotedPiece == "bishop";
+                    } else if (move.promotion == 'n' || move.promotion == 'N' ){
+                        promotedPiece == "knight";
+                    }
+                    cout << (char) ('a' + to_x) << (char) ('1' + to_y) << "  promoting to a ";
+                }
             }
             cout << endl;
         }

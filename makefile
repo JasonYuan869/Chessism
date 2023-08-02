@@ -7,7 +7,7 @@ OBJECTS=${CCFILES:.cc=.o}
 DEPENDS=${CCFILES:.cc=.d}
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${OBJECTS} -o ${EXEC}
+	${CXX} ${OBJECTS} -o ${EXEC} ${LDFLAGS}
 -include ${DEPENDS}
 
 clean:

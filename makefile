@@ -1,7 +1,7 @@
 CXX=g++
 CXXFLAGS=-std=c++14 -Wall -g -O3 -MMD
 LDFLAGS=-lX11
-EXEC=chessism
+EXEC=chess
 CCFILES=$(wildcard *.cc)
 OBJECTS=${CCFILES:.cc=.o}
 DEPENDS=${CCFILES:.cc=.d}
